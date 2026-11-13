@@ -219,7 +219,7 @@ test("several covers: group buttons, foldable rows, folded back by a click elsew
   // The row carries the buttons: the unfolded detail does not repeat them.
   assert.equal((h.match(/data-action="open" data-entity="cover.living_room_bay_window"/g) || []).length, 1);
   card.connectedCallback();
-  card._onOutside({ composedPath: () => [] });
+  card._outside.tap({ composedPath: () => [] });
   assert.doesNotMatch(html(card), /aria-expanded="true"/);
   // Group actions go to the covers that support them.
   click(card, { action: "close_all" });
@@ -257,7 +257,7 @@ test("mini card: a picture per cover, group buttons, detail button switching to 
   assert.match(h, /class="items"/);
   assert.equal(card.getGridOptions().columns, 12);
   card.connectedCallback();
-  card._onUnzoom({ composedPath: () => [] });
+  card._unzoom.tap({ composedPath: () => [] });
   assert.equal(card._zoomed, false);
   card.disconnectedCallback();
   assert.doesNotMatch(html(newCard(cc.CoverMiniCard, { area: "living_room", zoom: false })), /data-action="zoom"/);
@@ -426,4 +426,55 @@ test("editor: the confirm option is a choice of auto, always and never", () => {
   assert.deepEqual(yaml("auto"), { entity: BAY });
   assert.deepEqual(yaml("always"), { entity: BAY, confirm: true });
   assert.deepEqual(yaml("never"), { entity: BAY, confirm: false });
+});
+
+test("folding: a tap elsewhere (pointer), not a press inside released outside; leaving the page folds back", () => {
+  const card = newCard(cc.CoverCard, { area: "living_room" });
+  card.connectedCallback();
+  click(card, { action: "toggle", entity: BAY });
+  // Pressed in the card (a slider dragged out of it): nothing folds.
+  card._outside.tap({ composedPath: () => [card] });
+  assert.match(html(card), /aria-expanded="true"/);
+  // A tap on a spot that sends no click (iOS): the pointer alone folds it.
+  card._outside.tap({ composedPath: () => [] });
+  assert.doesNotMatch(html(card), /aria-expanded="true"/);
+  // Left with a cover unfolded and back: folded.
+  click(card, { action: "toggle", entity: BAY });
+  card.disconnectedCallback();
+  card.connectedCallback();
+  assert.doesNotMatch(html(card), /aria-expanded="true"/);
+  card.disconnectedCallback();
+  // The mini card comes back compact.
+  const mini = newCard(cc.CoverMiniCard, { area: "living_room" });
+  mini.connectedCallback();
+  click(mini, { action: "zoom" });
+  assert.equal(mini._zoomed, true);
+  mini.disconnectedCallback();
+  mini.connectedCallback();
+  assert.equal(mini._zoomed, false);
+  assert.match(html(mini), /data-action="zoom"/);
+  mini.disconnectedCallback();
+});
+
+test("no rewrite under a press: the click renders at once, a release without a click draws what was held", async () => {
+  const hass = makeHass();
+  const card = newCard(cc.CoverCard, { area: "living_room" }, hass);
+  card.connectedCallback();
+  const moved = (pos) => ({ ...hass, states: { ...hass.states, [BAY]: { ...hass.states[BAY], attributes: { ...hass.states[BAY].attributes, current_position: pos } } } });
+  const before = html(card);
+  card.shadowRoot.listeners.pointerdown({ target: {}, composedPath: () => [] });
+  card.hass = moved(12);
+  assert.equal(html(card), before, "no rewrite under the pointer");
+  click(card, { action: "toggle", entity: BAY });
+  assert.notEqual(html(card), before, "the click renders at once");
+  assert.match(html(card), /aria-expanded="true"/);
+  // Pressed and released elsewhere (no click): the held update is drawn after the release.
+  const held = html(card);
+  card.shadowRoot.listeners.pointerdown({ target: {}, composedPath: () => [] });
+  card.hass = moved(88);
+  assert.equal(html(card), held);
+  card._onPressEnd();
+  await new Promise((r) => setTimeout(r, 0));
+  assert.notEqual(html(card), held);
+  card.disconnectedCallback();
 });
