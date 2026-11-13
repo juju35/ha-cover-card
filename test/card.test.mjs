@@ -395,6 +395,23 @@ test("editor: labels and helpers in the card's language", () => {
   assert.ok(form.schema.some((s) => s.name === "device_class"));
 });
 
+test("mini editor: every option of the full card used by the detailed view, plus zoom", () => {
+  const full = cc.CoverCardEditor.toggles.map(([name]) => name);
+  const mini = cc.CoverMiniCardEditor.toggles.map(([name]) => name);
+  for (const name of full) assert.ok(mini.includes(name), name);
+  assert.ok(mini.includes("zoom"));
+  const ed = new cc.CoverMiniCardEditor();
+  const form = { appendChild() {}, addEventListener() {} };
+  cc.document.createElement = () => form;
+  ed.appendChild = () => {};
+  ed.setConfig({ area: "living_room", language: "fr" });
+  ed.hass = makeHass();
+  const names = form.schema.flatMap((s) => (s.schema ? s.schema.map((x) => x.name) : [s.name]));
+  for (const name of [...full, "columns", "confirm", "favorites"]) assert.ok(names.includes(name), name);
+  assert.equal(form.data.show_group_controls, true);
+  assert.equal(form.computeLabel({ name: "show_group_controls" }), "Afficher les boutons pour tous les ouvrants");
+});
+
 test("the position slider runs the way the scene opens: up, down for an awning, across for curtains and a gate", () => {
   const hass = makeHass({ "cover.driveway_gate": { current_position: 40, supported_features: 15 } });
   const tag = (entity) => html(newCard(cc.CoverCard, { entity }, hass)).match(/<div [^>]*data-slider="pos"[^>]*>/)[0];

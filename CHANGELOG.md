@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1 - 2026-11-14
+
+### Fixes
+- **Mini card visual editor**: `show_group_controls` (Open all / Stop / Close all buttons) can now be set in the mini card's editor too, since its detailed view shows the full card with them; the README lists it for both cards.
+
 ## 1.1.0 - 2026-11-13
 
 ### Features
