@@ -2305,10 +2305,30 @@ class CoverBase extends HTMLElement {
     this._html = "";
     this._targets = {};
     this.shadowRoot.addEventListener("click", (ev) => this._onClick(ev));
-    this.shadowRoot.addEventListener("pointerdown", (ev) => this._onPointerDown(ev));
+    this.shadowRoot.addEventListener("pointerdown", (ev) => {
+      this._byPointer = true;
+      // No rewrite of the card between the press and the release: Home Assistant updates the card several times a
+      // second, and a rewrite under the pointer replaces the element pressed, so that the click lands on the card
+      // itself and does nothing. The pending render is done once released (after the click). A slider pressed is
+      // held by its own drag state (see _onPointerDown).
+      this._pressing = true;
+      window.addEventListener("pointerup", this._onPressEnd, true);
+      window.addEventListener("pointercancel", this._onPressEnd, true);
+      this._onPointerDown(ev);
+    });
+    this._onPressEnd = () => {
+      window.removeEventListener("pointerup", this._onPressEnd, true);
+      window.removeEventListener("pointercancel", this._onPressEnd, true);
+      // After the click (same task): a press with no click (released elsewhere) draws what it held back.
+      setTimeout(() => {
+        this._pressing = false;
+        if (this._dirty) this._update();
+      }, 0);
+    };
     // Enter / Space on an element with the button role act as a click (a <button> clicks on its own); arrows,
     // Page Up / Down, Home and End move a slider.
     this.shadowRoot.addEventListener("keydown", (ev) => {
+      this._byPointer = false;
       const el = ev.target;
       if (el?.dataset?.slider) return this._onSliderKey(ev, el);
       if ((ev.key !== "Enter" && ev.key !== " ") || el?.getAttribute?.("role") !== "button") return;
@@ -2375,6 +2395,9 @@ class CoverBase extends HTMLElement {
     clearTimeout(this._kbd?.timer);
     this._kbd = null;
     this._drag = null;
+    this._pressing = false;
+    window.removeEventListener("pointerup", this._onPressEnd, true);
+    window.removeEventListener("pointercancel", this._onPressEnd, true);
   }
 
   setConfig(config) {
@@ -2423,6 +2446,12 @@ class CoverBase extends HTMLElement {
     if (!this._hass || !this._config) return;
     // Never while a slider is held or being moved from the keyboard: a redraw would drop the pointer capture.
     if (this._drag || this._kbd) return;
+    // Not under a press either (see the pointerdown listener): drawn once released.
+    if (this._pressing) {
+      this._dirty = true;
+      return;
+    }
+    this._dirty = false;
     if (this._hold) {
       const changed = this._hass.states[this._hold.id] !== this._hold.s;
       if (!changed && Date.now() < this._hold.until) return;
@@ -2434,7 +2463,8 @@ class CoverBase extends HTMLElement {
     }
     if (html === this._html) return;
     const focused = this._confirm && this.shadowRoot.activeElement?.dataset?.action;
-    const kept = this._confirm ? null : this._focusedSpot();
+    // The focus is kept across a rewrite for the keyboard only: after a mouse click, it would draw the focus ring.
+    const kept = this._confirm || this._byPointer ? null : this._focusedSpot();
     this._html = html;
     this.shadowRoot.innerHTML = html;
     if (kept) this._restoreFocus(kept);
@@ -2469,6 +2499,8 @@ class CoverBase extends HTMLElement {
   // ---- Clicks -------------------------------------------------------------
 
   _onClick(ev) {
+    this._pressing = false;
+    if (ev.detail === 0) this._byPointer = false;
     const path = ev.composedPath();
     const el = path.find((n) => n.dataset && (n.dataset.slider || n.dataset.action || n.dataset.entity));
     if (!this._confirm && Date.now() - (this._confirmClosedAt ?? 0) < CONFIRM_GUARD_MS) {

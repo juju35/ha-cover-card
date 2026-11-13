@@ -455,3 +455,26 @@ test("folding: a tap elsewhere (pointer), not a press inside released outside; l
   assert.match(html(mini), /data-action="zoom"/);
   mini.disconnectedCallback();
 });
+
+test("no rewrite under a press: the click renders at once, a release without a click draws what was held", async () => {
+  const hass = makeHass();
+  const card = newCard(cc.CoverCard, { area: "living_room" }, hass);
+  card.connectedCallback();
+  const moved = (pos) => ({ ...hass, states: { ...hass.states, [BAY]: { ...hass.states[BAY], attributes: { ...hass.states[BAY].attributes, current_position: pos } } } });
+  const before = html(card);
+  card.shadowRoot.listeners.pointerdown({ target: {}, composedPath: () => [] });
+  card.hass = moved(12);
+  assert.equal(html(card), before, "no rewrite under the pointer");
+  click(card, { action: "toggle", entity: BAY });
+  assert.notEqual(html(card), before, "the click renders at once");
+  assert.match(html(card), /aria-expanded="true"/);
+  // Pressed and released elsewhere (no click): the held update is drawn after the release.
+  const held = html(card);
+  card.shadowRoot.listeners.pointerdown({ target: {}, composedPath: () => [] });
+  card.hass = moved(88);
+  assert.equal(html(card), held);
+  card._onPressEnd();
+  await new Promise((r) => setTimeout(r, 0));
+  assert.notEqual(html(card), held);
+  card.disconnectedCallback();
+});
