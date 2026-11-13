@@ -8,6 +8,19 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/juju35/ha-cover-card/blob/main/LICENSE)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/julienstep9)
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/overkiz.png" alt="Overkiz" width="64">&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/shelly.png" alt="Shelly" width="64">&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/zwave_js.png" alt="Z-Wave" width="64">&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/zha.png" alt="ZHA" width="64">&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/knx.png" alt="KNX" width="64">&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/velux.png" alt="Velux" width="64">&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/motion_blinds.png" alt="Motion Blinds" width="64">&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/matter.png" alt="Matter" width="64">&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/tuya.png" alt="Tuya" width="64">&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/switchbot.png" alt="SwitchBot" width="64">
+</p>
+
 Lovelace cards for Home Assistant to control **covers of any integration**: roller shutters, venetian blinds, roller shades, curtains, awnings, garage doors, gates, doors, roof windows and dampers. Each cover is drawn as a little animated scene that follows its device class and position, and the picture itself is the position slider: drag it the way the cover opens (up for a shutter, down for an awning, sideways for curtains and a sliding gate).
 
 The cards read the `cover` domain only, so they work with every integration that provides covers (Somfy, Shelly, Z-Wave, Zigbee, KNX, template covers…). What they show follows the features each cover reports: no position slider for a cover that cannot be set to a position, a tilt slider only for slats that tilt, no Stop button for a cover that cannot stop.
@@ -47,11 +60,11 @@ Every integration that provides `cover` entities: the cards use only the cover s
 
 | Integration | Typical covers |
 |---|---|
-| [Overkiz](https://www.home-assistant.io/integrations/overkiz/) (Somfy TaHoma), [Somfy MyLink](https://www.home-assistant.io/integrations/somfy_mylink/) | Roller shutters, awnings, blinds, garage doors, gates |
-| [Shelly](https://www.home-assistant.io/integrations/shelly/) | Roller shutters and blinds on Shelly 2PM / Plus 2PM (position and tilt) |
-| [Z-Wave](https://www.home-assistant.io/integrations/zwave_js/), [ZHA](https://www.home-assistant.io/integrations/zha/), [Zigbee2MQTT](https://www.zigbee2mqtt.io/) / [MQTT](https://www.home-assistant.io/integrations/cover.mqtt/) | Shutter and blind modules, curtain motors, garage door openers |
-| [KNX](https://www.home-assistant.io/integrations/knx/), [Velux](https://www.home-assistant.io/integrations/velux/), [Motion Blinds](https://www.home-assistant.io/integrations/motion_blinds/), [IKEA / Matter](https://www.home-assistant.io/integrations/matter/) | Shutters, roof windows, blinds and shades |
-| [Tuya](https://www.home-assistant.io/integrations/tuya/), [SwitchBot](https://www.home-assistant.io/integrations/switchbot/) | Curtain robots, blinds, gate and garage openers |
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/overkiz.png" alt="" width="16"> [Overkiz](https://www.home-assistant.io/integrations/overkiz/) (Somfy TaHoma), <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/somfy_mylink.png" alt="" width="16"> [Somfy MyLink](https://www.home-assistant.io/integrations/somfy_mylink/) | Roller shutters, awnings, blinds, garage doors, gates |
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/shelly.png" alt="" width="16"> [Shelly](https://www.home-assistant.io/integrations/shelly/) | Roller shutters and blinds on Shelly 2PM / Plus 2PM (position and tilt) |
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/zwave_js.png" alt="" width="16"> [Z-Wave](https://www.home-assistant.io/integrations/zwave_js/), <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/zha.png" alt="" width="16"> [ZHA](https://www.home-assistant.io/integrations/zha/), [Zigbee2MQTT](https://www.zigbee2mqtt.io/) / <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/mqtt.png" alt="" width="16"> [MQTT](https://www.home-assistant.io/integrations/cover.mqtt/) | Shutter and blind modules, curtain motors, garage door openers |
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/knx.png" alt="" width="16"> [KNX](https://www.home-assistant.io/integrations/knx/), <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/velux.png" alt="" width="16"> [Velux](https://www.home-assistant.io/integrations/velux/), <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/motion_blinds.png" alt="" width="16"> [Motion Blinds](https://www.home-assistant.io/integrations/motion_blinds/), <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/matter.png" alt="" width="16"> [IKEA / Matter](https://www.home-assistant.io/integrations/matter/) | Shutters, roof windows, blinds and shades |
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/tuya.png" alt="" width="16"> [Tuya](https://www.home-assistant.io/integrations/tuya/), <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/switchbot.png" alt="" width="16"> [SwitchBot](https://www.home-assistant.io/integrations/switchbot/) | Curtain robots, blinds, gate and garage openers |
 | [Template](https://www.home-assistant.io/integrations/cover.template/), [Group](https://www.home-assistant.io/integrations/group/) | Any cover you build, cover groups |
 
 The picture follows the cover's `device_class`; set one in **Settings → Entities → (the cover) → Show as**, or draw another picture with the `device_class` option of the card.
