@@ -25,6 +25,7 @@ export const shots = twins([
   { file: "card", type: "cover-card", width: 420, config: { entity: "cover.living_room_bay_window", favorites: [25, 50, 75] } },
   { file: "card-blind", type: "cover-card", width: 420, config: { entity: "cover.office_blind", favorites: [{ name: "Reading", position: 15, tilt: 45 }, { name: "Privacy", position: 0, tilt: 10 }] } },
   { file: "card-area", type: "cover-card", width: 420, config: { area: "living_room", favorites: [0, 50, 100] }, clicks: ['[data-action="toggle"][data-entity="cover.living_room_bay_window"]'] },
+  { file: "card-columns", type: "cover-card", width: 460, config: { area: "living_room", columns: 2 } },
   { file: "card-garage", type: "cover-card", width: 420, config: { entity: "cover.garage_door" }, clicks: ['[data-action="open"]'] },
   { file: "card-unavailable", type: "cover-card", width: 420, config: { entity: "cover.guest_room_shutter" } },
   { file: "mini-card", type: "cover-mini-card", width: 400, config: { area: "living_room" } },
