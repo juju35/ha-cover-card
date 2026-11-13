@@ -183,13 +183,13 @@ zoom: true
 | `device_class` | both | Device class of each cover | Picture to draw for every cover: `shutter`, `blind`, `shade`, `curtain`, `awning`, `garage`, `gate`, `door`, `window` or `damper` |
 | `favorites` | both | — | Favorite positions: numbers (a position in %) or objects with `name`, `position` and/or `tilt`. With one cover they are its favorites; with several, they move every cover that can take them |
 | `show_controls` | both | `true` | Open / Stop / Close buttons (and the tilt buttons) |
-| `show_group_controls` | full | `true` | Open all / Stop / Close all buttons above the rows of several covers |
+| `show_group_controls` | both | `true` | Open all / Stop / Close all buttons above the rows of several covers (on the mini card, in its detailed view) |
 | `show_tilt` | both | `true` | Tilt slider and buttons, for the covers that support tilt |
 | `show_favorites` | both | `true` | Favorite position buttons |
 | `expanded` | both | `false` | Unfold every row of a card of several covers (otherwise click a row to unfold it; a click elsewhere folds it back) |
 | `columns` | both | `1` | Layout of a card of several covers: `1` shows a foldable row per cover; `2` or `3` show the covers as a grid of unfolded tiles (picture and position slider, state, full-size Open / Stop / Close buttons, tilt and favorites) on that many columns, one per line when the card is too narrow. On the mini card it applies to its detailed view. In a Sections view, give the card enough width (12 columns for `2`) |
 | `confirm` | both | Garage doors, gates and doors | Ask in a popup before opening, closing or moving a cover (buttons, group buttons, favorites and slider; Stop never asks). Unset, it asks when a garage door, a gate or a door is among the covers moved; `true` asks for every cover, `false` never |
-| `zoom` | mini | `true` | Detail button at the top right of the mini card: it shows the full card's content (with the same options) and switches back to the compact view; a click outside the card also brings the compact view back. `false` removes the button |
+| `zoom` | mini | `true` | Detail button at the top right of the mini card: it shows the full card's content (with the same options, all of them also set in the mini card's visual editor) and switches back to the compact view; a click outside the card also brings the compact view back. `false` removes the button |
 | `language` | both | Auto | Force language: `fr`, `en`, `de`, `es`, `sr`, `sr-Latn`, `it`, `nl`, `pt`, `pl`, `ro`, `da`, `sv`, `bg`, `ru`, `uk`, `hu`, `sk`, `cs`, `sl`, `lv` or `el` (auto-detects from Home Assistant) |
 
 Per-cover options, in an object of `entities`:

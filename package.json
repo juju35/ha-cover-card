@@ -1,6 +1,6 @@
 {
   "name": "ha-cover-card",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Lovelace cards for Home Assistant to control covers of any integration: roller shutters, blinds, shades, curtains, awnings, garage doors, gates, doors, roof windows and dampers.",
   "private": true,
   "type": "module",

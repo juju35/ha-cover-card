@@ -3379,31 +3379,26 @@ class CoverEditorBase extends HTMLElement {
   }
 }
 
+// The toggles of the full card; the mini card's detailed view is the full card, so its editor has them all too.
+const CARD_TOGGLES = [
+  ["show_title", true],
+  ["show_subtitle", true],
+  ["show_controls", true],
+  ["show_group_controls", true],
+  ["show_tilt", true],
+  ["show_favorites", true],
+  ["expanded", false],
+];
+
 class CoverCardEditor extends CoverEditorBase {
   static get toggles() {
-    return [
-      ["show_title", true],
-      ["show_subtitle", true],
-      ["show_controls", true],
-      ["show_group_controls", true],
-      ["show_tilt", true],
-      ["show_favorites", true],
-      ["expanded", false],
-    ];
+    return CARD_TOGGLES;
   }
 }
 
 class CoverMiniCardEditor extends CoverEditorBase {
   static get toggles() {
-    return [
-      ["show_title", true],
-      ["show_subtitle", true],
-      ["show_controls", true],
-      ["show_tilt", true],
-      ["show_favorites", true],
-      ["expanded", false],
-      ["zoom", true],
-    ];
+    return [...CARD_TOGGLES, ["zoom", true]];
   }
 }
 
