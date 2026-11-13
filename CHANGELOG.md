@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0 - 2026-11-13
+
+### Features
+- **Grid of tiles** (`columns: 2` or `3`, in the visual editor too): a card of several covers shows them as unfolded tiles side by side instead of foldable rows, each with its picture and position slider, its state, full-size Open / Stop / Close buttons, its tilt and its favorites; the tiles go one per line when the card is too narrow. `columns: 1` (the default) keeps the foldable rows. On the mini card it applies to its detailed view ([#7](https://github.com/juju35/ha-cover-card/issues/7), suggested by @mielikki33).
+
 ## 1.0.1 - 2026-11-13
 
 ### Fixes

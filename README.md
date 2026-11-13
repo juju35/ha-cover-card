@@ -44,7 +44,7 @@ The cards read the `cover` domain only, so they work with every integration that
 - **Tilt** slider and buttons for slats that tilt (venetian blinds, some shutters and awnings), shown only when the cover supports it
 - Open / Stop / Close buttons for the features each cover supports; Open is disabled once fully open, Close once fully closed (unless the cover only assumes its state, as a radio motor that reports nothing back), and the button of the way the cover moves gets the accent color
 - **Favorite positions**: one-tap buttons for a position, a tilt or both (`favorites`), per cover or for the whole group; the favorite reached is lit
-- Several covers: **Open all / Stop / Close all** buttons for the covers that support them, and one foldable row per cover (folded rows unfold to the full detail, a click elsewhere folds them back)
+- Several covers: **Open all / Stop / Close all** buttons for the covers that support them, and one foldable row per cover (folded rows unfold to the full detail, a click elsewhere folds them back), or a **grid of unfolded tiles** on 2 or 3 columns (`columns`), each with its picture slider and full-size buttons
 - Confirmation before opening, closing or moving a garage door, a gate or a door, by its buttons, the group buttons, a favorite or its slider, in a popup at the top of the card; `confirm: true` asks for every cover, `confirm: false` never
 - Header with an icon of the kind of cover in a tinted badge, colored with the state (blue while moving, green open, orange for an open garage door, gate, door or window, grey closed, red unavailable), a summary ("3 covers · average 53%") and a status chip on the title line
 - Unavailable covers are greyed, their buttons and sliders disabled; a missing entity is reported in its row
@@ -112,7 +112,7 @@ Or manually:
 
 ### Visual editor
 
-Edit a dashboard, click **Add card** and search for **Cover Card** or **Cover Mini Card**. The full card starts with your first cover, the mini card with the area that has the most covers. Pick covers and/or an area, an optional title, the picture, favorite positions (pick or type them), the parts to show, when to ask for confirmation and the language. The preview updates live, and options left at their default are kept out of the generated YAML. Per-cover options (`name`, `device_class`, `favorites` of one cover) are set in YAML; the editor keeps them.
+Edit a dashboard, click **Add card** and search for **Cover Card** or **Cover Mini Card**. The full card starts with your first cover, the mini card with the area that has the most covers. Pick covers and/or an area, an optional title, the picture, favorite positions (pick or type them), the number of columns, the parts to show, when to ask for confirmation and the language. The preview updates live, and options left at their default are kept out of the generated YAML. Per-cover options (`name`, `device_class`, `favorites` of one cover) are set in YAML; the editor keeps them.
 
 ### Minimal
 
@@ -154,6 +154,7 @@ show_group_controls: true
 show_tilt: true
 show_favorites: true
 expanded: false
+columns: 1
 confirm: true
 language: fr
 ```
@@ -186,6 +187,7 @@ zoom: true
 | `show_tilt` | both | `true` | Tilt slider and buttons, for the covers that support tilt |
 | `show_favorites` | both | `true` | Favorite position buttons |
 | `expanded` | both | `false` | Unfold every row of a card of several covers (otherwise click a row to unfold it; a click elsewhere folds it back) |
+| `columns` | both | `1` | Layout of a card of several covers: `1` shows a foldable row per cover; `2` or `3` show the covers as a grid of unfolded tiles (picture and position slider, state, full-size Open / Stop / Close buttons, tilt and favorites) on that many columns, one per line when the card is too narrow. On the mini card it applies to its detailed view. In a Sections view, give the card enough width (12 columns for `2`) |
 | `confirm` | both | Garage doors, gates and doors | Ask in a popup before opening, closing or moving a cover (buttons, group buttons, favorites and slider; Stop never asks). Unset, it asks when a garage door, a gate or a door is among the covers moved; `true` asks for every cover, `false` never |
 | `zoom` | mini | `true` | Detail button at the top right of the mini card: it shows the full card's content (with the same options) and switches back to the compact view; a click outside the card also brings the compact view back. `false` removes the button |
 | `language` | both | Auto | Force language: `fr`, `en`, `de`, `es`, `sr`, `sr-Latn`, `it`, `nl`, `pt`, `pl`, `ro`, `da`, `sv`, `bg`, `ru`, `uk`, `hu`, `sk`, `cs`, `sl`, `lv` or `el` (auto-detects from Home Assistant) |
@@ -220,6 +222,18 @@ Every cover of an area (`area: living_room`): Open all / Stop / Close all, group
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-area.png" alt="cover card of an area" width="420"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-area-dark.png" alt="cover card of an area dark" width="420"> |
+
+The same area as a grid of unfolded tiles (`columns: 2`): every cover keeps its picture slider and full-size buttons:
+
+```yaml
+type: custom:cover-card
+area: living_room
+columns: 2
+```
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-columns.png" alt="cover card with a grid of tiles" width="420"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-columns-dark.png" alt="cover card with a grid of tiles dark" width="420"> |
 
 A garage door, a gate or a door asks before it opens or closes, in a popup at the top of the card (here a garage door, which reports no position: its state is written in big):
 

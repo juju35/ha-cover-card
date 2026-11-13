@@ -234,6 +234,51 @@ test("expanded unfolds every cover; show_group_controls and show_controls hide b
   assert.doesNotMatch(bare, /data-action="(open|close|stop|open_all)"/);
 });
 
+test("columns: 2 or 3 show every cover as an unfolded tile with its own buttons, 1 or anything else foldable rows", () => {
+  assert.equal(cc.columnsOf({ columns: 2 }), 2);
+  assert.equal(cc.columnsOf({ columns: "3" }), 3);
+  for (const columns of [undefined, 1, 4, 0, "x"]) assert.equal(cc.columnsOf({ columns }), 1, String(columns));
+  const hass = makeHass();
+  const card = newCard(cc.CoverCard, { area: "living_room", columns: 2 }, hass);
+  const h = html(card);
+  assert.match(h, /<div class="items grid" style="--cc-columns:2">/);
+  assert.equal((h.match(/class="tile"/g) || []).length, 3);
+  assert.equal((h.match(/class="hero"/g) || []).length, 3);
+  assert.doesNotMatch(h, /aria-expanded=/);
+  // Each tile has its open / stop / close buttons with their labels (not the small round ones of a row).
+  assert.match(h, /<button class="btn open[^"]*" data-action="open" data-entity="cover.living_room_patio_door"[^>]*>[\s\S]*?<span>Open<\/span><\/button>/);
+  assert.doesNotMatch(h, /class="btn round small (open|close)/);
+  // The group buttons stay above the tiles; a tile's name opens the more-info dialog.
+  assert.match(h, /data-action="open_all"[\s\S]*class="items grid"/);
+  click(card, { entity: BAY });
+  assert.equal(card.events.at(-1).type, "hass-more-info");
+  click(card, { action: "close", entity: BAY });
+  assert.deepEqual(plain(hass.calls), [["cover", "close_cover", { entity_id: BAY }]]);
+  assert.match(html(newCard(cc.CoverCard, { area: "living_room", columns: 3 })), /--cc-columns:3/);
+  // One cover: the full card as before, whatever columns says.
+  assert.doesNotMatch(html(newCard(cc.CoverCard, { entity: BAY, columns: 2 })), /class="tile"/);
+  assert.match(html(newCard(cc.CoverCard, { area: "living_room", columns: 1 })), /aria-expanded="false"/);
+  // The card asks for more height in a grid of tiles than with folded rows.
+  assert.ok(newCard(cc.CoverCard, { area: "living_room", columns: 2 }).getCardSize() > newCard(cc.CoverCard, { area: "living_room" }).getCardSize());
+});
+
+test("editor: columns is a choice of 1, 2 or 3, left out of the YAML at 1", () => {
+  const toggles = cc.CoverCardEditor.toggles;
+  assert.equal(cc.toForm({ entity: BAY }, toggles).columns, "1");
+  assert.equal(cc.toForm({ entity: BAY, columns: 3 }, toggles).columns, "3");
+  assert.deepEqual(plain(cc.fromForm({ entities: [BAY, BLIND], columns: "2" }, {}, toggles)), { entities: [BAY, BLIND], columns: 2 });
+  assert.deepEqual(plain(cc.fromForm({ entities: [BAY, BLIND], columns: "1" }, {}, toggles)), { entities: [BAY, BLIND] });
+  const ed = new cc.CoverCardEditor();
+  const form = { appendChild() {}, addEventListener() {} };
+  cc.document.createElement = () => form;
+  ed.appendChild = () => {};
+  ed.setConfig({ entity: BAY, language: "fr" });
+  ed.hass = makeHass();
+  assert.ok(form.schema.some((s) => s.name === "columns"));
+  assert.equal(form.computeLabel({ name: "columns" }), "Colonnes");
+  assert.match(form.computeHelper({ name: "columns" }), /vignettes/);
+});
+
 test("card favorites of several covers move all of them that can take a position", () => {
   const hass = makeHass();
   const card = newCard(cc.CoverCard, { entities: [BAY, GARAGE, "cover.living_room_patio_door"], favorites: [50] }, hass);

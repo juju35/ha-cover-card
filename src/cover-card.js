@@ -143,11 +143,13 @@ const STRINGS = {
     e_show_favorites: "Show favorite positions",
     e_expanded: "Unfold every cover",
     e_confirm: "Ask before opening or closing",
+    e_columns: "Columns",
     e_zoom: "Detail button",
     e_language: "Language",
     h_area: "Adds every cover of this area to the list",
     h_favorites: "Pick or type positions; each becomes a button",
     h_device_class: "Drawn picture, when the device class of the covers does not match",
+    h_columns: "With several covers: 1 shows foldable rows, 2 or 3 a grid of unfolded tiles",
     h_zoom: "Button at the top right that switches the mini card to the full card and back",
     confirm_auto: "Garage doors, gates and doors",
     confirm_always: "Always",
@@ -218,11 +220,13 @@ const STRINGS = {
     e_show_favorites: "Afficher les positions favorites",
     e_expanded: "Déplier chaque ouvrant",
     e_confirm: "Demander avant d'ouvrir ou de fermer",
+    e_columns: "Colonnes",
     e_zoom: "Bouton détail",
     e_language: "Langue",
     h_area: "Ajoute à la liste tous les ouvrants de cette pièce",
     h_favorites: "Choisissez ou saisissez des positions ; chacune devient un bouton",
     h_device_class: "Illustration dessinée, quand la classe d'appareil des ouvrants ne convient pas",
+    h_columns: "Avec plusieurs ouvrants : 1 affiche des lignes repliables, 2 ou 3 une grille de vignettes dépliées",
     h_zoom: "Bouton en haut à droite qui passe la mini-carte en carte complète et inversement",
     confirm_auto: "Portes de garage, portails et portes",
     confirm_always: "Toujours",
@@ -293,11 +297,13 @@ const STRINGS = {
     e_show_favorites: "Lieblingspositionen anzeigen",
     e_expanded: "Jede Abdeckung aufklappen",
     e_confirm: "Vor dem Öffnen oder Schließen nachfragen",
+    e_columns: "Spalten",
     e_zoom: "Detail-Schaltfläche",
     e_language: "Sprache",
     h_area: "Fügt alle Abdeckungen dieses Bereichs zur Liste hinzu",
     h_favorites: "Positionen wählen oder eingeben; jede wird zu einer Schaltfläche",
     h_device_class: "Gezeichnetes Bild, wenn die Geräteklasse der Abdeckungen nicht passt",
+    h_columns: "Bei mehreren Abdeckungen: 1 zeigt einklappbare Zeilen, 2 oder 3 ein Raster aufgeklappter Kacheln",
     h_zoom: "Schaltfläche oben rechts, um zwischen kompakter und vollständiger Kartenansicht zu wechseln",
     confirm_auto: "Garagentore, Tore und Türen",
     confirm_always: "Immer",
@@ -368,11 +374,13 @@ const STRINGS = {
     e_show_favorites: "Mostrar las posiciones favoritas",
     e_expanded: "Desplegar cada cerramiento",
     e_confirm: "Preguntar antes de abrir o cerrar",
+    e_columns: "Columnas",
     e_zoom: "Botón de detalle",
     e_language: "Idioma",
     h_area: "Añade a la lista todos los cerramientos de esta área",
     h_favorites: "Elige o escribe posiciones; cada una se convierte en un botón",
     h_device_class: "Ilustración dibujada, cuando la clase de dispositivo no corresponde",
+    h_columns: "Con varios cerramientos: 1 muestra filas plegables, 2 o 3 una cuadrícula de mosaicos desplegados",
     h_zoom: "Botón arriba a la derecha que cambia la minitarjeta a la tarjeta completa y viceversa",
     confirm_auto: "Puertas de garaje, portones y puertas",
     confirm_always: "Siempre",
@@ -443,11 +451,13 @@ const STRINGS = {
     e_show_favorites: "Прикажи омиљене положаје",
     e_expanded: "Прошири сваки затварач",
     e_confirm: "Питај пре отварања или затварања",
+    e_columns: "Колоне",
     e_zoom: "Дугме за детаље",
     e_language: "Језик",
     h_area: "Додаје на листу све затвараче овог простора",
     h_favorites: "Изаберите или унесите положаје; сваки постаје дугме",
     h_device_class: "Нацртана илустрација, када класа уређаја не одговара",
+    h_columns: "Са више затварача: 1 приказује редове који се скупљају, 2 или 3 мрежу проширених плочица",
     h_zoom: "Дугме горе десно које пребацује мини картицу на пуну картицу и назад",
     confirm_auto: "Гаражна врата, капије и врата",
     confirm_always: "Увек",
@@ -518,11 +528,13 @@ const STRINGS = {
     e_show_favorites: "Prikaži omiljene položaje",
     e_expanded: "Proširi svaki zatvarač",
     e_confirm: "Pitaj pre otvaranja ili zatvaranja",
+    e_columns: "Kolone",
     e_zoom: "Dugme za detalje",
     e_language: "Jezik",
     h_area: "Dodaje na listu sve zatvarače ovog prostora",
     h_favorites: "Izaberite ili unesite položaje; svaki postaje dugme",
     h_device_class: "Nacrtana ilustracija, kada klasa uređaja ne odgovara",
+    h_columns: "Sa više zatvarača: 1 prikazuje redove koji se skupljaju, 2 ili 3 mrežu proširenih pločica",
     h_zoom: "Dugme gore desno koje prebacuje mini karticu na punu karticu i nazad",
     confirm_auto: "Garažna vrata, kapije i vrata",
     confirm_always: "Uvek",
@@ -593,11 +605,13 @@ const STRINGS = {
     e_show_favorites: "Mostra le posizioni preferite",
     e_expanded: "Espandi ogni copertura",
     e_confirm: "Chiedi prima di aprire o chiudere",
+    e_columns: "Colonne",
     e_zoom: "Pulsante dettagli",
     e_language: "Lingua",
     h_area: "Aggiunge all'elenco tutte le coperture di quest'area",
     h_favorites: "Scegli o scrivi posizioni; ognuna diventa un pulsante",
     h_device_class: "Illustrazione disegnata, quando la classe del dispositivo non corrisponde",
+    h_columns: "Con più coperture: 1 mostra righe richiudibili, 2 o 3 una griglia di riquadri espansi",
     h_zoom: "Pulsante in alto a destra che passa dalla mini scheda alla scheda completa e viceversa",
     confirm_auto: "Porte del garage, cancelli e porte",
     confirm_always: "Sempre",
@@ -668,11 +682,13 @@ const STRINGS = {
     e_show_favorites: "Favoriete posities tonen",
     e_expanded: "Elke afdekking uitklappen",
     e_confirm: "Vragen voor openen of sluiten",
+    e_columns: "Kolommen",
     e_zoom: "Detailknop",
     e_language: "Taal",
     h_area: "Voegt alle afdekkingen van deze ruimte aan de lijst toe",
     h_favorites: "Kies of typ posities; elke positie wordt een knop",
     h_device_class: "Getekende afbeelding, als de apparaatklasse niet past",
+    h_columns: "Bij meerdere afdekkingen: 1 toont inklapbare rijen, 2 of 3 een raster van uitgeklapte tegels",
     h_zoom: "Knop rechtsboven die de minikaart naar de volledige kaart schakelt en terug",
     confirm_auto: "Garagedeuren, poorten en deuren",
     confirm_always: "Altijd",
@@ -743,11 +759,13 @@ const STRINGS = {
     e_show_favorites: "Mostrar as posições favoritas",
     e_expanded: "Expandir cada estore",
     e_confirm: "Perguntar antes de abrir ou fechar",
+    e_columns: "Colunas",
     e_zoom: "Botão de detalhe",
     e_language: "Idioma",
     h_area: "Adiciona à lista todos os estores desta divisão",
     h_favorites: "Escolha ou escreva posições; cada uma torna-se um botão",
     h_device_class: "Ilustração desenhada, quando a classe do dispositivo não corresponde",
+    h_columns: "Com vários estores: 1 mostra linhas recolhíveis, 2 ou 3 uma grelha de mosaicos expandidos",
     h_zoom: "Botão no canto superior direito que alterna o mini cartão para o cartão completo e vice-versa",
     confirm_auto: "Portas de garagem, portões e portas",
     confirm_always: "Sempre",
@@ -818,11 +836,13 @@ const STRINGS = {
     e_show_favorites: "Pokaż ulubione pozycje",
     e_expanded: "Rozwiń każdą osłonę",
     e_confirm: "Pytaj przed otwarciem lub zamknięciem",
+    e_columns: "Kolumny",
     e_zoom: "Przycisk szczegółów",
     e_language: "Język",
     h_area: "Dodaje do listy wszystkie osłony tego obszaru",
     h_favorites: "Wybierz lub wpisz pozycje; każda staje się przyciskiem",
     h_device_class: "Rysowana ilustracja, gdy klasa urządzenia nie pasuje",
+    h_columns: "Przy kilku osłonach: 1 pokazuje zwijane wiersze, 2 lub 3 siatkę rozwiniętych kafelków",
     h_zoom: "Przycisk w prawym górnym rogu, który przełącza mini kartę na pełną kartę i z powrotem",
     confirm_auto: "Bramy garażowe, bramy i drzwi",
     confirm_always: "Zawsze",
@@ -893,11 +913,13 @@ const STRINGS = {
     e_show_favorites: "Afișează pozițiile favorite",
     e_expanded: "Extinde fiecare jaluzea",
     e_confirm: "Întreabă înainte de deschidere sau închidere",
+    e_columns: "Coloane",
     e_zoom: "Buton de detalii",
     e_language: "Limbă",
     h_area: "Adaugă în listă toate jaluzelele din această zonă",
     h_favorites: "Alege sau scrie poziții; fiecare devine un buton",
     h_device_class: "Ilustrație desenată, când clasa dispozitivului nu se potrivește",
+    h_columns: "Cu mai multe jaluzele: 1 afișează rânduri pliabile, 2 sau 3 o grilă de plăci extinse",
     h_zoom: "Buton în dreapta sus care comută mini cardul la cardul complet și înapoi",
     confirm_auto: "Uși de garaj, porți și uși",
     confirm_always: "Întotdeauna",
@@ -968,11 +990,13 @@ const STRINGS = {
     e_show_favorites: "Vis favoritpositioner",
     e_expanded: "Fold hver afskærmning ud",
     e_confirm: "Spørg før åbning eller lukning",
+    e_columns: "Kolonner",
     e_zoom: "Detaljeknap",
     e_language: "Sprog",
     h_area: "Føjer alle afskærmninger i dette område til listen",
     h_favorites: "Vælg eller skriv positioner; hver bliver en knap",
     h_device_class: "Tegnet illustration, når enhedsklassen ikke passer",
+    h_columns: "Med flere afskærmninger: 1 viser sammenfoldelige rækker, 2 eller 3 et gitter af udfoldede felter",
     h_zoom: "Knap øverst til højre, der skifter minikortet til hele kortet og tilbage",
     confirm_auto: "Garageporte, låger og døre",
     confirm_always: "Altid",
@@ -1043,11 +1067,13 @@ const STRINGS = {
     e_show_favorites: "Visa favoritpositioner",
     e_expanded: "Fäll ut varje skydd",
     e_confirm: "Fråga innan öppning eller stängning",
+    e_columns: "Kolumner",
     e_zoom: "Detaljknapp",
     e_language: "Språk",
     h_area: "Lägger till alla skydd i detta område i listan",
     h_favorites: "Välj eller skriv positioner; var och en blir en knapp",
     h_device_class: "Ritad illustration, när enhetsklassen inte stämmer",
+    h_columns: "Med flera skydd: 1 visar hopfällbara rader, 2 eller 3 ett rutnät av utfällda rutor",
     h_zoom: "Knapp uppe till höger som växlar minikortet till hela kortet och tillbaka",
     confirm_auto: "Garageportar, grindar och dörrar",
     confirm_always: "Alltid",
@@ -1118,11 +1144,13 @@ const STRINGS = {
     e_show_favorites: "Покажи любимите позиции",
     e_expanded: "Разгъни всяка щора",
     e_confirm: "Питай преди отваряне или затваряне",
+    e_columns: "Колони",
     e_zoom: "Бутон за подробности",
     e_language: "Език",
     h_area: "Добавя в списъка всички щори от тази зона",
     h_favorites: "Изберете или въведете позиции; всяка става бутон",
     h_device_class: "Нарисувана илюстрация, когато класът на устройството не съвпада",
+    h_columns: "При няколко щори: 1 показва сгъваеми редове, 2 или 3 мрежа от разгънати плочки",
     h_zoom: "Бутон горе вдясно, който превключва мини картата към пълната карта и обратно",
     confirm_auto: "Гаражни врати, порти и врати",
     confirm_always: "Винаги",
@@ -1193,11 +1221,13 @@ const STRINGS = {
     e_show_favorites: "Показывать избранные положения",
     e_expanded: "Разворачивать каждую штору",
     e_confirm: "Спрашивать перед открытием или закрытием",
+    e_columns: "Столбцы",
     e_zoom: "Кнопка подробностей",
     e_language: "Язык",
     h_area: "Добавляет в список все шторы этого пространства",
     h_favorites: "Выберите или введите положения; каждое станет кнопкой",
     h_device_class: "Нарисованная иллюстрация, если класс устройства не подходит",
+    h_columns: "Для нескольких штор: 1 — сворачиваемые строки, 2 или 3 — сетка развёрнутых плиток",
     h_zoom: "Кнопка в правом верхнем углу, переключающая мини-карточку на полную и обратно",
     confirm_auto: "Гаражные ворота, ворота и двери",
     confirm_always: "Всегда",
@@ -1268,11 +1298,13 @@ const STRINGS = {
     e_show_favorites: "Показувати улюблені положення",
     e_expanded: "Розгортати кожну штору",
     e_confirm: "Питати перед відкриттям або закриттям",
+    e_columns: "Стовпці",
     e_zoom: "Кнопка подробиць",
     e_language: "Мова",
     h_area: "Додає до списку всі штори цього простору",
     h_favorites: "Виберіть або введіть положення; кожне стане кнопкою",
     h_device_class: "Намальована ілюстрація, якщо клас пристрою не підходить",
+    h_columns: "Для кількох штор: 1 — згортані рядки, 2 або 3 — сітка розгорнутих плиток",
     h_zoom: "Кнопка у правому верхньому куті, що перемикає міні-картку на повну і назад",
     confirm_auto: "Гаражні ворота, ворота та двері",
     confirm_always: "Завжди",
@@ -1343,11 +1375,13 @@ const STRINGS = {
     e_show_favorites: "Kedvenc pozíciók megjelenítése",
     e_expanded: "Minden árnyékoló kibontása",
     e_confirm: "Kérdezzen nyitás vagy zárás előtt",
+    e_columns: "Oszlopok",
     e_zoom: "Részletek gomb",
     e_language: "Nyelv",
     h_area: "A terület összes árnyékolóját hozzáadja a listához",
     h_favorites: "Válassz vagy írj be pozíciókat; mindegyik gomb lesz",
     h_device_class: "Rajzolt illusztráció, ha az eszközosztály nem megfelelő",
+    h_columns: "Több árnyékolónál: 1 összecsukható sorokat mutat, 2 vagy 3 kibontott csempék rácsát",
     h_zoom: "Jobb felső gomb, amely a mini kártyát teljes kártyára váltja és vissza",
     confirm_auto: "Garázskapuk, kapuk és ajtók",
     confirm_always: "Mindig",
@@ -1418,11 +1452,13 @@ const STRINGS = {
     e_show_favorites: "Zobraziť obľúbené polohy",
     e_expanded: "Rozbaliť každú clonu",
     e_confirm: "Pýtať sa pred otvorením alebo zatvorením",
+    e_columns: "Stĺpce",
     e_zoom: "Tlačidlo podrobností",
     e_language: "Jazyk",
     h_area: "Pridá do zoznamu všetky clony tejto oblasti",
     h_favorites: "Vyberte alebo zadajte polohy; každá sa stane tlačidlom",
     h_device_class: "Kreslená ilustrácia, keď trieda zariadenia nesedí",
+    h_columns: "Pri viacerých clonách: 1 zobrazí zbaliteľné riadky, 2 alebo 3 mriežku rozbalených dlaždíc",
     h_zoom: "Tlačidlo vpravo hore, ktoré prepína mini kartu na celú kartu a späť",
     confirm_auto: "Garážové brány, brány a dvere",
     confirm_always: "Vždy",
@@ -1493,11 +1529,13 @@ const STRINGS = {
     e_show_favorites: "Zobrazit oblíbené polohy",
     e_expanded: "Rozbalit každou clonu",
     e_confirm: "Ptát se před otevřením nebo zavřením",
+    e_columns: "Sloupce",
     e_zoom: "Tlačítko podrobností",
     e_language: "Jazyk",
     h_area: "Přidá do seznamu všechny clony této oblasti",
     h_favorites: "Vyberte nebo zadejte polohy; každá se stane tlačítkem",
     h_device_class: "Kreslená ilustrace, když třída zařízení neodpovídá",
+    h_columns: "U více clon: 1 zobrazí sbalitelné řádky, 2 nebo 3 mřížku rozbalených dlaždic",
     h_zoom: "Tlačítko vpravo nahoře, které přepíná mini kartu na celou kartu a zpět",
     confirm_auto: "Garážová vrata, brány a dveře",
     confirm_always: "Vždy",
@@ -1568,11 +1606,13 @@ const STRINGS = {
     e_show_favorites: "Prikaži priljubljene položaje",
     e_expanded: "Razširi vsako senčilo",
     e_confirm: "Vprašaj pred odpiranjem ali zapiranjem",
+    e_columns: "Stolpci",
     e_zoom: "Gumb za podrobnosti",
     e_language: "Jezik",
     h_area: "Na seznam doda vsa senčila tega območja",
     h_favorites: "Izberite ali vpišite položaje; vsak postane gumb",
     h_device_class: "Narisana ilustracija, ko razred naprave ne ustreza",
+    h_columns: "Pri več senčilih: 1 prikaže zložljive vrstice, 2 ali 3 mrežo razširjenih ploščic",
     h_zoom: "Gumb zgoraj desno, ki preklopi mini kartico na celotno kartico in nazaj",
     confirm_auto: "Garažna vrata, dvoriščna vrata in vrata",
     confirm_always: "Vedno",
@@ -1643,11 +1683,13 @@ const STRINGS = {
     e_show_favorites: "Rādīt iecienītās pozīcijas",
     e_expanded: "Izvērst katru aizsegu",
     e_confirm: "Jautāt pirms atvēršanas vai aizvēršanas",
+    e_columns: "Kolonnas",
     e_zoom: "Detaļu poga",
     e_language: "Valoda",
     h_area: "Pievieno sarakstam visus šī apgabala aizsegus",
     h_favorites: "Izvēlieties vai ierakstiet pozīcijas; katra kļūst par pogu",
     h_device_class: "Zīmēta ilustrācija, ja ierīces klase neatbilst",
+    h_columns: "Ar vairākiem aizsegiem: 1 rāda sakļaujamas rindas, 2 vai 3 izvērstu flīžu režģi",
     h_zoom: "Poga augšējā labajā stūrī, kas pārslēdz mini karti uz pilno karti un atpakaļ",
     confirm_auto: "Garāžas vārti, vārti un durvis",
     confirm_always: "Vienmēr",
@@ -1718,11 +1760,13 @@ const STRINGS = {
     e_show_favorites: "Εμφάνιση αγαπημένων θέσεων",
     e_expanded: "Ανάπτυξη κάθε σκιάστρου",
     e_confirm: "Ερώτηση πριν από άνοιγμα ή κλείσιμο",
+    e_columns: "Στήλες",
     e_zoom: "Κουμπί λεπτομερειών",
     e_language: "Γλώσσα",
     h_area: "Προσθέτει στη λίστα όλα τα σκιάστρα αυτής της περιοχής",
     h_favorites: "Επιλέξτε ή πληκτρολογήστε θέσεις· η καθεμία γίνεται κουμπί",
     h_device_class: "Σχεδιασμένη εικόνα, όταν η κλάση συσκευής δεν ταιριάζει",
+    h_columns: "Με πολλά σκίαστρα: 1 δείχνει πτυσσόμενες γραμμές, 2 ή 3 πλέγμα αναπτυγμένων πλακιδίων",
     h_zoom: "Κουμπί πάνω δεξιά που αλλάζει τη μίνι κάρτα σε πλήρη κάρτα και πίσω",
     confirm_auto: "Γκαραζόπορτες, αυλόπορτες και πόρτες",
     confirm_always: "Πάντα",
@@ -2188,6 +2232,23 @@ const FULL_STYLE = `
   .item .hero, .item .tilt-row, .item .favs { padding: 0 4px 4px 0; }
   .item .btn { background: color-mix(in srgb, var(--card-background-color, #fff) 75%, transparent); }
   .item .btn.on { background: color-mix(in srgb, var(--cc-accent) 16%, var(--card-background-color, #fff)); }
+  /* columns: 2 or 3, a grid of unfolded tiles. Each tile is the container of the width queries below, so that a
+     narrow tile hides the button labels and the tilt buttons the way a narrow card does. */
+  .items.grid { display: grid; grid-template-columns: repeat(var(--cc-columns, 2), minmax(0, 1fr)); gap: 8px; }
+  .tile { container-type: inline-size; min-width: 0; border-radius: 12px; background: var(--secondary-background-color, rgba(127,127,127,.08));
+          padding: 8px; display: flex; flex-direction: column; gap: 10px; }
+  .tile-head { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .tile-head .mbadge { width: 28px; height: 28px; border-radius: 50%; flex: none; display: grid; place-items: center;
+                       background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--c); }
+  .tile-head .mbadge .icon { width: 18px; height: 18px; }
+  .tile-head .iname { flex: 1 1 0; min-width: 0; font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile .hero { flex-direction: column; align-items: stretch; gap: 8px; }
+  .tile .hero .visual { align-self: center; width: 104px; height: 125px; }
+  .tile .info { align-items: center; text-align: center; }
+  .tile .controls { flex-wrap: nowrap; align-self: stretch; }
+  .tile .controls .btn { flex: 1 1 0; min-height: 40px; }
+  .tile .btn { background: color-mix(in srgb, var(--card-background-color, #fff) 75%, transparent); }
+  .tile .btn.on { background: color-mix(in srgb, var(--cc-accent) 16%, var(--card-background-color, #fff)); }
   /* Narrow card: the buttons keep their icons, the picture shrinks. */
   @container (max-width: 330px) {
     .controls .btn span, .group .btn span { display: none; }
@@ -2202,6 +2263,13 @@ const FULL_STYLE = `
     .hero .visual { width: 60px; height: 72px; }
     .pos { font-size: 24px; }
     .item-ctrl .btn.stop { display: none; }
+  }
+  /* Too narrow for tiles side by side: one per line. */
+  @container (max-width: 300px) {
+    .items.grid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @container (max-width: 150px) {
+    .tile .hero .visual { width: 80px; height: 96px; }
   }
 `;
 
@@ -2913,6 +2981,12 @@ class CoverBase extends HTMLElement {
   }
 }
 
+// Tiles per line of a card of several covers: 1 (foldable rows, the default), 2 or 3.
+const columnsOf = (config) => {
+  const n = Number(config?.columns);
+  return n === 2 || n === 3 ? n : 1;
+};
+
 // CSS.escape where it exists (browsers); the test sandbox has none, and entity ids need no escaping there.
 const CSS_ESCAPE = (v) => (globalThis.CSS?.escape ? globalThis.CSS.escape(v) : String(v).replace(/["\\]/g, "\\$&"));
 
@@ -2928,7 +3002,9 @@ class CoverCard extends CoverBase {
 
   getCardSize() {
     const n = this._hass && this._config ? itemsOf(this._hass, this._config).items.length : 1;
-    return n > 1 ? 2 + n : 4;
+    if (n < 2) return 4;
+    const cols = columnsOf(this._config);
+    return cols > 1 ? 2 + Math.ceil(n / cols) * 5 : 2 + n;
   }
 
   getGridOptions() {
@@ -2952,7 +3028,12 @@ class CoverCard extends CoverBase {
     } else {
       if (c.show_controls !== false && c.show_group_controls !== false) parts.push(`<div class="group">${this._groupButtons(items)}</div>`);
       parts.push(this._favorites(items, favoritesOf(c.favorites), null));
-      parts.push(`<div class="items">${items.map((i) => this._row(i)).join("")}</div>`);
+      const cols = columnsOf(c);
+      parts.push(
+        cols > 1
+          ? `<div class="items grid" style="--cc-columns:${cols}">${items.map((i) => this._tile(i)).join("")}</div>`
+          : `<div class="items">${items.map((i) => this._row(i)).join("")}</div>`,
+      );
     }
     return `<style>${BASE_STYLE}${SCENE_STYLE}${FULL_STYLE}</style>
       <ha-card>
@@ -3009,6 +3090,18 @@ class CoverCard extends CoverBase {
         ${track}
         <span class="v" data-label="${esc(`${item.id}|tilt`)}">${esc(v === null || off ? "—" : this._pct(v))}</span>
         <span class="btns">${btns}</span>
+      </div>`;
+  }
+
+  // One cover of several in a grid (`columns`): a tile always unfolded, its name over the full detail.
+  _tile(item) {
+    const s = item.s;
+    const icon = ICONS[item.cls][s && !isOffline(s) && s.state !== "closed" ? 1 : 0];
+    return `<div class="tile">
+        <div class="tile-head ${stateClass(s, item.cls)} clickable" role="button" tabindex="0" data-entity="${esc(item.id)}">
+          <span class="mbadge">${svgIcon(icon)}</span><span class="iname">${esc(item.name)}</span>
+        </div>
+        ${this._detail(item)}
       </div>`;
   }
 
@@ -3160,6 +3253,8 @@ const LANGUAGES = [
   ["el", "Ελληνικά"],
 ];
 const FAVORITE_PRESETS = ["10", "25", "50", "75", "90"];
+// The `columns` option in the editor, as strings (a select); 1 is the default and stays out of the YAML.
+const COLUMN_CHOICES = ["1", "2", "3"];
 // The `confirm` option in the editor: unset (garage doors, gates and doors), true or false.
 const CONFIRM_MODES = [
   ["auto", undefined],
@@ -3179,6 +3274,7 @@ const toForm = (config, toggles) => {
   data.favorites = (Array.isArray(config.favorites) ? config.favorites : []).filter((f) => typeof f === "number" || typeof f === "string").map(String);
   data.device_class ??= "auto";
   data.confirm = CONFIRM_MODES.find(([, v]) => v === config.confirm)?.[0] ?? "auto";
+  data.columns = String(columnsOf(config));
   for (const [name, def] of toggles) if (data[name] === undefined) data[name] = def;
   return data;
 };
@@ -3206,6 +3302,9 @@ const fromForm = (value, previous, toggles) => {
   const mode = CONFIRM_MODES.find(([k]) => k === config.confirm);
   if (mode && mode[1] !== undefined) config.confirm = mode[1];
   else delete config.confirm;
+  const cols = columnsOf(config);
+  if (cols > 1) config.columns = cols;
+  else delete config.columns;
   const defaults = Object.fromEntries(toggles);
   for (const [k, v] of Object.entries(config)) {
     if (v === "" || v === undefined || v === null || (k in defaults && v === defaults[k])) delete config[k];
@@ -3242,6 +3341,7 @@ class CoverEditorBase extends HTMLElement {
         name: "favorites",
         selector: { select: { multiple: true, custom_value: true, mode: "dropdown", options: FAVORITE_PRESETS.map((v) => ({ value: v, label: `${v} %` })) } },
       },
+      { name: "columns", selector: { select: { mode: "dropdown", options: COLUMN_CHOICES.map((v) => ({ value: v, label: v })) } } },
       { type: "grid", name: "", schema: this.constructor.toggles.map(([name]) => ({ name, selector: { boolean: {} } })) },
       { name: "confirm", selector: { select: { mode: "dropdown", options: CONFIRM_MODES.map(([value]) => ({ value, label: tr(`confirm_${value}`) })) } } },
       {
