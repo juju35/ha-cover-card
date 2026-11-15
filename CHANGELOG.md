@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.5.0 - 2026-11-15
+
+### Features
+- **No state feedback** (`no_feedback: true`, in the visual editor too): for a cover that never reports its real state — a radio **RTS** motor and the like — the picture and badge now show it **closed** at rest instead of trusting an assumed open; it still animates while it moves and keeps its Open / Stop / Close buttons enabled. Set it per cover or for the whole card ([#21](https://github.com/juju35/ha-cover-card/issues/21), suggested by @mielikki33).
+
+### Fixes
+- **Tile button alignment**: in a grid of tiles (`columns: 2` or `3`), the Open / Stop / Close rows now line up across tiles even when one cover shows a position and another only a word ([#21](https://github.com/juju35/ha-cover-card/issues/21), reported by @mielikki33).
+
 ## 1.4.0 - 2026-11-15
 
 ### Features

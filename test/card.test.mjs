@@ -9,6 +9,7 @@ const BAY = "cover.living_room_bay_window";
 const BLIND = "cover.office_blind";
 const GARAGE = "cover.garage_door";
 const AWNING = "cover.terrace_awning";
+const GATE = "cover.driveway_gate";
 
 test("position and tilt follow Home Assistant's convention, whole numbers from 0 to 100", () => {
   assert.equal(cc.positionOf({ state: "open", attributes: { current_position: 42.6 } }), 43);
@@ -576,4 +577,38 @@ test("invert stays out of the YAML when off, kept when on", () => {
   assert.equal(cc.fromForm({ entities: [BAY], invert: false }, {}, toggles).invert, undefined);
   assert.equal(cc.fromForm({ entities: [BAY], invert: true }, {}, toggles).invert, true);
   assert.equal(cc.toForm({ entity: BAY }, toggles).invert, false);
+});
+
+test("no_feedback draws a state-less cover closed at rest instead of trusting its assumed open", () => {
+  // The driveway gate reports no position and HA assumes it open: without feedback it is drawn closed.
+  const on = html(newCard(cc.CoverCard, { entities: [{ entity: "cover.driveway_gate", no_feedback: true }] }));
+  assert.match(on, /style="--p:0;/);
+  assert.match(on, />Closed</);
+  const off = html(newCard(cc.CoverCard, { entities: ["cover.driveway_gate"] }));
+  assert.match(off, /style="--p:100;/);
+  assert.match(off, />Open</);
+});
+
+test("no_feedback keeps its open and close buttons enabled (the assumed state is not trusted)", () => {
+  const on = html(newCard(cc.CoverCard, { entity: "cover.driveway_gate", no_feedback: true }));
+  // The gate is drawn closed, yet close must stay pressable since the real state is unknown.
+  assert.doesNotMatch(on, /data-action="close"[^>]*disabled/);
+  assert.doesNotMatch(on, /data-action="open"[^>]*disabled/);
+});
+
+test("no_feedback still animates while the cover moves", () => {
+  const moving = makeHass({ "cover.driveway_gate": { state: "opening" } });
+  const card = newCard(cc.CoverCard, { entity: "cover.driveway_gate", no_feedback: true }, moving);
+  const out = html(card);
+  // Moving state is kept (the picture animates), not forced to the closed resting picture.
+  assert.match(out, /moving opening/);
+});
+
+test("no_feedback can be set for the whole card and stays out of the YAML when off", () => {
+  const all = html(newCard(cc.CoverCard, { entities: ["cover.driveway_gate"], no_feedback: true }));
+  assert.match(all, /style="--p:0;/);
+  const toggles = cc.CoverCardEditor.toggles;
+  assert.equal(cc.fromForm({ entities: [GATE], no_feedback: false }, {}, toggles).no_feedback, undefined);
+  assert.equal(cc.fromForm({ entities: [GATE], no_feedback: true }, {}, toggles).no_feedback, true);
+  assert.equal(cc.toForm({ entity: GATE }, toggles).no_feedback, false);
 });
