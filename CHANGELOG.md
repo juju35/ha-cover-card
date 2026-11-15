@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.1 - 2026-11-16
+
+### Fixes
+- The card header badge now uses the project accent colour instead of the aggregated cover state; the status chip in the header still carries the state.
+
 ## 1.4.0 - 2026-11-15
 
 ### Features

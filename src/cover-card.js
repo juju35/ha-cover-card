@@ -2170,7 +2170,7 @@ const BASE_STYLE = `
   .chip .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
   .header { display: flex; align-items: center; gap: 10px; padding: 12px 12px 0; }
   .badge { width: 40px; height: 40px; border-radius: 50%; flex: none; display: grid; place-items: center;
-           background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--c); transition: background-color .3s ease, color .3s ease; }
+           background: color-mix(in srgb, var(--cc-accent) 16%, transparent); color: var(--cc-accent); transition: background-color .3s ease, color .3s ease; }
   .badge .icon { width: 24px; height: 24px; }
   .titles { flex: 1 1 0; min-width: 5ch; }
   :host([hide-title]) .titles > .name, :host([hide-subtitle]) .titles > .sub { display: none; }
@@ -2959,7 +2959,7 @@ class CoverBase extends HTMLElement {
     const clickable = target ? ` clickable" role="button" tabindex="0" data-entity="${esc(target)}` : "";
     return `
       <div class="header">
-        <div class="badge ${agg.cls}${clickable}" aria-label="${label}">${svgIcon(icon)}</div>
+        <div class="badge${clickable}" aria-label="${label}">${svgIcon(icon)}</div>
         <div class="titles">
           <div class="name">${esc(this._title(items))}</div>
           <div class="sub">${esc(this._subtitle(items))}</div>
