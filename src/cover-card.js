@@ -157,6 +157,8 @@ const STRINGS = {
     confirm_never: "Never",
     e_invert: "Invert position",
     h_invert: "For a cover whose integration reports the position the wrong way round (often an awning)",
+    e_no_feedback: "No state feedback",
+    h_no_feedback: "For a cover that never reports its state back (a radio RTS motor): draw it closed at rest",
   },
   fr: {
     covers: "Ouvrants",
@@ -236,6 +238,8 @@ const STRINGS = {
     confirm_never: "Jamais",
     e_invert: "Inverser la position",
     h_invert: "Pour un ouvrant dont l'intégration remonte la position à l'envers (souvent un store banne)",
+    e_no_feedback: "Aucun retour d'état",
+    h_no_feedback: "Pour un ouvrant qui ne remonte jamais son état (un moteur radio RTS) : dessiné fermé au repos",
   },
   de: {
     covers: "Abdeckungen",
@@ -315,6 +319,8 @@ const STRINGS = {
     confirm_never: "Nie",
     e_invert: "Position umkehren",
     h_invert: "Für eine Abdeckung, deren Integration die Position umgekehrt meldet (oft eine Markise)",
+    e_no_feedback: "Keine Statusrückmeldung",
+    h_no_feedback: "Für eine Abdeckung, die ihren Zustand nie zurückmeldet (ein RTS-Funkmotor): im Ruhezustand geschlossen gezeichnet",
   },
   es: {
     covers: "Cerramientos",
@@ -394,6 +400,8 @@ const STRINGS = {
     confirm_never: "Nunca",
     e_invert: "Invertir la posición",
     h_invert: "Para una cubierta cuya integración informa la posición al revés (a menudo un toldo)",
+    e_no_feedback: "Sin información de estado",
+    h_no_feedback: "Para una cubierta que nunca informa su estado (un motor de radio RTS): dibujada cerrada en reposo",
   },
   sr: {
     covers: "Затварачи",
@@ -473,6 +481,8 @@ const STRINGS = {
     confirm_never: "Никад",
     e_invert: "Обрни положај",
     h_invert: "За застор чија интеграција пријављује положај обрнуто (често тенда)",
+    e_no_feedback: "Без повратне информације о стању",
+    h_no_feedback: "За застор који никада не пријављује своје стање (радио RTS мотор): нацртан затворено у мировању",
   },
   "sr-Latn": {
     covers: "Zatvarači",
@@ -552,6 +562,8 @@ const STRINGS = {
     confirm_never: "Nikad",
     e_invert: "Obrni položaj",
     h_invert: "Za zastor čija integracija prijavljuje položaj obrnuto (često tenda)",
+    e_no_feedback: "Bez povratne informacije o stanju",
+    h_no_feedback: "Za zastor koji nikada ne prijavljuje svoje stanje (radio RTS motor): nacrtan zatvoreno u mirovanju",
   },
   it: {
     covers: "Coperture",
@@ -631,6 +643,8 @@ const STRINGS = {
     confirm_never: "Mai",
     e_invert: "Inverti la posizione",
     h_invert: "Per una copertura la cui integrazione segnala la posizione al contrario (spesso una tenda da sole)",
+    e_no_feedback: "Nessun ritorno di stato",
+    h_no_feedback: "Per una copertura che non segnala mai il suo stato (un motore radio RTS): disegnata chiusa a riposo",
   },
   nl: {
     covers: "Afdekkingen",
@@ -710,6 +724,8 @@ const STRINGS = {
     confirm_never: "Nooit",
     e_invert: "Positie omkeren",
     h_invert: "Voor een afdekking waarvan de integratie de positie omgekeerd doorgeeft (vaak een zonnescherm)",
+    e_no_feedback: "Geen statusterugkoppeling",
+    h_no_feedback: "Voor een afdekking die haar status nooit terugmeldt (een RTS-radiomotor): in rust gesloten getekend",
   },
   pt: {
     covers: "Estores",
@@ -789,6 +805,8 @@ const STRINGS = {
     confirm_never: "Nunca",
     e_invert: "Inverter a posição",
     h_invert: "Para um estore cuja integração indica a posição ao contrário (muitas vezes um toldo)",
+    e_no_feedback: "Sem retorno de estado",
+    h_no_feedback: "Para um estore que nunca comunica o seu estado (um motor de rádio RTS): desenhado fechado em repouso",
   },
   pl: {
     covers: "Osłony",
@@ -868,6 +886,8 @@ const STRINGS = {
     confirm_never: "Nigdy",
     e_invert: "Odwróć pozycję",
     h_invert: "Dla osłony, której integracja podaje pozycję odwrotnie (często markiza)",
+    e_no_feedback: "Brak informacji o stanie",
+    h_no_feedback: "Dla osłony, która nigdy nie zgłasza swojego stanu (radiowy silnik RTS): rysowana jako zamknięta w spoczynku",
   },
   ro: {
     covers: "Jaluzele",
@@ -947,6 +967,8 @@ const STRINGS = {
     confirm_never: "Niciodată",
     e_invert: "Inversează poziția",
     h_invert: "Pentru un element a cărui integrare raportează poziția invers (adesea o copertină)",
+    e_no_feedback: "Fără feedback de stare",
+    h_no_feedback: "Pentru un element care nu își raportează niciodată starea (un motor radio RTS): desenat închis în repaus",
   },
   da: {
     covers: "Afskærmninger",
@@ -1026,6 +1048,8 @@ const STRINGS = {
     confirm_never: "Aldrig",
     e_invert: "Vend positionen",
     h_invert: "For en afskærmning, hvis integration melder positionen omvendt (ofte en markise)",
+    e_no_feedback: "Ingen tilstandsrespons",
+    h_no_feedback: "For en afskærmning, der aldrig melder sin tilstand tilbage (en RTS-radiomotor): tegnet lukket i hvile",
   },
   sv: {
     covers: "Skydd",
@@ -1105,6 +1129,8 @@ const STRINGS = {
     confirm_never: "Aldrig",
     e_invert: "Invertera positionen",
     h_invert: "För en täckning vars integration rapporterar positionen omvänt (ofta en markis)",
+    e_no_feedback: "Ingen statusåterkoppling",
+    h_no_feedback: "För en täckning som aldrig rapporterar sitt tillstånd (en RTS-radiomotor): ritas stängd i viloläge",
   },
   bg: {
     covers: "Щори",
@@ -1184,6 +1210,8 @@ const STRINGS = {
     confirm_never: "Никога",
     e_invert: "Обръщане на позицията",
     h_invert: "За покритие, чиято интеграция докладва позицията обратно (често сенник)",
+    e_no_feedback: "Без обратна връзка за състоянието",
+    h_no_feedback: "За покритие, което никога не докладва състоянието си (радио RTS мотор): нарисувано затворено в покой",
   },
   ru: {
     covers: "Шторы",
@@ -1263,6 +1291,8 @@ const STRINGS = {
     confirm_never: "Никогда",
     e_invert: "Инвертировать положение",
     h_invert: "Для шторы, чья интеграция сообщает положение наоборот (часто маркиза)",
+    e_no_feedback: "Нет обратной связи о состоянии",
+    h_no_feedback: "Для шторы, которая никогда не сообщает своё состояние (радиомотор RTS): отрисовывается закрытой в покое",
   },
   uk: {
     covers: "Штори",
@@ -1342,6 +1372,8 @@ const STRINGS = {
     confirm_never: "Ніколи",
     e_invert: "Інвертувати положення",
     h_invert: "Для штори, чия інтеграція повідомляє положення навпаки (часто маркіза)",
+    e_no_feedback: "Немає зворотного зв'язку про стан",
+    h_no_feedback: "Для штори, яка ніколи не повідомляє свій стан (радіомотор RTS): малюється закритою у спокої",
   },
   hu: {
     covers: "Árnyékolók",
@@ -1421,6 +1453,8 @@ const STRINGS = {
     confirm_never: "Soha",
     e_invert: "Pozíció megfordítása",
     h_invert: "Olyan árnyékolóhoz, amelynek integrációja fordítva jelzi a pozíciót (gyakran napellenző)",
+    e_no_feedback: "Nincs állapot-visszajelzés",
+    h_no_feedback: "Olyan árnyékolóhoz, amely soha nem jelzi vissza az állapotát (RTS rádiómotor): nyugalmi helyzetben zárva rajzolva",
   },
   sk: {
     covers: "Clony",
@@ -1500,6 +1534,8 @@ const STRINGS = {
     confirm_never: "Nikdy",
     e_invert: "Obrátiť polohu",
     h_invert: "Pre kryt, ktorého integrácia hlási polohu opačne (často markíza)",
+    e_no_feedback: "Žiadna spätná väzba o stave",
+    h_no_feedback: "Pre kryt, ktorý nikdy nehlási svoj stav (rádiový motor RTS): v pokoji vykreslený zatvorený",
   },
   cs: {
     covers: "Clony",
@@ -1579,6 +1615,8 @@ const STRINGS = {
     confirm_never: "Nikdy",
     e_invert: "Obrátit polohu",
     h_invert: "Pro kryt, jehož integrace hlásí polohu obráceně (často markýza)",
+    e_no_feedback: "Bez zpětné vazby o stavu",
+    h_no_feedback: "Pro kryt, který nikdy nehlásí svůj stav (rádiový motor RTS): v klidu vykreslen zavřený",
   },
   sl: {
     covers: "Senčila",
@@ -1658,6 +1696,8 @@ const STRINGS = {
     confirm_never: "Nikoli",
     e_invert: "Obrni položaj",
     h_invert: "Za senčilo, katerega integracija sporoča položaj obratno (pogosto tenda)",
+    e_no_feedback: "Brez povratne informacije o stanju",
+    h_no_feedback: "Za senčilo, ki nikoli ne sporoči svojega stanja (radijski motor RTS): v mirovanju narisano zaprto",
   },
   lv: {
     covers: "Aizsegi",
@@ -1737,6 +1777,8 @@ const STRINGS = {
     confirm_never: "Nekad",
     e_invert: "Apvērst pozīciju",
     h_invert: "Pārsegam, kura integrācija ziņo pozīciju otrādi (bieži markīze)",
+    e_no_feedback: "Nav stāvokļa atgriezeniskās saites",
+    h_no_feedback: "Pārsegam, kas nekad nepaziņo savu stāvokli (RTS radio motors): miera stāvoklī zīmēts aizvērts",
   },
   el: {
     covers: "Σκιάστρα",
@@ -1816,6 +1858,8 @@ const STRINGS = {
     confirm_never: "Ποτέ",
     e_invert: "Αντιστροφή θέσης",
     h_invert: "Για κάλυμμα του οποίου η ενσωμάτωση αναφέρει τη θέση ανάποδα (συχνά τέντα)",
+    e_no_feedback: "Χωρίς ανατροφοδότηση κατάστασης",
+    h_no_feedback: "Για ένα κάλυμμα που δεν αναφέρει ποτέ την κατάστασή του (ραδιοκινητήρας RTS): σχεδιάζεται κλειστό σε ηρεμία",
   },
 };
 
@@ -2293,10 +2337,12 @@ const FULL_STYLE = `
                        background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--c); }
   .tile-head .mbadge .icon { width: 18px; height: 18px; }
   .tile-head .iname { flex: 1 1 0; min-width: 0; font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .tile .hero { flex-direction: column; align-items: stretch; gap: 8px; }
+  .tile .hero { flex: 1 1 auto; flex-direction: column; align-items: stretch; gap: 8px; }
   .tile .hero .visual { align-self: center; width: 104px; height: 125px; }
-  .tile .info { align-items: center; text-align: center; }
-  .tile .controls { flex-wrap: nowrap; align-self: stretch; }
+  /* Tiles in a row stretch to the same height; the picture + value area grows and the buttons sit at the bottom,
+     so the button rows line up across tiles even when one cover shows a position and another only a word. */
+  .tile .info { flex: 1 1 auto; align-items: center; text-align: center; }
+  .tile .controls { flex-wrap: nowrap; align-self: stretch; margin-top: auto; }
   .tile .controls .btn { flex: 1 1 0; min-height: 40px; }
   .tile .btn { background: color-mix(in srgb, var(--card-background-color, #fff) 75%, transparent); }
   .tile .btn.on { background: color-mix(in srgb, var(--cc-accent) 16%, var(--card-background-color, #fff)); }
@@ -2549,10 +2595,18 @@ class CoverBase extends HTMLElement {
     this._area = area;
     const cardFavs = favoritesOf(this._config.favorites);
     return items.map((i) => {
-      const s = this._hass.states[i.entity];
+      let s = this._hass.states[i.entity];
+      // Covers with no state feedback (a radio RTS motor, which reports nothing back): at rest they are drawn and
+      // badged closed, since their open/closed state is only assumed. While the cover moves, the real state is kept
+      // so the picture still animates; a cover that actually reports a position is left alone — it has real feedback.
+      const noFeedback = Boolean(i.no_feedback ?? this._config.no_feedback);
+      if (noFeedback && s && !isMoving(s) && s.state !== "closed" && s.state !== "unavailable" && numAttr(s, "current_position") === null) {
+        s = { ...s, state: "closed" };
+      }
       return {
         id: i.entity,
         s,
+        noFeedback,
         cls: classOf(s, i.device_class || this._config.device_class),
         // Covers whose integration reports the position the wrong way round (often awnings): the card mirrors it.
         invert: Boolean(i.invert ?? this._config.invert),
@@ -3014,7 +3068,7 @@ class CoverBase extends HTMLElement {
   _buttons(item, { round = false, labels = true } = {}) {
     const s = item.s;
     const off = isOffline(s);
-    const pos = s?.attributes?.assumed_state === true ? null : positionOf(s);
+    const pos = s?.attributes?.assumed_state === true || item.noFeedback ? null : positionOf(s);
     const out = [];
     for (const action of ["open", "stop", "close"]) {
       if (!s || !has(s, SERVICES[action][1])) continue;
@@ -3364,6 +3418,7 @@ const toForm = (config, toggles) => {
   data.favorites = (Array.isArray(config.favorites) ? config.favorites : []).filter((f) => typeof f === "number" || typeof f === "string").map(String);
   data.device_class ??= "auto";
   data.invert ??= false;
+  data.no_feedback ??= false;
   data.confirm = CONFIRM_MODES.find(([, v]) => v === config.confirm)?.[0] ?? "auto";
   data.columns = String(columnsOf(config));
   for (const [name, def] of toggles) if (data[name] === undefined) data[name] = def;
@@ -3391,6 +3446,7 @@ const fromForm = (value, previous, toggles) => {
   if (favs.length) config.favorites = favs;
   if (config.device_class === "auto") delete config.device_class;
   if (config.invert === false) delete config.invert;
+  if (config.no_feedback === false) delete config.no_feedback;
   const mode = CONFIRM_MODES.find(([k]) => k === config.confirm);
   if (mode && mode[1] !== undefined) config.confirm = mode[1];
   else delete config.confirm;
@@ -3430,6 +3486,7 @@ class CoverEditorBase extends HTMLElement {
         selector: { select: { mode: "dropdown", options: [{ value: "auto", label: tr("class_auto") }, ...CLASSES.map((c) => ({ value: c, label: tr(`c_${c}`) }))] } },
       },
       { name: "invert", selector: { boolean: {} } },
+      { name: "no_feedback", selector: { boolean: {} } },
       {
         name: "favorites",
         selector: { select: { multiple: true, custom_value: true, mode: "dropdown", options: FAVORITE_PRESETS.map((v) => ({ value: v, label: `${v} %` })) } },
