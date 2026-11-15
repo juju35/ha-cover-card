@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0 - 2026-11-15
+
+### Features
+- **Centre the position value** (`center_value: true`): the big opening percentage and its state line are centred under the picture instead of left-aligned ([#12](https://github.com/juju35/ha-cover-card/issues/12), suggested by @thomasfav28).
+- **Hide the state line** (`show_state: false`): removes the coloured dot and state text shown next to the position value, when the folded row already shows the state ([#12](https://github.com/juju35/ha-cover-card/issues/12), suggested by @thomasfav28).
+- A foldable row now leaves a little more room around its position slider (left padding and a wider gap), so it is easier to reach ([#12](https://github.com/juju35/ha-cover-card/issues/12), suggested by @thomasfav28).
+
 ## 1.1.1 - 2026-11-14
 
 ### Fixes
