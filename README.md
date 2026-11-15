@@ -186,6 +186,8 @@ zoom: true
 | `show_group_controls` | both | `true` | Open all / Stop / Close all buttons above the rows of several covers (on the mini card, in its detailed view) |
 | `show_tilt` | both | `true` | Tilt slider and buttons, for the covers that support tilt |
 | `show_favorites` | both | `true` | Favorite position buttons |
+| `center_value` | both | `false` | Centre the opening percentage (and its state line) under the picture instead of left-aligning it |
+| `show_state` | both | `true` | Show the coloured dot and state text next to the opening percentage. `false` hides it (the folded row keeps showing the state) |
 | `expanded` | both | `false` | Unfold every row of a card of several covers (otherwise click a row to unfold it; a click elsewhere folds it back) |
 | `columns` | both | `1` | Layout of a card of several covers: `1` shows a foldable row per cover; `2` or `3` show the covers as a grid of unfolded tiles (picture and position slider, state, full-size Open / Stop / Close buttons, tilt and favorites) on that many columns, one per line when the card is too narrow. On the mini card it applies to its detailed view. In a Sections view, give the card enough width (12 columns for `2`) |
 | `confirm` | both | Garage doors, gates and doors | Ask in a popup before opening, closing or moving a cover (buttons, group buttons, favorites and slider; Stop never asks). Unset, it asks when a garage door, a gate or a door is among the covers moved; `true` asks for every cover, `false` never |

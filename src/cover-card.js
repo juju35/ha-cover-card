@@ -2191,6 +2191,8 @@ const FULL_STYLE = `
   .hero { display: flex; gap: 14px; align-items: center; }
   .hero .visual { width: 104px; height: 125px; }
   .info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .info.center { align-items: center; text-align: center; }
+  .info.center .pos { width: auto; }
   .pos { font-size: 30px; font-weight: 400; line-height: 1; width: fit-content; }
   .pos.word { font-size: 22px; line-height: 1.1; color: var(--ink); overflow-wrap: anywhere; }
   .line { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--secondary-text-color); min-width: 0; }
@@ -2230,6 +2232,7 @@ const FULL_STYLE = `
   .toggle[aria-expanded="false"] .chevron { transform: rotate(-90deg); }
   .item-ctrl { display: flex; gap: 4px; flex: none; }
   .item .hero, .item .tilt-row, .item .favs { padding: 0 4px 4px 0; }
+  .item .hero { padding-left: 8px; gap: 18px; }
   .item .btn { background: color-mix(in srgb, var(--card-background-color, #fff) 75%, transparent); }
   .item .btn.on { background: color-mix(in srgb, var(--cc-accent) 16%, var(--card-background-color, #fff)); }
   /* columns: 2 or 3, a grid of unfolded tiles. Each tile is the container of the width queries below, so that a
@@ -3049,15 +3052,16 @@ class CoverCard extends CoverBase {
     const cls = stateClass(s, item.cls);
     const p = numAttr(s, "current_position");
     const word = p === null || isOffline(s);
+    const stateLine =
+      c.show_state === false ? "" : `<div class="line state ${cls}"><span class="dot"></span><span>${esc(this._stateText(s))}</span></div>`;
     const value = word
       ? `<div class="pos word ${cls} clickable" role="button" tabindex="0" data-entity="${esc(item.id)}">${esc(this._stateText(s))}</div>`
-      : `<div class="pos clickable" role="button" tabindex="0" data-entity="${esc(item.id)}" data-label="${esc(`${item.id}|pos`)}">${esc(this._pct(p))}</div>
-         <div class="line state ${cls}"><span class="dot"></span><span>${esc(this._stateText(s))}</span></div>`;
+      : `<div class="pos clickable" role="button" tabindex="0" data-entity="${esc(item.id)}" data-label="${esc(`${item.id}|pos`)}">${esc(this._pct(p))}</div>${stateLine}`;
     // In a row of several, the row itself carries the buttons.
     const controls = c.show_controls !== false && s && !inRow ? `<div class="controls">${this._buttons(item)}</div>` : "";
     return `<div class="hero">
         ${this._visual(item)}
-        <div class="info">${value}${controls}</div>
+        <div class="info${c.center_value ? " center" : ""}">${value}${controls}</div>
       </div>
       ${this._tilt(item)}
       ${this._favorites([item], item.favorites, item.id)}`;
