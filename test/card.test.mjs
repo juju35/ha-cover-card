@@ -83,7 +83,9 @@ test("one cover: header, position, state, picture slider and buttons", () => {
   assert.match(h, /<div class="name">Bay window<\/div>/);
   assert.match(h, /<div class="sub">Roller shutter · Living room<\/div>/);
   assert.match(h, /class="chip ok[^"]*"[^>]*><span class="dot"><\/span><span class="t">Open<\/span>/);
-  assert.match(h, /class="badge ok/);
+  // The header badge carries the project accent, not the state; only the status chip above keeps the state class.
+  assert.match(h, /<div class="badge clickable/);
+  assert.doesNotMatch(h, /class="badge (ok|idle|active|warn|crit)/);
   assert.match(h, />60%</);
   assert.match(h, /role="slider" tabindex="0" aria-orientation="vertical"[^>]*aria-valuenow="60"/);
   assert.match(h, /style="--p:60;--t:50"/);
