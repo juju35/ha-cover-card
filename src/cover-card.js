@@ -40,9 +40,10 @@ const ICONS = {
     "M23 3H1V1H23V3M2 22H11V4H2V22M22 4H13V22H22V4Z",
     "M23 3H1V1H23V3M2 22H6C6 19 4 17 4 17C10 13 11 4 11 4H2V22M22 4H13C13 4 14 13 20 17C20 17 18 19 18 22H22V4Z",
   ],
+  // Closed is the retracted cassette, open the unrolled fabric, the way the scene draws it (open = extended).
   awning: [
-    "M5.06 7C4.63 7 4.22 7.14 3.84 7.42C3.46 7.7 3.24 8.06 3.14 8.5L2.11 12.91C1.86 14 2.06 14.92 2.69 15.73C2.81 15.85 2.93 15.97 3.04 16.07C3.63 16.64 4.28 17 5.22 17C6.16 17 6.91 16.59 7.47 16.05C8.1 16.67 8.86 17 9.8 17C10.64 17 11.44 16.63 12 16.07C12.68 16.7 13.45 17 14.3 17C15.17 17 15.91 16.67 16.54 16.05C17.11 16.62 17.86 17 18.81 17C19.76 17 20.43 16.65 21 16.06C21.09 15.97 21.18 15.87 21.28 15.77C21.94 14.95 22.14 14 21.89 12.91L20.86 8.5C20.73 8.06 20.5 7.7 20.13 7.42C19.77 7.14 19.38 7 18.94 7H5.06M18.89 8.97L19.97 13.38C20.06 13.81 19.97 14.2 19.69 14.55C19.44 14.86 19.13 15 18.75 15C18.44 15 18.17 14.9 17.95 14.66C17.73 14.43 17.61 14.16 17.58 13.84L16.97 9L18.89 8.97M5.06 9H7.03L6.42 13.84C6.3 14.63 5.91 15 5.25 15C4.84 15 4.53 14.86 4.31 14.55C4.03 14.2 3.94 13.81 4.03 13.38L5.06 9M9.05 9H11V13.7C11 14.05 10.89 14.35 10.64 14.62C10.39 14.88 10.08 15 9.7 15C9.36 15 9.07 14.88 8.84 14.59C8.61 14.3 8.5 14 8.5 13.66V13.5L9.05 9M13 9H14.95L15.5 13.5C15.58 13.92 15.5 14.27 15.21 14.57C14.95 14.87 14.61 15 14.2 15C13.89 15 13.61 14.88 13.36 14.62C13.11 14.35 13 14.05 13 13.7V9Z",
     "M5.06 7C4.63 7 4.22 7.14 3.84 7.42C3.46 7.7 3.24 8.06 3.14 8.5L2.11 12.91C1.86 14 2.06 14.92 2.69 15.73C2.81 15.85 2.93 15.97 3.04 16.07C3.63 16.64 4.28 17 5.22 17C6.16 17 6.91 16.59 7.47 16.05C8.1 16.67 8.86 17 9.8 17C10.64 17 11.44 16.63 12 16.07C12.68 16.7 13.45 17 14.3 17C15.17 17 15.91 16.67 16.54 16.05C17.11 16.62 17.86 17 18.81 17C19.76 17 20.43 16.65 21 16.06C21.09 15.97 21.18 15.87 21.28 15.77C21.94 14.95 22.14 14 21.89 12.91L20.86 8.5C20.73 8.06 20.5 7.7 20.13 7.42C19.77 7.14 19.38 7 18.94 7H5.06Z",
+    "M5.06 7C4.63 7 4.22 7.14 3.84 7.42C3.46 7.7 3.24 8.06 3.14 8.5L2.11 12.91C1.86 14 2.06 14.92 2.69 15.73C2.81 15.85 2.93 15.97 3.04 16.07C3.63 16.64 4.28 17 5.22 17C6.16 17 6.91 16.59 7.47 16.05C8.1 16.67 8.86 17 9.8 17C10.64 17 11.44 16.63 12 16.07C12.68 16.7 13.45 17 14.3 17C15.17 17 15.91 16.67 16.54 16.05C17.11 16.62 17.86 17 18.81 17C19.76 17 20.43 16.65 21 16.06C21.09 15.97 21.18 15.87 21.28 15.77C21.94 14.95 22.14 14 21.89 12.91L20.86 8.5C20.73 8.06 20.5 7.7 20.13 7.42C19.77 7.14 19.38 7 18.94 7H5.06M18.89 8.97L19.97 13.38C20.06 13.81 19.97 14.2 19.69 14.55C19.44 14.86 19.13 15 18.75 15C18.44 15 18.17 14.9 17.95 14.66C17.73 14.43 17.61 14.16 17.58 13.84L16.97 9L18.89 8.97M5.06 9H7.03L6.42 13.84C6.3 14.63 5.91 15 5.25 15C4.84 15 4.53 14.86 4.31 14.55C4.03 14.2 3.94 13.81 4.03 13.38L5.06 9M9.05 9H11V13.7C11 14.05 10.89 14.35 10.64 14.62C10.39 14.88 10.08 15 9.7 15C9.36 15 9.07 14.88 8.84 14.59C8.61 14.3 8.5 14 8.5 13.66V13.5L9.05 9M13 9H14.95L15.5 13.5C15.58 13.92 15.5 14.27 15.21 14.57C14.95 14.87 14.61 15 14.2 15C13.89 15 13.61 14.88 13.36 14.62C13.11 14.35 13 14.05 13 13.7V9Z",
   ],
   garage: [
     "M19,20H17V11H7V20H5V9L12,5L19,9V20M8,12H16V14H8V12M8,15H16V17H8V15M16,18V20H8V18H16Z",
@@ -154,6 +155,8 @@ const STRINGS = {
     confirm_auto: "Garage doors, gates and doors",
     confirm_always: "Always",
     confirm_never: "Never",
+    e_invert: "Invert position",
+    h_invert: "For a cover whose integration reports the position the wrong way round (often an awning)",
   },
   fr: {
     covers: "Ouvrants",
@@ -231,6 +234,8 @@ const STRINGS = {
     confirm_auto: "Portes de garage, portails et portes",
     confirm_always: "Toujours",
     confirm_never: "Jamais",
+    e_invert: "Inverser la position",
+    h_invert: "Pour un ouvrant dont l'intégration remonte la position à l'envers (souvent un store banne)",
   },
   de: {
     covers: "Abdeckungen",
@@ -308,6 +313,8 @@ const STRINGS = {
     confirm_auto: "Garagentore, Tore und Türen",
     confirm_always: "Immer",
     confirm_never: "Nie",
+    e_invert: "Position umkehren",
+    h_invert: "Für eine Abdeckung, deren Integration die Position umgekehrt meldet (oft eine Markise)",
   },
   es: {
     covers: "Cerramientos",
@@ -385,6 +392,8 @@ const STRINGS = {
     confirm_auto: "Puertas de garaje, portones y puertas",
     confirm_always: "Siempre",
     confirm_never: "Nunca",
+    e_invert: "Invertir la posición",
+    h_invert: "Para una cubierta cuya integración informa la posición al revés (a menudo un toldo)",
   },
   sr: {
     covers: "Затварачи",
@@ -462,6 +471,8 @@ const STRINGS = {
     confirm_auto: "Гаражна врата, капије и врата",
     confirm_always: "Увек",
     confirm_never: "Никад",
+    e_invert: "Обрни положај",
+    h_invert: "За застор чија интеграција пријављује положај обрнуто (често тенда)",
   },
   "sr-Latn": {
     covers: "Zatvarači",
@@ -539,6 +550,8 @@ const STRINGS = {
     confirm_auto: "Garažna vrata, kapije i vrata",
     confirm_always: "Uvek",
     confirm_never: "Nikad",
+    e_invert: "Obrni položaj",
+    h_invert: "Za zastor čija integracija prijavljuje položaj obrnuto (često tenda)",
   },
   it: {
     covers: "Coperture",
@@ -616,6 +629,8 @@ const STRINGS = {
     confirm_auto: "Porte del garage, cancelli e porte",
     confirm_always: "Sempre",
     confirm_never: "Mai",
+    e_invert: "Inverti la posizione",
+    h_invert: "Per una copertura la cui integrazione segnala la posizione al contrario (spesso una tenda da sole)",
   },
   nl: {
     covers: "Afdekkingen",
@@ -693,6 +708,8 @@ const STRINGS = {
     confirm_auto: "Garagedeuren, poorten en deuren",
     confirm_always: "Altijd",
     confirm_never: "Nooit",
+    e_invert: "Positie omkeren",
+    h_invert: "Voor een afdekking waarvan de integratie de positie omgekeerd doorgeeft (vaak een zonnescherm)",
   },
   pt: {
     covers: "Estores",
@@ -770,6 +787,8 @@ const STRINGS = {
     confirm_auto: "Portas de garagem, portões e portas",
     confirm_always: "Sempre",
     confirm_never: "Nunca",
+    e_invert: "Inverter a posição",
+    h_invert: "Para um estore cuja integração indica a posição ao contrário (muitas vezes um toldo)",
   },
   pl: {
     covers: "Osłony",
@@ -847,6 +866,8 @@ const STRINGS = {
     confirm_auto: "Bramy garażowe, bramy i drzwi",
     confirm_always: "Zawsze",
     confirm_never: "Nigdy",
+    e_invert: "Odwróć pozycję",
+    h_invert: "Dla osłony, której integracja podaje pozycję odwrotnie (często markiza)",
   },
   ro: {
     covers: "Jaluzele",
@@ -924,6 +945,8 @@ const STRINGS = {
     confirm_auto: "Uși de garaj, porți și uși",
     confirm_always: "Întotdeauna",
     confirm_never: "Niciodată",
+    e_invert: "Inversează poziția",
+    h_invert: "Pentru un element a cărui integrare raportează poziția invers (adesea o copertină)",
   },
   da: {
     covers: "Afskærmninger",
@@ -1001,6 +1024,8 @@ const STRINGS = {
     confirm_auto: "Garageporte, låger og døre",
     confirm_always: "Altid",
     confirm_never: "Aldrig",
+    e_invert: "Vend positionen",
+    h_invert: "For en afskærmning, hvis integration melder positionen omvendt (ofte en markise)",
   },
   sv: {
     covers: "Skydd",
@@ -1078,6 +1103,8 @@ const STRINGS = {
     confirm_auto: "Garageportar, grindar och dörrar",
     confirm_always: "Alltid",
     confirm_never: "Aldrig",
+    e_invert: "Invertera positionen",
+    h_invert: "För en täckning vars integration rapporterar positionen omvänt (ofta en markis)",
   },
   bg: {
     covers: "Щори",
@@ -1155,6 +1182,8 @@ const STRINGS = {
     confirm_auto: "Гаражни врати, порти и врати",
     confirm_always: "Винаги",
     confirm_never: "Никога",
+    e_invert: "Обръщане на позицията",
+    h_invert: "За покритие, чиято интеграция докладва позицията обратно (често сенник)",
   },
   ru: {
     covers: "Шторы",
@@ -1232,6 +1261,8 @@ const STRINGS = {
     confirm_auto: "Гаражные ворота, ворота и двери",
     confirm_always: "Всегда",
     confirm_never: "Никогда",
+    e_invert: "Инвертировать положение",
+    h_invert: "Для шторы, чья интеграция сообщает положение наоборот (часто маркиза)",
   },
   uk: {
     covers: "Штори",
@@ -1309,6 +1340,8 @@ const STRINGS = {
     confirm_auto: "Гаражні ворота, ворота та двері",
     confirm_always: "Завжди",
     confirm_never: "Ніколи",
+    e_invert: "Інвертувати положення",
+    h_invert: "Для штори, чия інтеграція повідомляє положення навпаки (часто маркіза)",
   },
   hu: {
     covers: "Árnyékolók",
@@ -1386,6 +1419,8 @@ const STRINGS = {
     confirm_auto: "Garázskapuk, kapuk és ajtók",
     confirm_always: "Mindig",
     confirm_never: "Soha",
+    e_invert: "Pozíció megfordítása",
+    h_invert: "Olyan árnyékolóhoz, amelynek integrációja fordítva jelzi a pozíciót (gyakran napellenző)",
   },
   sk: {
     covers: "Clony",
@@ -1463,6 +1498,8 @@ const STRINGS = {
     confirm_auto: "Garážové brány, brány a dvere",
     confirm_always: "Vždy",
     confirm_never: "Nikdy",
+    e_invert: "Obrátiť polohu",
+    h_invert: "Pre kryt, ktorého integrácia hlási polohu opačne (často markíza)",
   },
   cs: {
     covers: "Clony",
@@ -1540,6 +1577,8 @@ const STRINGS = {
     confirm_auto: "Garážová vrata, brány a dveře",
     confirm_always: "Vždy",
     confirm_never: "Nikdy",
+    e_invert: "Obrátit polohu",
+    h_invert: "Pro kryt, jehož integrace hlásí polohu obráceně (často markýza)",
   },
   sl: {
     covers: "Senčila",
@@ -1617,6 +1656,8 @@ const STRINGS = {
     confirm_auto: "Garažna vrata, dvoriščna vrata in vrata",
     confirm_always: "Vedno",
     confirm_never: "Nikoli",
+    e_invert: "Obrni položaj",
+    h_invert: "Za senčilo, katerega integracija sporoča položaj obratno (pogosto tenda)",
   },
   lv: {
     covers: "Aizsegi",
@@ -1694,6 +1735,8 @@ const STRINGS = {
     confirm_auto: "Garāžas vārti, vārti un durvis",
     confirm_always: "Vienmēr",
     confirm_never: "Nekad",
+    e_invert: "Apvērst pozīciju",
+    h_invert: "Pārsegam, kura integrācija ziņo pozīciju otrādi (bieži markīze)",
   },
   el: {
     covers: "Σκιάστρα",
@@ -1771,6 +1814,8 @@ const STRINGS = {
     confirm_auto: "Γκαραζόπορτες, αυλόπορτες και πόρτες",
     confirm_always: "Πάντα",
     confirm_never: "Ποτέ",
+    e_invert: "Αντιστροφή θέσης",
+    h_invert: "Για κάλυμμα του οποίου η ενσωμάτωση αναφέρει τη θέση ανάποδα (συχνά τέντα)",
   },
 };
 
@@ -2506,6 +2551,8 @@ class CoverBase extends HTMLElement {
         id: i.entity,
         s,
         cls: classOf(s, i.device_class || this._config.device_class),
+        // Covers whose integration reports the position the wrong way round (often awnings): the card mirrors it.
+        invert: Boolean(i.invert ?? this._config.invert),
         name: nameOf(this._hass, i.entity, i.name),
         // A cover's own favorites, else the card's (on a card of several covers, the card's apply to all of them).
         favorites: i.favorites !== undefined ? favoritesOf(i.favorites) : items.length === 1 ? cardFavs : [],
@@ -2565,6 +2612,35 @@ class CoverBase extends HTMLElement {
 
   _item(id) {
     return this._items().find((i) => i.id === id);
+  }
+
+  // Position as the card shows it, mirrored (100 − p) for an inverted cover. `_pos` from the attribute alone (null
+  // when the cover reports none), `_posOf` with the state fallback (0 closed, 100 open) for the picture.
+  _pos(item) {
+    const p = numAttr(item.s, "current_position");
+    return item.invert && p !== null ? 100 - p : p;
+  }
+
+  _posOf(item) {
+    const p = positionOf(item.s);
+    return item.invert && p !== null ? 100 - p : p;
+  }
+
+  // Whether the cover is drawn and badged open: mirrored for an inverted cover, moving states stay open.
+  _shownOpen(item) {
+    const s = item.s;
+    if (!s || isOffline(s)) return false;
+    return item.invert ? s.state !== "open" : s.state !== "closed";
+  }
+
+  // Whether the cover counts as open when it is still (not moving): mirrored for an inverted cover.
+  _shownOpenStill(item) {
+    return item.invert ? item.s?.state === "closed" : item.s?.state === "open";
+  }
+
+  // The position to send to set_cover_position for a display value, mirrored back for an inverted cover.
+  _sendPos(item, value) {
+    return item?.invert ? 100 - value : value;
   }
 
   // ---- Clicks -------------------------------------------------------------
@@ -2650,7 +2726,14 @@ class CoverBase extends HTMLElement {
     const run = () => {
       if (pos.length) {
         for (const p of pos) this._targets[p] = { value: fav.position, until: Date.now() + TARGET_MS };
-        this._call("set_cover_position", { entity_id: id ? pos[0] : pos, position: fav.position });
+        // Each cover gets the position the way it reports it; a group of covers that all mirror it the same way
+        // keeps a single call, otherwise one call per cover so each is mirrored on its own.
+        const inv = (pid) => Boolean(items.find((i) => i.id === pid)?.invert);
+        if (pos.every((pid) => inv(pid) === inv(pos[0]))) {
+          this._call("set_cover_position", { entity_id: id ? pos[0] : pos, position: this._sendPos({ invert: inv(pos[0]) }, fav.position) });
+        } else {
+          for (const pid of pos) this._call("set_cover_position", { entity_id: pid, position: this._sendPos({ invert: inv(pid) }, fav.position) });
+        }
       }
       if (tilt.length) this._call("set_cover_tilt_position", { entity_id: id ? tilt[0] : tilt, tilt_position: fav.tilt });
       this._update();
@@ -2780,7 +2863,7 @@ class CoverBase extends HTMLElement {
     }
     const send = () => {
       this._targets[id] = { value, until: Date.now() + TARGET_MS };
-      this._call("set_cover_position", { entity_id: id, position: value });
+      this._call("set_cover_position", { entity_id: id, position: this._sendPos(item, value) });
     };
     // A garage door, a gate or a door (or any cover with `confirm: true`) asks first; the popup redraws the card, so
     // after OK the picture shows where the cover is, with the mark of where it goes.
@@ -2798,7 +2881,7 @@ class CoverBase extends HTMLElement {
   _target(item) {
     const tg = this._targets[item.id];
     if (!tg) return null;
-    const pos = positionOf(item.s);
+    const pos = this._posOf(item);
     if (Date.now() > tg.until || (!isMoving(item.s) && pos === tg.value)) {
       delete this._targets[item.id];
       return null;
@@ -2816,7 +2899,7 @@ class CoverBase extends HTMLElement {
 
   // The position of a cover as a percentage, or its state when it reports none.
   _valueText(item) {
-    const p = numAttr(item.s, "current_position");
+    const p = this._pos(item);
     return p !== null && !isOffline(item.s) ? this._pct(p) : this._stateText(item.s);
   }
 
@@ -2824,7 +2907,7 @@ class CoverBase extends HTMLElement {
   _aggregate(items) {
     if (items.length === 1) {
       const i = items[0];
-      return { text: this._stateText(i.s), cls: stateClass(i.s, i.cls), open: !isOffline(i.s) && i.s.state !== "closed" };
+      return { text: this._stateText(i.s), cls: stateClass(i.s, i.cls), open: this._shownOpen(i) };
     }
     const live = items.filter((i) => !isOffline(i.s));
     if (!live.length) return { text: this._t("s_unavailable"), cls: "crit", open: false };
@@ -2833,7 +2916,7 @@ class CoverBase extends HTMLElement {
       const dir = moving.every((i) => i.s.state === "opening") ? "s_opening" : moving.every((i) => i.s.state === "closing") ? "s_closing" : null;
       return { text: dir ? this._t(dir) : this._t("n_moving", { n: moving.length }), cls: "active", open: true };
     }
-    const open = live.filter((i) => i.s.state === "open");
+    const open = live.filter((i) => this._shownOpenStill(i));
     if (open.length) {
       const all = open.length === items.length;
       return {
@@ -2851,7 +2934,7 @@ class CoverBase extends HTMLElement {
       const a = area || this._hass.areas?.[areaOf(this._hass, items[0].id)]?.name;
       return [this._t(`c_${items[0].cls}`), a].filter(Boolean).join(" · ");
     }
-    const pos = items.filter((i) => !isOffline(i.s)).map((i) => numAttr(i.s, "current_position")).filter((p) => p !== null);
+    const pos = items.filter((i) => !isOffline(i.s)).map((i) => this._pos(i)).filter((p) => p !== null);
     const parts = [this._t("n_covers", { n: items.length })];
     if (pos.length) parts.push(this._t("average", { pct: this._pct(pos.reduce((a, b) => a + b, 0) / pos.length) }));
     return parts.join(" · ");
@@ -2903,7 +2986,7 @@ class CoverBase extends HTMLElement {
     const s = item.s;
     const off = isOffline(s);
     const moving = isMoving(s);
-    const pos = positionOf(s);
+    const pos = this._posOf(item);
     const p = pos ?? (s?.state === "opening" || s?.state === "closing" ? 50 : 100);
     const tilt = tiltOf(s) ?? (p > 0 ? 50 : 0);
     const cls = ["visual", stateClass(s, item.cls), moving ? `moving ${s.state}` : "", off ? "off" : ""].filter(Boolean).join(" ");
@@ -2961,7 +3044,7 @@ class CoverBase extends HTMLElement {
     const btns = usable.map(({ f, index }) => {
       const reached =
         live.length > 0 &&
-        live.every((i) => (f.position === null || positionOf(i.s) === f.position) && (f.tilt === null || tiltOf(i.s) === f.tilt) && !isMoving(i.s));
+        live.every((i) => (f.position === null || this._posOf(i) === f.position) && (f.tilt === null || tiltOf(i.s) === f.tilt) && !isMoving(i.s));
       const label = esc(this._favLabel(f));
       const aria = esc(this._t("move_to", { to: this._favLabel(f) }));
       return `<button class="btn${reached ? " on" : ""}" data-action="${id ? "fav" : "fav_all"}"${id ? ` data-entity="${esc(id)}"` : ""} data-index="${index}" title="${aria}" aria-label="${aria}">${svgIcon(ICONS.star)}<span>${label}</span></button>`;
@@ -3050,7 +3133,7 @@ class CoverCard extends CoverBase {
     const s = item.s;
     const c = this._config;
     const cls = stateClass(s, item.cls);
-    const p = numAttr(s, "current_position");
+    const p = this._pos(item);
     const word = p === null || isOffline(s);
     const stateLine =
       c.show_state === false ? "" : `<div class="line state ${cls}"><span class="dot"></span><span>${esc(this._stateText(s))}</span></div>`;
@@ -3100,7 +3183,7 @@ class CoverCard extends CoverBase {
   // One cover of several in a grid (`columns`): a tile always unfolded, its name over the full detail.
   _tile(item) {
     const s = item.s;
-    const icon = ICONS[item.cls][s && !isOffline(s) && s.state !== "closed" ? 1 : 0];
+    const icon = ICONS[item.cls][this._shownOpen(item) ? 1 : 0];
     return `<div class="tile">
         <div class="tile-head ${stateClass(s, item.cls)} clickable" role="button" tabindex="0" data-entity="${esc(item.id)}">
           <span class="mbadge">${svgIcon(icon)}</span><span class="iname">${esc(item.name)}</span>
@@ -3114,8 +3197,8 @@ class CoverCard extends CoverBase {
     const s = item.s;
     const cls = stateClass(s, item.cls);
     const open = !this._isCollapsed(item.id);
-    const icon = ICONS[item.cls][s && !isOffline(s) && s.state !== "closed" ? 1 : 0];
-    const state = s && !isOffline(s) && numAttr(s, "current_position") !== null && !isMoving(s) ? this._pct(numAttr(s, "current_position")) : this._stateText(s);
+    const icon = ICONS[item.cls][this._shownOpen(item) ? 1 : 0];
+    const state = s && !isOffline(s) && this._pos(item) !== null && !isMoving(s) ? this._pct(this._pos(item)) : this._stateText(s);
     const ctrl = this._config.show_controls !== false && s ? `<div class="item-ctrl">${this._buttons(item, { round: true })}</div>` : "";
     return `<div class="item">
         <div class="item-head">
@@ -3277,6 +3360,7 @@ const toForm = (config, toggles) => {
   delete data.entity;
   data.favorites = (Array.isArray(config.favorites) ? config.favorites : []).filter((f) => typeof f === "number" || typeof f === "string").map(String);
   data.device_class ??= "auto";
+  data.invert ??= false;
   data.confirm = CONFIRM_MODES.find(([, v]) => v === config.confirm)?.[0] ?? "auto";
   data.columns = String(columnsOf(config));
   for (const [name, def] of toggles) if (data[name] === undefined) data[name] = def;
@@ -3303,6 +3387,7 @@ const fromForm = (value, previous, toggles) => {
   const favs = [...[...new Set(nums)].sort((a, b) => a - b), ...kept];
   if (favs.length) config.favorites = favs;
   if (config.device_class === "auto") delete config.device_class;
+  if (config.invert === false) delete config.invert;
   const mode = CONFIRM_MODES.find(([k]) => k === config.confirm);
   if (mode && mode[1] !== undefined) config.confirm = mode[1];
   else delete config.confirm;
@@ -3341,6 +3426,7 @@ class CoverEditorBase extends HTMLElement {
         name: "device_class",
         selector: { select: { mode: "dropdown", options: [{ value: "auto", label: tr("class_auto") }, ...CLASSES.map((c) => ({ value: c, label: tr(`c_${c}`) }))] } },
       },
+      { name: "invert", selector: { boolean: {} } },
       {
         name: "favorites",
         selector: { select: { multiple: true, custom_value: true, mode: "dropdown", options: FAVORITE_PRESETS.map((v) => ({ value: v, label: `${v} %` })) } },

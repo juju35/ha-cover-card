@@ -181,6 +181,7 @@ zoom: true
 | `show_title` | both | `true` | Show the title in the header |
 | `show_subtitle` | both | `true` | Show the subtitle (kind of cover and area, or the number of covers and their average position) |
 | `device_class` | both | Device class of each cover | Picture to draw for every cover: `shutter`, `blind`, `shade`, `curtain`, `awning`, `garage`, `gate`, `door`, `window` or `damper` |
+| `invert` | both | `false` | Reverse the position axis for covers whose integration reports it the wrong way round (often awnings): the picture, the slider and the percentage use `100 − current_position`, and `set_cover_position` is sent reversed. Set per cover (in its `entities` object) or for the whole card. The Open / Stop / Close buttons are unchanged |
 | `favorites` | both | — | Favorite positions: numbers (a position in %) or objects with `name`, `position` and/or `tilt`. With one cover they are its favorites; with several, they move every cover that can take them |
 | `show_controls` | both | `true` | Open / Stop / Close buttons (and the tilt buttons) |
 | `show_group_controls` | both | `true` | Open all / Stop / Close all buttons above the rows of several covers (on the mini card, in its detailed view) |
@@ -341,7 +342,7 @@ A damper turns its blade edge-on and the air starts flowing through the duct.
 
 ## How it works
 
-- **Position**: 0 % is closed and 100 % open, as in Home Assistant. The slider follows the moving edge of the picture: the top is open for what rises (shutter, blind, shade, garage door, and by convention door, roof window and damper), the bottom for an awning, the right for curtains and a sliding gate. A cover without `current_position` is drawn fully open or closed by its state, and half-way while it moves.
+- **Position**: 0 % is closed and 100 % open, as in Home Assistant. The slider follows the moving edge of the picture: the top is open for what rises (shutter, blind, shade, garage door, and by convention door, roof window and damper), the bottom for an awning, the right for curtains and a sliding gate. A cover without `current_position` is drawn fully open or closed by its state, and half-way while it moves. Some integrations report the position the other way round (an awning that reads 100 % when retracted): set `invert` on that cover to mirror the picture, the slider and the percentage back.
 - **Features**: buttons, sliders and favorites follow `supported_features` (open, close, set position, stop, and the four tilt features). A cover without `supported_features` (an old template cover) gets open, close and stop, plus position and tilt when it reports them.
 - **Colors**: moving is blue, open is green (orange for a garage door, gate, door or window), closed is grey and unavailable red; the header and the summary take the state of the group.
 - **Redraws**: the card is redrawn only when one of its covers changes, never while a slider is held.
