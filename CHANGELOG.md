@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0 - 2026-11-15
+
+### Features
+- **Invert the position** (`invert: true`, in the visual editor too): reverses the position axis for covers whose integration reports it the wrong way round — often awnings that read 100 % when retracted. The picture, the slider and the percentage use `100 − current_position`, and `set_cover_position` is sent reversed; set it per cover or for the whole card. The Open / Stop / Close buttons are unchanged ([#15](https://github.com/juju35/ha-cover-card/issues/15), reported by @ctournayre).
+
+### Fixes
+- **Awning badge**: the small icon was the retracted cassette when the awning was open and the unrolled fabric when it was closed, the opposite of the drawn picture. It now opens with the unrolled fabric, like the scene ([#15](https://github.com/juju35/ha-cover-card/issues/15), reported by @ctournayre).
+
 ## 1.2.0 - 2026-11-15
 
 ### Features

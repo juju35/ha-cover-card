@@ -8,6 +8,7 @@ const html = (card) => card.shadowRoot.innerHTML.replace(/<style>[\s\S]*?<\/styl
 const BAY = "cover.living_room_bay_window";
 const BLIND = "cover.office_blind";
 const GARAGE = "cover.garage_door";
+const AWNING = "cover.terrace_awning";
 
 test("position and tilt follow Home Assistant's convention, whole numbers from 0 to 100", () => {
   assert.equal(cc.positionOf({ state: "open", attributes: { current_position: 42.6 } }), 43);
@@ -539,4 +540,40 @@ test("no rewrite under a press: the click renders at once, a release without a c
   await new Promise((r) => setTimeout(r, 0));
   assert.notEqual(html(card), held);
   card.disconnectedCallback();
+});
+
+test("the awning picture and badge open with the unrolled fabric (closed is the retracted cassette)", () => {
+  const open = html(newCard(cc.CoverCard, { entity: AWNING }, makeHass({ [AWNING]: { state: "open", current_position: 100 } })));
+  assert.match(open, /style="--p:100;/);
+  assert.ok(open.includes(cc.ICONS.awning[1]) && !open.includes(cc.ICONS.awning[0]), "open badge is the unrolled fabric");
+  const closed = html(newCard(cc.CoverCard, { entity: AWNING }, makeHass({ [AWNING]: { state: "closed", current_position: 0 } })));
+  assert.ok(closed.includes(cc.ICONS.awning[0]) && !closed.includes(cc.ICONS.awning[1]), "closed badge is the retracted cassette");
+});
+
+test("invert mirrors the position for a cover its integration reports the wrong way round", () => {
+  // A cover reporting 100 at the retracted (physically closed) end: the picture is drawn and badged closed.
+  const hass = makeHass({ [AWNING]: { state: "open", current_position: 100 } });
+  const inv = html(newCard(cc.CoverCard, { entity: AWNING, invert: true }, hass));
+  assert.match(inv, /style="--p:0;/);
+  assert.ok(inv.includes(cc.ICONS.awning[0]) && !inv.includes(cc.ICONS.awning[1]), "inverted badge is the retracted cassette");
+  assert.match(inv, />0%</);
+  // The position sent back is mirrored too.
+  const card = newCard(cc.CoverCard, { entity: AWNING, invert: true }, hass);
+  card._commit(AWNING, "pos", 30);
+  assert.deepEqual(plain(hass.calls), [["cover", "set_cover_position", { entity_id: AWNING, position: 70 }]]);
+});
+
+test("invert can be set per cover, not only for the whole card", () => {
+  const hass = makeHass({ [AWNING]: { state: "open", current_position: 100 } });
+  const perCover = html(newCard(cc.CoverCard, { entities: [{ entity: AWNING, invert: true }] }, hass));
+  assert.match(perCover, /style="--p:0;/);
+  const off = html(newCard(cc.CoverCard, { entities: [AWNING] }, hass));
+  assert.match(off, /style="--p:100;/);
+});
+
+test("invert stays out of the YAML when off, kept when on", () => {
+  const toggles = cc.CoverCardEditor.toggles;
+  assert.equal(cc.fromForm({ entities: [BAY], invert: false }, {}, toggles).invert, undefined);
+  assert.equal(cc.fromForm({ entities: [BAY], invert: true }, {}, toggles).invert, true);
+  assert.equal(cc.toForm({ entity: BAY }, toggles).invert, false);
 });
