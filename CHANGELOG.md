@@ -3,7 +3,7 @@
 ## 1.4.0 - 2026-11-15
 
 ### Features
-- The folded row's Open / Stop / Close buttons are now larger (36 px instead of 30 px), an easier touch target on phones ([#19](https://github.com/juju35/ha-cover-card/issues/19), suggested by @mielikki33).
+- The folded row's Open / Stop / Close buttons are now larger (32 px instead of 30 px), an easier touch target on phones ([#19](https://github.com/juju35/ha-cover-card/issues/19), suggested by @mielikki33).
 
 ## 1.3.0 - 2026-11-15
 

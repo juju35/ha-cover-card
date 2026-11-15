@@ -2277,7 +2277,7 @@ const FULL_STYLE = `
   .toggle[aria-expanded="false"] .chevron { transform: rotate(-90deg); }
   .item-ctrl { display: flex; gap: 4px; flex: none; }
   /* Roomier open / stop / close buttons on the folded row: 30 px is a tight touch target on phones. */
-  .item-ctrl .btn.round.small { width: 36px; height: 36px; }
+  .item-ctrl .btn.round.small { width: 32px; height: 32px; }
   .item-ctrl .btn.round.small .icon { width: 18px; height: 18px; }
   .item .hero, .item .tilt-row, .item .favs { padding: 0 4px 4px 0; }
   .item .hero { padding-left: 8px; gap: 18px; }
