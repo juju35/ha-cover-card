@@ -98,7 +98,7 @@ test("illustrated header: title on the wall, state-colored icon, the covers' own
   const h = html(newCard(cc.CoverCard, { entity: BAY }));
   assert.match(h, /<div class="banner">/);
   assert.match(h, /<div class="name">Bay window<\/div>/);
-  assert.match(h, /<div class="bsub">Open · Roller shutter · Living room<\/div>/);
+  assert.match(h, /<div class="trow">\s*<div class="name">[^<]+<\/div>\s*<span class="chip ok[^>]*><span class="dot"><\/span><span class="t">Open<\/span><\/span>\s*<\/div>\s*<div class="bsub">Roller shutter · Living room<\/div>/);
   // The icon takes the state color (open shutter: ok), unlike the classic header.
   assert.match(h, /<div class="badge ok clickable/);
   assert.match(h, /<div class="bv ok" data-for="cover.living_room_bay_window" style="--p:60;--t:50"><svg class="scene shutter"/);
@@ -137,7 +137,7 @@ test("the button of the way the cover moves is lit, and stays usable", () => {
   const card = newCard(cc.CoverCard, { entity: BAY }, makeHass({ [BAY]: "closing" }));
   assert.match(html(card), /class="btn close on" data-action="close"(?![^>]*disabled)/);
   assert.match(html(card), /class="visual active moving closing"/);
-  assert.match(html(card), /<div class="bsub">Closing · /);
+  assert.match(html(card), /<span class="t">Closing<\/span>/);
 });
 
 test("unsupported features get no button, no slider and no tilt", () => {
@@ -239,7 +239,7 @@ test("several covers: group buttons, foldable rows, folded back by a click elsew
   let h = html(card);
   assert.match(h, /<div class="name">Living room<\/div>/);
   assert.match(h, /3 covers · average 53%/);
-  assert.match(h, /<div class="bsub">2 open · /);
+  assert.match(h, /<span class="t">2 open<\/span>/);
   assert.equal((h.match(/aria-expanded="false"/g) || []).length, 3);
   assert.doesNotMatch(h, /class="hero"/);
   click(card, { action: "toggle", entity: BAY });
@@ -379,7 +379,7 @@ test("the card is only redrawn when one of its covers changes", () => {
 
 test("the language option and Home Assistant's language translate the card", () => {
   assert.match(html(newCard(cc.CoverCard, { entity: BAY, language: "fr" })), /Volet roulant · Living room/);
-  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({}, "de"))), /<div class="bsub">Offen · /);
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({}, "de"))), /<span class="t">Offen<\/span>/);
   assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({}, "pt-BR"))), /Estore de rolo/);
 });
 

@@ -2308,7 +2308,7 @@ const BASE_STYLE = `
      max-content width only: in a 1fr 1fr grid or a flex row the card still shrinks with its column. */
   :host { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; --cc-natural-width: 360px; }
   :host::before { content: ""; width: var(--cc-natural-width); max-width: 100%; height: 0; }
-  ha-card { overflow: hidden; container-type: inline-size; }
+  ha-card { overflow: hidden; container: cc-card / inline-size; }
   .icon { width: 18px; height: 18px; fill: currentColor; flex: none; }
   .muted { color: var(--secondary-text-color); }
   .clickable { cursor: pointer; }
@@ -2607,7 +2607,23 @@ const BANNER_STYLE = `
   .ground { position: absolute; left: 0; right: 0; bottom: 0; height: var(--g); background: var(--pave); box-shadow: inset 0 2px 0 var(--pave-top); }
   .htext { position: relative; z-index: 1; flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 10px;
            padding: 0 8px var(--g) 14px; }
-  .htext .titles { flex: 1 1 auto; min-width: 0; }
+  .htext .titles { flex: 1 1 auto; min-width: 0; container: cc-titles / inline-size; display: flex; flex-direction: column; align-items: flex-start; }
+  .htext .titles > * { max-width: 100%; }
+  /* The state pill sits on the title line, right after the title: the title ellipsises first (never under 4
+     characters), the pill keeps its whole label. Without room for both, the pill goes on its own line under the
+     subtitle; on a very narrow card only its dot is left (the label stays in its tooltip and aria-label). */
+  .trow { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .trow .name { flex: 0 1 auto; min-width: 4ch; }
+  .trow .chip { flex: none; max-width: calc(100% - 4ch - 8px); line-height: 16px; }
+  @container cc-titles (max-width: 170px) {
+    .trow { display: contents; }
+    .trow .name { max-width: 100%; }
+    /* On its own line the pill keeps its whole label, over the pictures if need be (it has its own background). */
+    .trow .chip { order: 3; margin-top: 3px; max-width: none; }
+  }
+  @container cc-card (max-width: 200px) { .trow .chip { padding: 5px; } .trow .chip .t { display: none; } }
+  .banner .chip { background: color-mix(in srgb, var(--c) 18%, rgba(255,255,255,.78)); color: color-mix(in srgb, var(--c) 45%, #0d2a45); }
+  .banner.night .chip { background: color-mix(in srgb, var(--c) 30%, rgba(8,18,38,.55)); color: color-mix(in srgb, var(--c) 35%, #ffffff); }
   .banner .name { font-size: 16px; font-weight: 500; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bsub { font-size: 12px; line-height: 1.3; color: var(--muted-b); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   :host([hide-title]) .banner .name { display: none; }
@@ -2622,20 +2638,23 @@ const BANNER_STYLE = `
   .bscene { position: relative; flex: none; display: flex; align-items: flex-end; gap: 8px; padding: 0 14px 0 4px;
             margin-bottom: calc(var(--g) - 5.6px); }
   /* The mini card's detail button sits at the top right: the pictures keep clear of it. */
-  .zoomable .bscene { padding-right: 36px; }
+  .zoomable .bscene { padding-right: 34px; }
   .bv { width: 70px; height: 84px; flex: none; }
   .bv .scene { filter: drop-shadow(0 2px 3px rgba(0,0,0,.2)); }
   .night .bv .scene { filter: drop-shadow(0 2px 3px rgba(0,0,0,.45)) brightness(.86); }
   .bv.off .scene { filter: grayscale(1); opacity: .5; }
   .plant { width: 18px; height: 30px; flex: none; margin: 0 14px 5.6px 0; }
   .plant .leaf { fill: var(--leaf); } .plant .pot { fill: var(--pot); } .plant .rim { fill: color-mix(in srgb, var(--pot) 80%, #000); }
-  .banner .zoom { position: absolute; z-index: 2; top: 6px; right: 6px; margin: 0; color: var(--ink-b);
-                  background: color-mix(in srgb, var(--wall) 70%, transparent); }
+  .banner .zoom { position: absolute; z-index: 2; top: 5px; right: 5px; margin: 0; width: 24px; height: 24px; color: #33506b;
+                  background: rgba(255,255,255,.55); box-shadow: inset 0 0 0 1px rgba(255,255,255,.7); backdrop-filter: blur(4px); }
+  .banner .zoom:hover { background: rgba(255,255,255,.75); color: #33506b; }
+  .banner.night .zoom { color: #fff; background: rgba(255,255,255,.12); box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); }
+  .banner.night .zoom:hover { background: rgba(255,255,255,.22); color: #fff; }
   /* Narrower card: fewer covers drawn, then no plant, then no picture at all. */
   @container (max-width: 459px) { .bv:nth-of-type(n + 3) { display: none; } }
   @container (max-width: 379px) { .bv:nth-of-type(n + 2) { display: none; } }
   @container (max-width: 279px) { .plant { display: none; } }
-  @container (max-width: 199px) { .bscene { display: none; } }
+  @container (max-width: 199px) { .bscene { display: none; } .zoomable .htext { padding-right: 34px; } }
 `;
 
 class CoverBase extends HTMLElement {
@@ -3203,8 +3222,8 @@ class CoverBase extends HTMLElement {
   // pictures, positions and animations), a pavement strip edge to edge at the bottom. The round icon takes the
   // state color; night follows the sun (or the dark theme), `illustration_theme` forces day or night.
   _banner(items, agg, icon, label, clickable) {
-    // The state, then the subtitle (one text, so that it ends in an ellipsis when too long).
-    const sub = [agg.text, this._config.show_subtitle === false ? "" : this._subtitle(items)].filter(Boolean).join(" · ");
+    // The state in the pill right after the title, the subtitle under them.
+    const sub = this._config.show_subtitle === false ? "" : this._subtitle(items);
     const covers = items
       .slice(0, BANNER_MAX)
       .map((i) => {
@@ -3219,8 +3238,11 @@ class CoverBase extends HTMLElement {
         <div class="htext">
           <div class="badge ${agg.cls}${clickable}" aria-label="${label}" title="${label}">${svgIcon(icon)}</div>
           <div class="titles">
-            <div class="name">${esc(this._title(items))}</div>
-            <div class="bsub">${esc(sub)}</div>
+            <div class="trow">
+              <div class="name">${esc(this._title(items))}</div>
+              <span class="chip ${agg.cls}${clickable}" title="${label}" aria-label="${label}"><span class="dot"></span><span class="t">${label}</span></span>
+            </div>
+            ${sub ? `<div class="bsub">${esc(sub)}</div>` : ""}
           </div>
         </div>
         <div class="bscene" aria-hidden="true">${PLANT}${covers}</div>
