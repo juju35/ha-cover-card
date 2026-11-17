@@ -110,13 +110,19 @@ test("illustrated header: title on the wall, state-colored icon, the covers' own
   assert.match(moving, /class="bv active moving opening"[^>]*><svg class="scene garage"/);
   // At most three covers drawn.
   assert.equal((html(newCard(cc.CoverCard, { entities: [BAY, BLIND, GARAGE, AWNING, GATE] })).match(/class="bv /g) || []).length, 3);
-  // Night: forced, else the sun, else the dark theme.
+  // Night: forced, else the sun below the horizon or the dark theme.
   assert.match(html(newCard(cc.CoverCard, { entity: BAY, illustration_theme: "night" })), /class="banner night"/);
   assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({ "sun.sun": "below_horizon" }))), /class="banner night"/);
   const dark = makeHass();
   dark.themes = { darkMode: true };
   assert.match(html(newCard(cc.CoverCard, { entity: BAY }, dark)), /class="banner night"/);
   assert.match(html(newCard(cc.CoverCard, { entity: BAY, illustration_theme: "day" }, dark)), /class="banner"/);
+  const darkSunUp = makeHass({ "sun.sun": "above_horizon" });
+  darkSunUp.themes = { darkMode: true };
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, darkSunUp)), /class="banner night"/, "dark theme while the sun is up: night");
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, illustration_theme: "day" }, darkSunUp)), /class="banner"/);
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({ "sun.sun": "above_horizon" }))), /class="banner"/, "light theme while the sun is up: day");
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, illustration_theme: "night" }, makeHass({ "sun.sun": "above_horizon" }))), /class="banner night"/);
   // The mini card has the same banner; illustration: false keeps the classic header.
   assert.match(html(newCard(cc.CoverMiniCard, { area: "living_room" })), /<div class="banner zoomable">[\s\S]*class="zoom"/);
   assert.match(html(newCard(cc.CoverMiniCard, { area: "living_room", illustration: false })), /<div class="header">/);

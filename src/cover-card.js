@@ -2587,13 +2587,11 @@ const GROUP_ACTIONS = { open_all: "open", close_all: "close", stop_all: "stop" }
 // Covers drawn in the banner at most (fewer on a narrow card, see BANNER_STYLE).
 const BANNER_MAX = 3;
 
-// Night picture: forced by illustration_theme, else the sun below the horizon, else Home Assistant's dark mode.
+// Night picture: forced by illustration_theme, else the sun below the horizon or Home Assistant's dark theme.
 const isNight = (hass, config) => {
   if (config?.illustration_theme === "night") return true;
   if (config?.illustration_theme === "day") return false;
-  const sun = hass?.states?.["sun.sun"]?.state;
-  if (sun === "below_horizon" || sun === "above_horizon") return sun === "below_horizon";
-  return Boolean(hass?.themes?.darkMode);
+  return hass?.states?.["sun.sun"]?.state === "below_horizon" || Boolean(hass?.themes?.darkMode);
 };
 
 // A potted plant against the wall, standing on the pavement.
