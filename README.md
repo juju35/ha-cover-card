@@ -46,10 +46,10 @@ The cards read the `cover` domain only, so they work with every integration that
 - **Favorite positions**: one-tap buttons for a position, a tilt or both (`favorites`), per cover or for the whole group; the favorite reached is lit
 - Several covers: **Open all / Stop / Close all** buttons for the covers that support them, and one foldable row per cover (folded rows unfold to the full detail, a click elsewhere folds them back), or a **grid of unfolded tiles** on 2 or 3 columns (`columns`), each with its picture slider and full-size buttons
 - Confirmation before opening, closing or moving a garage door, a gate or a door, by its buttons, the group buttons, a favorite or its slider, in a popup at the top of the card; `confirm: true` asks for every cover, `confirm: false` never
-- Header with an icon of the kind of cover in a tinted badge, colored with the state (blue while moving, green open, orange for an open garage door, gate, door or window, grey closed, red unavailable), a summary ("3 covers · average 53%") and a status chip on the title line
+- **Illustrated header** (full and mini card, 90 px): the title on a facade wall at the left, the covers drawn big at the right with their own pictures (shutter, blind, shade, curtains, awning, garage door, gate, door, roof window, damper — up to three, fewer on a narrow card), at their position and animated while they move, standing on a pavement strip edge to edge. The round icon of the kind of cover takes the state color (blue while moving, green open, orange for an open garage door, gate, door or window, grey closed, red unavailable), and the line under the title gives the state and a summary ("2 open · 3 covers · average 53%"). Night picture after sunset (`sun.sun`, else the dark theme), forced with `illustration_theme`; `illustration: false` brings back the classic header with its status chip
 - Unavailable covers are greyed, their buttons and sliders disabled; a missing entity is reported in its row
 - Detail button on the mini card (top right): it switches the mini card to the full card's content and back; a click anywhere outside the card brings the compact view back
-- Click a position, a thumbnail or the status chip to open the Home Assistant more-info dialog
+- Click a position, a thumbnail, the header icon or the status chip to open the Home Assistant more-info dialog
 - Sections view: the full card takes 12 columns by default and at least 6, the mini card 6; narrow widths keep the icons of the buttons
 - Keyboard and screen readers: sliders with their orientation, range and value, buttons with names, foldable rows that tell whether they are unfolded
 - Visual editor in the dashboard UI for both cards (no YAML needed)
@@ -178,6 +178,8 @@ zoom: true
 | `entities` | both | — | Covers: entity ids, or objects with `entity` and the per-cover options below |
 | `area` | both | — | An area (its id or its name): every cover of the area is added, after `entity` and `entities` (hidden entities left out) |
 | `title` | both | Cover name, area name or "Covers" | Card title |
+| `illustration` | both | `true` | Illustrated header: the covers drawn on a facade wall, the state-colored icon, a pavement strip. `false` shows the classic header (tinted icon, title, status chip) |
+| `illustration_theme` | both | `auto` | Day or night picture of the illustrated header: `auto` follows `sun.sun` (else Home Assistant's dark theme), `day` or `night` forces it |
 | `show_title` | both | `true` | Show the title in the header |
 | `show_subtitle` | both | `true` | Show the subtitle (kind of cover and area, or the number of covers and their average position) |
 | `device_class` | both | Device class of each cover | Picture to draw for every cover: `shutter`, `blind`, `shade`, `curtain`, `awning`, `garage`, `gate`, `door`, `window` or `damper` |

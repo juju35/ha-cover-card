@@ -78,7 +78,7 @@ test("favorites: numbers or objects, invalid ones dropped", () => {
 });
 
 test("one cover: header, position, state, picture slider and buttons", () => {
-  const card = newCard(cc.CoverCard, { entity: BAY });
+  const card = newCard(cc.CoverCard, { entity: BAY, illustration: false });
   const h = html(card);
   assert.match(h, /<div class="name">Bay window<\/div>/);
   assert.match(h, /<div class="sub">Roller shutter · Living room<\/div>/);
@@ -92,6 +92,32 @@ test("one cover: header, position, state, picture slider and buttons", () => {
   for (const a of ["open", "stop", "close"]) assert.match(h, new RegExp(`data-action="${a}" data-entity="${BAY}"`));
   // No tilt for a shutter without tilt features.
   assert.doesNotMatch(h, /tilt-row/);
+});
+
+test("illustrated header: title on the wall, state-colored icon, the covers' own pictures, night by sun or theme", () => {
+  const h = html(newCard(cc.CoverCard, { entity: BAY }));
+  assert.match(h, /<div class="banner">/);
+  assert.match(h, /<div class="name">Bay window<\/div>/);
+  assert.match(h, /<div class="bsub">Open · Roller shutter · Living room<\/div>/);
+  // The icon takes the state color (open shutter: ok), unlike the classic header.
+  assert.match(h, /<div class="badge ok clickable/);
+  assert.match(h, /<div class="bv ok" data-for="cover.living_room_bay_window" style="--p:60;--t:50"><svg class="scene shutter"/);
+  assert.doesNotMatch(h, /class="header"/);
+  const moving = html(newCard(cc.CoverCard, { entity: GARAGE }, makeHass({ [GARAGE]: "opening" })));
+  assert.match(moving, /class="badge active clickable/);
+  assert.match(moving, /class="bv active moving opening"[^>]*><svg class="scene garage"/);
+  // At most three covers drawn.
+  assert.equal((html(newCard(cc.CoverCard, { entities: [BAY, BLIND, GARAGE, AWNING, GATE] })).match(/class="bv /g) || []).length, 3);
+  // Night: forced, else the sun, else the dark theme.
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, illustration_theme: "night" })), /class="banner night"/);
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({ "sun.sun": "below_horizon" }))), /class="banner night"/);
+  const dark = makeHass();
+  dark.themes = { darkMode: true };
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, dark)), /class="banner night"/);
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, illustration_theme: "day" }, dark)), /class="banner"/);
+  // The mini card has the same banner; illustration: false keeps the classic header.
+  assert.match(html(newCard(cc.CoverMiniCard, { area: "living_room" })), /<div class="banner zoomable">[\s\S]*class="zoom"/);
+  assert.match(html(newCard(cc.CoverMiniCard, { area: "living_room", illustration: false })), /<div class="header">/);
 });
 
 test("buttons call the cover services; open is disabled when fully open, close when fully closed", () => {
@@ -111,7 +137,7 @@ test("the button of the way the cover moves is lit, and stays usable", () => {
   const card = newCard(cc.CoverCard, { entity: BAY }, makeHass({ [BAY]: "closing" }));
   assert.match(html(card), /class="btn close on" data-action="close"(?![^>]*disabled)/);
   assert.match(html(card), /class="visual active moving closing"/);
-  assert.match(html(card), /<span class="t">Closing<\/span>/);
+  assert.match(html(card), /<div class="bsub">Closing · /);
 });
 
 test("unsupported features get no button, no slider and no tilt", () => {
@@ -213,7 +239,7 @@ test("several covers: group buttons, foldable rows, folded back by a click elsew
   let h = html(card);
   assert.match(h, /<div class="name">Living room<\/div>/);
   assert.match(h, /3 covers · average 53%/);
-  assert.match(h, /<span class="t">2 open<\/span>/);
+  assert.match(h, /<div class="bsub">2 open · /);
   assert.equal((h.match(/aria-expanded="false"/g) || []).length, 3);
   assert.doesNotMatch(h, /class="hero"/);
   click(card, { action: "toggle", entity: BAY });
@@ -353,7 +379,7 @@ test("the card is only redrawn when one of its covers changes", () => {
 
 test("the language option and Home Assistant's language translate the card", () => {
   assert.match(html(newCard(cc.CoverCard, { entity: BAY, language: "fr" })), /Volet roulant · Living room/);
-  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({}, "de"))), /<span class="t">Offen<\/span>/);
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({}, "de"))), /<div class="bsub">Offen · /);
   assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({}, "pt-BR"))), /Estore de rolo/);
 });
 

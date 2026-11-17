@@ -11,11 +11,11 @@ for (const [name, Card] of [
   ["full", cc.CoverCard],
   ["mini", cc.CoverMiniCard],
 ]) {
-  test(`${name} card: an unavailable cover has disabled buttons, a red chip and a greyed picture`, () => {
+  test(`${name} card: an unavailable cover has disabled buttons, a red icon and a greyed picture`, () => {
     const hass = makeHass();
     const card = newCard(Card, { entity: GUEST, favorites: [50] }, hass);
     const html = card.shadowRoot.innerHTML;
-    assert.match(html, /class="chip crit[^"]*"[^>]*><span class="dot"><\/span><span class="t">Unavailable<\/span>/);
+    assert.match(html, /class="badge crit[^"]*"[^>]*aria-label="Unavailable"[\s\S]*<div class="bsub">Unavailable/);
     assert.match(html, /class="visual crit off"/);
     const buttons = html.match(/<button [^>]*data-action="(?:open|close|stop|open_all|close_all|stop_all)[^"]*"[^>]*>/g) || [];
     assert.ok(buttons.length >= 3, "the buttons are still drawn");
@@ -46,5 +46,5 @@ test("a missing entity is shown as not found, among available ones in a group", 
 test("a group of unavailable covers says so", () => {
   const hass = makeHass({ "cover.living_room_bay_window": "unavailable" });
   const html = newCard(cc.CoverMiniCard, { entities: ["cover.living_room_bay_window", "cover.guest_room_shutter"] }, hass).shadowRoot.innerHTML;
-  assert.match(html, /class="chip crit"[^>]*><span class="dot"><\/span><span class="t">Unavailable<\/span>/);
+  assert.match(html, /class="badge crit"[^>]*aria-label="Unavailable"[\s\S]*<div class="bsub">Unavailable/);
 });

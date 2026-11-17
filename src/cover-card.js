@@ -159,6 +159,11 @@ const STRINGS = {
     h_invert: "For a cover whose integration reports the position the wrong way round (often an awning)",
     e_no_feedback: "No state feedback",
     h_no_feedback: "For a cover that never reports its state back (a radio RTS motor): draw it closed at rest",
+    e_illustration: "Animated illustration",
+    e_illustration_theme: "Illustration theme",
+    theme_auto: "Automatic (sun)",
+    theme_day: "Day",
+    theme_night: "Night",
   },
   fr: {
     covers: "Ouvrants",
@@ -240,6 +245,11 @@ const STRINGS = {
     h_invert: "Pour un ouvrant dont l'intégration remonte la position à l'envers (souvent un store banne)",
     e_no_feedback: "Aucun retour d'état",
     h_no_feedback: "Pour un ouvrant qui ne remonte jamais son état (un moteur radio RTS) : dessiné fermé au repos",
+    e_illustration: "Illustration animée",
+    e_illustration_theme: "Thème de l’illustration",
+    theme_auto: "Automatique (soleil)",
+    theme_day: "Jour",
+    theme_night: "Nuit",
   },
   de: {
     covers: "Abdeckungen",
@@ -321,6 +331,11 @@ const STRINGS = {
     h_invert: "Für eine Abdeckung, deren Integration die Position umgekehrt meldet (oft eine Markise)",
     e_no_feedback: "Keine Statusrückmeldung",
     h_no_feedback: "Für eine Abdeckung, die ihren Zustand nie zurückmeldet (ein RTS-Funkmotor): im Ruhezustand geschlossen gezeichnet",
+    e_illustration: "Animierte Illustration",
+    e_illustration_theme: "Thema der Illustration",
+    theme_auto: "Automatisch (Sonne)",
+    theme_day: "Tag",
+    theme_night: "Nacht",
   },
   es: {
     covers: "Cerramientos",
@@ -402,6 +417,11 @@ const STRINGS = {
     h_invert: "Para una cubierta cuya integración informa la posición al revés (a menudo un toldo)",
     e_no_feedback: "Sin información de estado",
     h_no_feedback: "Para una cubierta que nunca informa su estado (un motor de radio RTS): dibujada cerrada en reposo",
+    e_illustration: "Ilustración animada",
+    e_illustration_theme: "Tema de la ilustración",
+    theme_auto: "Automático (sol)",
+    theme_day: "Día",
+    theme_night: "Noche",
   },
   sr: {
     covers: "Затварачи",
@@ -483,6 +503,11 @@ const STRINGS = {
     h_invert: "За застор чија интеграција пријављује положај обрнуто (често тенда)",
     e_no_feedback: "Без повратне информације о стању",
     h_no_feedback: "За застор који никада не пријављује своје стање (радио RTS мотор): нацртан затворено у мировању",
+    e_illustration: "Анимирана илустрација",
+    e_illustration_theme: "Тема илустрације",
+    theme_auto: "Аутоматски (сунце)",
+    theme_day: "Дан",
+    theme_night: "Ноћ",
   },
   "sr-Latn": {
     covers: "Zatvarači",
@@ -564,6 +589,11 @@ const STRINGS = {
     h_invert: "Za zastor čija integracija prijavljuje položaj obrnuto (često tenda)",
     e_no_feedback: "Bez povratne informacije o stanju",
     h_no_feedback: "Za zastor koji nikada ne prijavljuje svoje stanje (radio RTS motor): nacrtan zatvoreno u mirovanju",
+    e_illustration: "Animirana ilustracija",
+    e_illustration_theme: "Tema ilustracije",
+    theme_auto: "Automatski (sunce)",
+    theme_day: "Dan",
+    theme_night: "Noć",
   },
   it: {
     covers: "Coperture",
@@ -645,6 +675,11 @@ const STRINGS = {
     h_invert: "Per una copertura la cui integrazione segnala la posizione al contrario (spesso una tenda da sole)",
     e_no_feedback: "Nessun ritorno di stato",
     h_no_feedback: "Per una copertura che non segnala mai il suo stato (un motore radio RTS): disegnata chiusa a riposo",
+    e_illustration: "Illustrazione animata",
+    e_illustration_theme: "Tema dell’illustrazione",
+    theme_auto: "Automatico (sole)",
+    theme_day: "Giorno",
+    theme_night: "Notte",
   },
   nl: {
     covers: "Afdekkingen",
@@ -726,6 +761,11 @@ const STRINGS = {
     h_invert: "Voor een afdekking waarvan de integratie de positie omgekeerd doorgeeft (vaak een zonnescherm)",
     e_no_feedback: "Geen statusterugkoppeling",
     h_no_feedback: "Voor een afdekking die haar status nooit terugmeldt (een RTS-radiomotor): in rust gesloten getekend",
+    e_illustration: "Geanimeerde illustratie",
+    e_illustration_theme: "Thema van de illustratie",
+    theme_auto: "Automatisch (zon)",
+    theme_day: "Dag",
+    theme_night: "Nacht",
   },
   pt: {
     covers: "Estores",
@@ -807,6 +847,11 @@ const STRINGS = {
     h_invert: "Para um estore cuja integração indica a posição ao contrário (muitas vezes um toldo)",
     e_no_feedback: "Sem retorno de estado",
     h_no_feedback: "Para um estore que nunca comunica o seu estado (um motor de rádio RTS): desenhado fechado em repouso",
+    e_illustration: "Ilustração animada",
+    e_illustration_theme: "Tema da ilustração",
+    theme_auto: "Automático (sol)",
+    theme_day: "Dia",
+    theme_night: "Noite",
   },
   pl: {
     covers: "Osłony",
@@ -888,6 +933,11 @@ const STRINGS = {
     h_invert: "Dla osłony, której integracja podaje pozycję odwrotnie (często markiza)",
     e_no_feedback: "Brak informacji o stanie",
     h_no_feedback: "Dla osłony, która nigdy nie zgłasza swojego stanu (radiowy silnik RTS): rysowana jako zamknięta w spoczynku",
+    e_illustration: "Animowana ilustracja",
+    e_illustration_theme: "Motyw ilustracji",
+    theme_auto: "Automatycznie (słońce)",
+    theme_day: "Dzień",
+    theme_night: "Noc",
   },
   ro: {
     covers: "Jaluzele",
@@ -969,6 +1019,11 @@ const STRINGS = {
     h_invert: "Pentru un element a cărui integrare raportează poziția invers (adesea o copertină)",
     e_no_feedback: "Fără feedback de stare",
     h_no_feedback: "Pentru un element care nu își raportează niciodată starea (un motor radio RTS): desenat închis în repaus",
+    e_illustration: "Ilustrație animată",
+    e_illustration_theme: "Tema ilustrației",
+    theme_auto: "Automat (soare)",
+    theme_day: "Zi",
+    theme_night: "Noapte",
   },
   da: {
     covers: "Afskærmninger",
@@ -1050,6 +1105,11 @@ const STRINGS = {
     h_invert: "For en afskærmning, hvis integration melder positionen omvendt (ofte en markise)",
     e_no_feedback: "Ingen tilstandsrespons",
     h_no_feedback: "For en afskærmning, der aldrig melder sin tilstand tilbage (en RTS-radiomotor): tegnet lukket i hvile",
+    e_illustration: "Animeret illustration",
+    e_illustration_theme: "Illustrationens tema",
+    theme_auto: "Automatisk (sol)",
+    theme_day: "Dag",
+    theme_night: "Nat",
   },
   sv: {
     covers: "Skydd",
@@ -1131,6 +1191,11 @@ const STRINGS = {
     h_invert: "För en täckning vars integration rapporterar positionen omvänt (ofta en markis)",
     e_no_feedback: "Ingen statusåterkoppling",
     h_no_feedback: "För en täckning som aldrig rapporterar sitt tillstånd (en RTS-radiomotor): ritas stängd i viloläge",
+    e_illustration: "Animerad illustration",
+    e_illustration_theme: "Illustrationens tema",
+    theme_auto: "Automatiskt (sol)",
+    theme_day: "Dag",
+    theme_night: "Natt",
   },
   bg: {
     covers: "Щори",
@@ -1212,6 +1277,11 @@ const STRINGS = {
     h_invert: "За покритие, чиято интеграция докладва позицията обратно (често сенник)",
     e_no_feedback: "Без обратна връзка за състоянието",
     h_no_feedback: "За покритие, което никога не докладва състоянието си (радио RTS мотор): нарисувано затворено в покой",
+    e_illustration: "Анимирана илюстрация",
+    e_illustration_theme: "Тема на илюстрацията",
+    theme_auto: "Автоматично (слънце)",
+    theme_day: "Ден",
+    theme_night: "Нощ",
   },
   ru: {
     covers: "Шторы",
@@ -1293,6 +1363,11 @@ const STRINGS = {
     h_invert: "Для шторы, чья интеграция сообщает положение наоборот (часто маркиза)",
     e_no_feedback: "Нет обратной связи о состоянии",
     h_no_feedback: "Для шторы, которая никогда не сообщает своё состояние (радиомотор RTS): отрисовывается закрытой в покое",
+    e_illustration: "Анимированная иллюстрация",
+    e_illustration_theme: "Тема иллюстрации",
+    theme_auto: "Автоматически (солнце)",
+    theme_day: "День",
+    theme_night: "Ночь",
   },
   uk: {
     covers: "Штори",
@@ -1374,6 +1449,11 @@ const STRINGS = {
     h_invert: "Для штори, чия інтеграція повідомляє положення навпаки (часто маркіза)",
     e_no_feedback: "Немає зворотного зв'язку про стан",
     h_no_feedback: "Для штори, яка ніколи не повідомляє свій стан (радіомотор RTS): малюється закритою у спокої",
+    e_illustration: "Анімована ілюстрація",
+    e_illustration_theme: "Тема ілюстрації",
+    theme_auto: "Автоматично (сонце)",
+    theme_day: "День",
+    theme_night: "Ніч",
   },
   hu: {
     covers: "Árnyékolók",
@@ -1455,6 +1535,11 @@ const STRINGS = {
     h_invert: "Olyan árnyékolóhoz, amelynek integrációja fordítva jelzi a pozíciót (gyakran napellenző)",
     e_no_feedback: "Nincs állapot-visszajelzés",
     h_no_feedback: "Olyan árnyékolóhoz, amely soha nem jelzi vissza az állapotát (RTS rádiómotor): nyugalmi helyzetben zárva rajzolva",
+    e_illustration: "Animált illusztráció",
+    e_illustration_theme: "Az illusztráció témája",
+    theme_auto: "Automatikus (nap)",
+    theme_day: "Nappal",
+    theme_night: "Éjszaka",
   },
   sk: {
     covers: "Clony",
@@ -1536,6 +1621,11 @@ const STRINGS = {
     h_invert: "Pre kryt, ktorého integrácia hlási polohu opačne (často markíza)",
     e_no_feedback: "Žiadna spätná väzba o stave",
     h_no_feedback: "Pre kryt, ktorý nikdy nehlási svoj stav (rádiový motor RTS): v pokoji vykreslený zatvorený",
+    e_illustration: "Animovaná ilustrácia",
+    e_illustration_theme: "Téma ilustrácie",
+    theme_auto: "Automaticky (slnko)",
+    theme_day: "Deň",
+    theme_night: "Noc",
   },
   cs: {
     covers: "Clony",
@@ -1617,6 +1707,11 @@ const STRINGS = {
     h_invert: "Pro kryt, jehož integrace hlásí polohu obráceně (často markýza)",
     e_no_feedback: "Bez zpětné vazby o stavu",
     h_no_feedback: "Pro kryt, který nikdy nehlásí svůj stav (rádiový motor RTS): v klidu vykreslen zavřený",
+    e_illustration: "Animovaná ilustrace",
+    e_illustration_theme: "Motiv ilustrace",
+    theme_auto: "Automaticky (slunce)",
+    theme_day: "Den",
+    theme_night: "Noc",
   },
   sl: {
     covers: "Senčila",
@@ -1698,6 +1793,11 @@ const STRINGS = {
     h_invert: "Za senčilo, katerega integracija sporoča položaj obratno (pogosto tenda)",
     e_no_feedback: "Brez povratne informacije o stanju",
     h_no_feedback: "Za senčilo, ki nikoli ne sporoči svojega stanja (radijski motor RTS): v mirovanju narisano zaprto",
+    e_illustration: "Animirana ilustracija",
+    e_illustration_theme: "Tema ilustracije",
+    theme_auto: "Samodejno (sonce)",
+    theme_day: "Dan",
+    theme_night: "Noč",
   },
   lv: {
     covers: "Aizsegi",
@@ -1779,6 +1879,11 @@ const STRINGS = {
     h_invert: "Pārsegam, kura integrācija ziņo pozīciju otrādi (bieži markīze)",
     e_no_feedback: "Nav stāvokļa atgriezeniskās saites",
     h_no_feedback: "Pārsegam, kas nekad nepaziņo savu stāvokli (RTS radio motors): miera stāvoklī zīmēts aizvērts",
+    e_illustration: "Animēta ilustrācija",
+    e_illustration_theme: "Ilustrācijas motīvs",
+    theme_auto: "Automātiski (saule)",
+    theme_day: "Diena",
+    theme_night: "Nakts",
   },
   el: {
     covers: "Σκιάστρα",
@@ -1860,6 +1965,11 @@ const STRINGS = {
     h_invert: "Για κάλυμμα του οποίου η ενσωμάτωση αναφέρει τη θέση ανάποδα (συχνά τέντα)",
     e_no_feedback: "Χωρίς ανατροφοδότηση κατάστασης",
     h_no_feedback: "Για ένα κάλυμμα που δεν αναφέρει ποτέ την κατάστασή του (ραδιοκινητήρας RTS): σχεδιάζεται κλειστό σε ηρεμία",
+    e_illustration: "Κινούμενη εικονογράφηση",
+    e_illustration_theme: "Θέμα εικονογράφησης",
+    theme_auto: "Αυτόματα (ήλιος)",
+    theme_day: "Ημέρα",
+    theme_night: "Νύχτα",
   },
 };
 
@@ -2463,6 +2573,71 @@ const GROUP_ACTIONS = { open_all: "open", close_all: "close", stop_all: "stop" }
 // Cards
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Illustrated header ("banner"): 90 px, a facade wall, the covers' own pictures, a pavement strip
+// ---------------------------------------------------------------------------
+
+// Covers drawn in the banner at most (fewer on a narrow card, see BANNER_STYLE).
+const BANNER_MAX = 3;
+
+// Night picture: forced by illustration_theme, else the sun below the horizon, else Home Assistant's dark mode.
+const isNight = (hass, config) => {
+  if (config?.illustration_theme === "night") return true;
+  if (config?.illustration_theme === "day") return false;
+  const sun = hass?.states?.["sun.sun"]?.state;
+  if (sun === "below_horizon" || sun === "above_horizon") return sun === "below_horizon";
+  return Boolean(hass?.themes?.darkMode);
+};
+
+// A potted plant against the wall, standing on the pavement.
+const PLANT = `<svg class="plant" viewBox="0 0 18 30" aria-hidden="true"><path class="leaf" d="M9 20C3 18 1 11 3 6c3 3 5 7 6 12 1-6 3-11 7-14 1 6-1 13-7 16Z"/><rect class="pot" x="2" y="19" width="14" height="11" rx="1"/><rect class="rim" x="1" y="18" width="16" height="3" rx="1"/></svg>`;
+
+// The banner: wall colour and siding at the left fading in under the pictures, text colours, state-colored icon,
+// the covers on the right at 84 px high (100 × 120 pictures), lowered so that floor-standing ones (garage door,
+// gate, door, whose ground line is y 112) stand on the 10 px pavement strip.
+const BANNER_STYLE = `
+  .banner { --bh: 90px; --g: 10px; --wall: #e9dccb; --siding: #dccab2; --ink-b: #3a2f24; --muted-b: #6e5c49;
+            --pave: #9aa1a9; --pave-top: #b5bbc2; --leaf: #5aa83d; --pot: #c0603a;
+            position: relative; height: var(--bh); overflow: hidden; display: flex; align-items: stretch; background: var(--wall); color: var(--ink-b); }
+  .banner.night { --wall: #33303a; --siding: #3c3844; --ink-b: #fff; --muted-b: rgba(255,255,255,.76);
+                  --pave: #2c323b; --pave-top: #3a414b; --leaf: #3e6a4a; --pot: #8f4a30; }
+  .wall { position: absolute; inset: 0 0 var(--g) 0; pointer-events: none;
+          background: repeating-linear-gradient(180deg, transparent 0 7px, var(--siding) 7px 8px);
+          -webkit-mask-image: linear-gradient(90deg, transparent 40%, #000 62%); mask-image: linear-gradient(90deg, transparent 40%, #000 62%); }
+  .ground { position: absolute; left: 0; right: 0; bottom: 0; height: var(--g); background: var(--pave); box-shadow: inset 0 2px 0 var(--pave-top); }
+  .htext { position: relative; z-index: 1; flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 10px;
+           padding: 0 8px var(--g) 14px; }
+  .htext .titles { flex: 1 1 auto; min-width: 0; }
+  .banner .name { font-size: 16px; font-weight: 500; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bsub { font-size: 12px; line-height: 1.3; color: var(--muted-b); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  :host([hide-title]) .banner .name { display: none; }
+  /* The round icon on the wall: its color is the state's (moving blue, open green, open garage door amber,
+     closed grey, unavailable red), day and night. */
+  .banner .badge { position: relative; color: color-mix(in srgb, var(--c) 82%, #000); background: rgba(255,255,255,.62);
+                   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 30%, transparent); }
+  .banner .badge.idle { color: #7d838a; }
+  .banner.night .badge { color: color-mix(in srgb, var(--c) 78%, #fff); background: rgba(255,255,255,.12);
+                         box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); }
+  .banner.night .badge.idle { color: #b3b8be; }
+  .bscene { position: relative; flex: none; display: flex; align-items: flex-end; gap: 8px; padding: 0 14px 0 4px;
+            margin-bottom: calc(var(--g) - 5.6px); }
+  /* The mini card's detail button sits at the top right: the pictures keep clear of it. */
+  .zoomable .bscene { padding-right: 36px; }
+  .bv { width: 70px; height: 84px; flex: none; }
+  .bv .scene { filter: drop-shadow(0 2px 3px rgba(0,0,0,.2)); }
+  .night .bv .scene { filter: drop-shadow(0 2px 3px rgba(0,0,0,.45)) brightness(.86); }
+  .bv.off .scene { filter: grayscale(1); opacity: .5; }
+  .plant { width: 18px; height: 30px; flex: none; margin: 0 14px 5.6px 0; }
+  .plant .leaf { fill: var(--leaf); } .plant .pot { fill: var(--pot); } .plant .rim { fill: color-mix(in srgb, var(--pot) 80%, #000); }
+  .banner .zoom { position: absolute; z-index: 2; top: 6px; right: 6px; margin: 0; color: var(--ink-b);
+                  background: color-mix(in srgb, var(--wall) 70%, transparent); }
+  /* Narrower card: fewer covers drawn, then no plant, then no picture at all. */
+  @container (max-width: 459px) { .bv:nth-of-type(n + 3) { display: none; } }
+  @container (max-width: 379px) { .bv:nth-of-type(n + 2) { display: none; } }
+  @container (max-width: 279px) { .plant { display: none; } }
+  @container (max-width: 199px) { .bscene { display: none; } }
+`;
+
 class CoverBase extends HTMLElement {
   constructor() {
     super();
@@ -2529,7 +2704,7 @@ class CoverBase extends HTMLElement {
     const { items } = itemsOf(h, this._config);
     // With an area, the registries tell which covers belong to it.
     const reg = this._config.area ? [h.entities, h.devices] : [];
-    return [h.language, h.locale, h.areas, h.themes?.darkMode, ...reg, ...items.map((i) => h.states[i.entity])];
+    return [h.language, h.locale, h.areas, h.themes?.darkMode, h.states?.["sun.sun"]?.state, ...reg, ...items.map((i) => h.states[i.entity])];
   }
 
   // A click elsewhere on the page folds the covers back to their defaults and closes the popup.
@@ -3011,6 +3186,7 @@ class CoverBase extends HTMLElement {
     const icon = ICONS[cls][agg.open ? 1 : 0];
     const label = esc(agg.text);
     const clickable = target ? ` clickable" role="button" tabindex="0" data-entity="${esc(target)}` : "";
+    if (this._config.illustration !== false) return this._banner(items, agg, icon, label, clickable);
     return `
       <div class="header">
         <div class="badge${clickable}" aria-label="${label}">${svgIcon(icon)}</div>
@@ -3023,8 +3199,43 @@ class CoverBase extends HTMLElement {
       </div>`;
   }
 
+  // The illustrated header: the title on a facade wall at the left, the covers drawn big at the right (their own
+  // pictures, positions and animations), a pavement strip edge to edge at the bottom. The round icon takes the
+  // state color; night follows the sun (or the dark theme), `illustration_theme` forces day or night.
+  _banner(items, agg, icon, label, clickable) {
+    // The state, then the subtitle (one text, so that it ends in an ellipsis when too long).
+    const sub = [agg.text, this._config.show_subtitle === false ? "" : this._subtitle(items)].filter(Boolean).join(" · ");
+    const covers = items
+      .slice(0, BANNER_MAX)
+      .map((i) => {
+        const { cls, style } = this._pictureOf(i, "bv");
+        return `<div class="${cls}" data-for="${esc(i.id)}" style="${style}">${coverSvg(i.cls)}</div>`;
+      })
+      .join("");
+    const zoom = this._zoomButton();
+    return `
+      <div class="banner${isNight(this._hass, this._config) ? " night" : ""}${zoom ? " zoomable" : ""}">
+        <div class="wall" aria-hidden="true"></div>
+        <div class="htext">
+          <div class="badge ${agg.cls}${clickable}" aria-label="${label}" title="${label}">${svgIcon(icon)}</div>
+          <div class="titles">
+            <div class="name">${esc(this._title(items))}</div>
+            <div class="bsub">${esc(sub)}</div>
+          </div>
+        </div>
+        <div class="bscene" aria-hidden="true">${PLANT}${covers}</div>
+        <div class="ground" aria-hidden="true"></div>
+        ${zoom}
+      </div>`;
+  }
+
   _zoomButton() {
     return "";
+  }
+
+  // The banner's styles, only when it is shown.
+  _bannerStyle() {
+    return this._config.illustration === false ? "" : BANNER_STYLE;
   }
 
   _errorCard(key, vars) {
@@ -3039,16 +3250,20 @@ class CoverBase extends HTMLElement {
   }
 
   // The picture of a cover, its position slider when the cover can be set to a position.
-  _visual(item, { slider = true } = {}) {
+  // How a picture is drawn: its classes (state, moving, offline) and its --p / --t.
+  _pictureOf(item, base) {
     const s = item.s;
     const off = isOffline(s);
-    const moving = isMoving(s);
-    const pos = this._posOf(item);
-    const p = pos ?? (s?.state === "opening" || s?.state === "closing" ? 50 : 100);
+    const p = this._posOf(item) ?? (isMoving(s) ? 50 : 100);
     const tilt = tiltOf(s) ?? (p > 0 ? 50 : 0);
-    const cls = ["visual", stateClass(s, item.cls), moving ? `moving ${s.state}` : "", off ? "off" : ""].filter(Boolean).join(" ");
+    const cls = [base, stateClass(s, item.cls), isMoving(s) ? `moving ${s.state}` : "", off ? "off" : ""].filter(Boolean).join(" ");
+    return { p, off, cls, style: `--p:${p};--t:${tilt}` };
+  }
+
+  _visual(item, { slider = true } = {}) {
+    const s = item.s;
+    const { p, off, cls, style } = this._pictureOf(item, "visual");
     const id = esc(item.id);
-    const style = `--p:${p};--t:${tilt}`;
     const canSlide = slider && s && has(s, F.SET_POSITION);
     if (!canSlide) {
       return `<div class="${cls}" data-for="${id}" style="${style}">${coverSvg(item.cls)}</div>`;
@@ -3178,7 +3393,7 @@ class CoverCard extends CoverBase {
           : `<div class="items">${items.map((i) => this._row(i)).join("")}</div>`,
       );
     }
-    return `<style>${BASE_STYLE}${SCENE_STYLE}${FULL_STYLE}</style>
+    return `<style>${BASE_STYLE}${SCENE_STYLE}${this._bannerStyle()}${FULL_STYLE}</style>
       <ha-card>
         ${this._header(items)}
         <div class="content">${parts.filter(Boolean).join("")}</div>
@@ -3356,7 +3571,7 @@ class CoverMiniCard extends CoverCard {
       })
       .join("");
     const group = c.show_controls !== false ? `<div class="group">${this._groupButtons(items)}</div>` : "";
-    return `<style>${BASE_STYLE}${SCENE_STYLE}${MINI_STYLE}</style>
+    return `<style>${BASE_STYLE}${SCENE_STYLE}${this._bannerStyle()}${MINI_STYLE}</style>
       <ha-card>
         ${this._header(items)}
         <div class="content">
@@ -3419,6 +3634,7 @@ const toForm = (config, toggles) => {
   data.device_class ??= "auto";
   data.invert ??= false;
   data.no_feedback ??= false;
+  data.illustration_theme ??= "auto";
   data.confirm = CONFIRM_MODES.find(([, v]) => v === config.confirm)?.[0] ?? "auto";
   data.columns = String(columnsOf(config));
   for (const [name, def] of toggles) if (data[name] === undefined) data[name] = def;
@@ -3447,6 +3663,7 @@ const fromForm = (value, previous, toggles) => {
   if (config.device_class === "auto") delete config.device_class;
   if (config.invert === false) delete config.invert;
   if (config.no_feedback === false) delete config.no_feedback;
+  if (config.illustration_theme === "auto") delete config.illustration_theme;
   const mode = CONFIRM_MODES.find(([k]) => k === config.confirm);
   if (mode && mode[1] !== undefined) config.confirm = mode[1];
   else delete config.confirm;
@@ -3493,6 +3710,10 @@ class CoverEditorBase extends HTMLElement {
       },
       { name: "columns", selector: { select: { mode: "dropdown", options: COLUMN_CHOICES.map((v) => ({ value: v, label: v })) } } },
       { type: "grid", name: "", schema: this.constructor.toggles.map(([name]) => ({ name, selector: { boolean: {} } })) },
+      {
+        name: "illustration_theme",
+        selector: { select: { mode: "dropdown", options: ["auto", "day", "night"].map((v) => ({ value: v, label: tr(`theme_${v}`) })) } },
+      },
       { name: "confirm", selector: { select: { mode: "dropdown", options: CONFIRM_MODES.map(([value]) => ({ value, label: tr(`confirm_${value}`) })) } } },
       {
         name: "language",
@@ -3531,6 +3752,7 @@ class CoverEditorBase extends HTMLElement {
 
 // The toggles of the full card; the mini card's detailed view is the full card, so its editor has them all too.
 const CARD_TOGGLES = [
+  ["illustration", true],
   ["show_title", true],
   ["show_subtitle", true],
   ["show_controls", true],

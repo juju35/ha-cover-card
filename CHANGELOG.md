@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.0 - 2026-11-17
+
+### Features
+- **Illustrated header** on the full and mini cards (90 px): the title on a facade wall, the covers drawn big at the right with their own pictures (per device class), at their position and animated while they move, standing on a 10 px pavement strip edge to edge. The round icon takes the state colour (moving, open, open garage door/gate/door/window, closed, unavailable) and the line under the title gives the state and summary. Night picture after sunset (`sun.sun`, else the dark theme), forced with `illustration_theme: day | night`; `illustration: false` keeps the classic header. Both options are in the visual editors.
+
 ## 1.5.1 - 2026-11-16
 
 ### Fixes
