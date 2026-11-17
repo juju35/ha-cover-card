@@ -2351,18 +2351,16 @@ const BASE_STYLE = `
   .titles { flex: 1 1 0; min-width: 5ch; container: cc-titles / inline-size; display: flex; flex-direction: column; align-items: flex-start; }
   .titles > * { max-width: 100%; }
   :host([hide-title]) .titles .name, :host([hide-subtitle]) .titles > .sub { display: none; }
-  /* Banner and classic header: the state pill sits on the title line, right after the title: the title ellipsises first (never under 4
-     characters), the pill keeps its whole label. Without room for both, the pill goes on its own line under the
-     subtitle; on a very narrow card only its dot is left (the label stays in its tooltip and aria-label). */
+  /* Banner and classic header: the state pill sits on the title line, right after the title, when the whole title and
+     its whole label fit there; otherwise it goes on its own line under the subtitle, and when even that is too tight
+     only its dot is left (the label stays in its tooltip and aria-label). Decided by measure (see _fitPill). */
   .trow { display: flex; align-items: center; gap: 8px; min-width: 0; }
-  .trow .name { flex: 0 1 auto; min-width: 4ch; }
-  .trow .chip { flex: none; max-width: calc(100% - 4ch - 8px); line-height: 16px; }
-  @container cc-titles (max-width: 170px) {
-    .trow { display: contents; }
-    .trow .name { max-width: 100%; }
-    /* On its own line the pill keeps its whole label, over the pictures if need be (it has its own background). */
-    .trow .chip { order: 3; margin-top: 3px; max-width: none; }
-  }
+  .trow .name { flex: 0 1 auto; min-width: 0; }
+  .trow .chip { flex: none; max-width: none; line-height: 16px; }
+  .titles.pill-below .trow { display: contents; }
+  .titles.pill-below .trow .name { max-width: 100%; }
+  .titles.pill-below .trow .chip { order: 3; margin-top: 3px; }
+  .titles.pill-dot .trow .chip { padding: 5px; } .titles.pill-dot .trow .chip .t { display: none; }
   @container cc-card (max-width: 200px) { .trow .chip { padding: 5px; } .trow .chip .t { display: none; } }
   .name { font-size: 16px; font-weight: 500; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sub { font-size: 12px; line-height: 1.2; color: var(--secondary-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -2430,6 +2428,7 @@ const FULL_STYLE = `
   /* What the header pill already says is not repeated under it, unless the pill keeps only its dot. */
   .pill-echo { display: none; }
   @container cc-card (max-width: 200px) { .line.pill-echo { display: flex; } .pos.pill-echo { display: block; } }
+  ha-card.pill-dot .line.pill-echo { display: flex; } ha-card.pill-dot .pos.pill-echo { display: block; }
   .controls { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
   .controls .btn { flex: 1 1 auto; }
   .tilt-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 8px; font-size: 12px; color: var(--secondary-text-color); }
@@ -2613,6 +2612,14 @@ const GROUP_ACTIONS = { open_all: "open", close_all: "close", stop_all: "stop" }
 const BANNER_MAX = 3;
 
 // Night picture: forced by illustration_theme, else the sun below the horizon or Home Assistant's dark theme.
+// The width of an element's whole text in fractional pixels, even while it is cut with an ellipsis (0 when hidden).
+const textWidth = (el) => {
+  if (!el?.getClientRects?.().length || typeof document.createRange !== "function") return 0;
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  return range.getBoundingClientRect().width;
+};
+
 const isNight = (hass, config) => {
   if (config?.illustration_theme === "night") return true;
   if (config?.illustration_theme === "day") return false;
@@ -2755,6 +2762,18 @@ class CoverBase extends HTMLElement {
       },
     );
     this._outside.on();
+    // A new width (or the web font loaded): the status pill is fitted again, in the next frame.
+    if (typeof ResizeObserver === "function") {
+      this._pillResize ??= new ResizeObserver((entries) => {
+        const w = Math.round(entries.at(-1).contentRect.width);
+        if (w === this._pillWidth) return;
+        this._pillWidth = w;
+        cancelAnimationFrame(this._pillFrame);
+        this._pillFrame = requestAnimationFrame(() => this._fitPill());
+      });
+      this._pillResize.observe(this);
+    }
+    document.fonts?.ready?.then(() => this._fitPill());
     // Back on the page after leaving it: rendered again in its default state.
     if (this._hass && this._config) this._update();
     if (this._confirm) window.addEventListener("keydown", this._onKey);
@@ -2762,6 +2781,8 @@ class CoverBase extends HTMLElement {
 
   disconnectedCallback() {
     this._outside?.off();
+    this._pillResize?.disconnect();
+    this._pillWidth = null;
     window.removeEventListener("keydown", this._onKey);
     // Left (another dashboard view, a conditional card hidden): back to the defaults, so that the card does not come
     // back unfolded or with its popup open.
@@ -2828,6 +2849,39 @@ class CoverBase extends HTMLElement {
     });
   }
 
+  // The status pill goes on the title row, right after the title, only when the whole title and the pill's whole
+  // label fit there; otherwise it takes its own line under the subtitle (.pill-below) and the title keeps its row
+  // (cut only when it does not fit alone). The subtitle then keeps one line (its whole text in its tooltip), and when
+  // the block still runs out of the banner or into its ground strip, or the label does not fit its own line, the pill
+  // keeps its dot alone (.pill-dot, the label in its tooltip and aria-label). Measured after each render and on each
+  // new width, never by a fixed width, so that every language fits.
+  _fitPill() {
+    for (const t of this.shadowRoot?.querySelectorAll?.(".titles") || []) {
+      const chips = [...t.querySelectorAll(".chip")];
+      if (!chips[0]?.getBoundingClientRect) continue;
+      t.classList.remove("pill-below", "pill-dot");
+      const sub = t.querySelector(".sub, .bsub");
+      sub?.removeAttribute("title");
+      if (!chips[0].querySelector(".t")?.getClientRects().length) continue;
+      const avail = t.getBoundingClientRect().width;
+      const gap = parseFloat(getComputedStyle(chips[0].parentElement).columnGap) || 0;
+      const widths = chips.map((c) => c.getBoundingClientRect().width);
+      if (textWidth(t.querySelector(".name")) + widths.reduce((w, c) => w + gap + c, 0) <= avail + 0.01) continue;
+      t.classList.add("pill-below");
+      if (sub && sub.scrollWidth > sub.clientWidth) sub.title = sub.textContent.trim();
+      const banner = t.closest(".banner");
+      const box = banner?.getBoundingClientRect();
+      const floor = banner?.querySelector(".ground")?.getBoundingClientRect().top ?? box?.bottom;
+      const r = t.getBoundingClientRect();
+      const out = box && (r.top < box.top - 0.5 || r.bottom > floor + 0.5);
+      // On its own line the pill may run over the picture, up to the banner's right edge (it has its own background).
+      const room = box ? box.right - 8 - t.getBoundingClientRect().left : avail;
+      if (out || widths.some((w) => w > room + 0.01)) t.classList.add("pill-dot");
+    }
+    // A pill reduced to its dot: the body says the state again (see .pill-echo).
+    this.shadowRoot?.querySelector?.("ha-card")?.classList.toggle("pill-dot", !!this.shadowRoot.querySelector(".titles.pill-dot"));
+  }
+
   _update() {
     if (!this._hass || !this._config) return;
     // Never while a slider is held or being moved from the keyboard: a redraw would drop the pointer capture.
@@ -2853,6 +2907,7 @@ class CoverBase extends HTMLElement {
     const kept = this._confirm || this._byPointer ? null : this._focusedSpot();
     this._html = html;
     this.shadowRoot.innerHTML = html;
+    this._fitPill();
     if (kept) this._restoreFocus(kept);
     if (this._confirm) {
       const sel = focused === "confirm_cancel" ? '[data-action="confirm_cancel"]' : ".modal .primary";
