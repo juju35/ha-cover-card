@@ -88,4 +88,57 @@ for (const [type, config, natural] of [
   });
 }
 
+// The state pill, on the banner and on the classic header (`illustration: false`), full and mini card: right after the
+// title on its line (8 px gap), or on its own line under it when the row runs short; its whole label from 245 to
+// 500 px, never more than about half of the title block; only its dot at 200 px or less.
+test("the state pill sits right after the title, with its whole label", { skip: !browser && "no Chromium" }, async () => {
+  const page = await browser.newPage({ viewport: { width: 1000, height: 800 } });
+  try {
+    await page.setContent('<!doctype html><body style="margin:0;font-family:Arial,sans-serif"></body>');
+    await page.addScriptTag({ content: HA_CARD });
+    await page.addScriptTag({ content: source });
+    const bad = await page.evaluate(
+      async ({ states, entities, devices, areas }) => {
+        const hass = { states, entities, devices, areas, language: "en", locale: { language: "en" }, themes: {}, callService() {} };
+        const out = [];
+        for (const [type, config] of [["cover-card", { entity: "cover.office_blind" }], ["cover-mini-card", { area: "living_room" }]])
+          for (const illustration of [true, false])
+            for (const width of [180, 245, 300, 400, 500]) {
+              document.body.innerHTML = "";
+              const outer = document.body.appendChild(document.createElement("div"));
+              outer.style.width = `${width}px`;
+              const card = outer.appendChild(document.createElement(type));
+              card.setConfig({ type: `custom:${type}`, ...config, illustration });
+              card.hass = hass;
+              await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+              const sr = card.shadowRoot;
+              const where = `${type} ${illustration ? "banner" : "classic"} ${width}px`;
+              const pill = sr.querySelector(".titles .chip");
+              const name = sr.querySelector(".titles .name");
+              if (!pill || !name) {
+                out.push(`${where}: no pill in the titles`);
+                continue;
+              }
+              const p = pill.getBoundingClientRect();
+              const n = name.getBoundingClientRect();
+              const t = pill.querySelector(".t");
+              const sameLine = Math.abs(p.top + p.height / 2 - (n.top + n.height / 2)) < 3;
+              if (sameLine && Math.abs(p.left - n.right - 8) > 1) out.push(`${where}: pill ${Math.round(p.left - n.right)} px after the title`);
+              if (!sameLine && p.top < n.bottom - 0.5) out.push(`${where}: pill neither after the title nor under it`);
+              if (width <= 200 && t.getBoundingClientRect().width > 0) out.push(`${where}: label shown`);
+              if (width >= 245 && (!t.getBoundingClientRect().width || t.scrollWidth > t.clientWidth + 0.5)) out.push(`${where}: label cut`);
+              const block = sr.querySelector(".titles").getBoundingClientRect().width;
+              if (sameLine && p.width > block * 0.51 + 1) out.push(`${where}: pill wider than half the title block`);
+              if (n.width < 20) out.push(`${where}: title crushed (${Math.round(n.width)} px)`);
+            }
+        return out;
+      },
+      { states, entities, devices, areas },
+    );
+    assert.deepEqual(bad, []);
+  } finally {
+    await page.close();
+  }
+});
+
 test.after(() => browser?.close());

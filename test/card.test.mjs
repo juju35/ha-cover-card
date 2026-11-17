@@ -78,11 +78,13 @@ test("favorites: numbers or objects, invalid ones dropped", () => {
 });
 
 test("one cover: header, position, state, picture slider and buttons", () => {
-  const card = newCard(cc.CoverCard, { entity: BAY });
+  const card = newCard(cc.CoverCard, { entity: BAY, illustration: false });
   const h = html(card);
   assert.match(h, /<div class="name">Bay window<\/div>/);
   assert.match(h, /<div class="sub">Roller shutter · Living room<\/div>/);
   assert.match(h, /class="chip ok[^"]*"[^>]*><span class="dot"><\/span><span class="t">Open<\/span>/);
+  // The classic header has the state pill right after the title, like the banner.
+  assert.match(h, /<div class="trow">\s*<div class="name">Bay window<\/div>\s*<span class="chip ok[^>]*>[\s\S]*?<\/span><\/span>\s*<\/div>\s*<div class="sub">/);
   // The header badge carries the project accent, not the state; only the status chip above keeps the state class.
   assert.match(h, /<div class="badge clickable/);
   assert.doesNotMatch(h, /class="badge (ok|idle|active|warn|crit)/);
@@ -92,6 +94,38 @@ test("one cover: header, position, state, picture slider and buttons", () => {
   for (const a of ["open", "stop", "close"]) assert.match(h, new RegExp(`data-action="${a}" data-entity="${BAY}"`));
   // No tilt for a shutter without tilt features.
   assert.doesNotMatch(h, /tilt-row/);
+});
+
+test("illustrated header: title on the wall, state-colored icon, the covers' own pictures, night by sun or theme", () => {
+  const h = html(newCard(cc.CoverCard, { entity: BAY }));
+  assert.match(h, /<div class="banner">/);
+  assert.match(h, /<div class="name">Bay window<\/div>/);
+  assert.match(h, /<div class="trow">\s*<div class="name">[^<]+<\/div>\s*<span class="chip ok[^>]*><span class="dot"><\/span><span class="t">Open<\/span><\/span>\s*<\/div>\s*<div class="bsub">Roller shutter · Living room<\/div>/);
+  // The icon takes the state color (open shutter: ok), unlike the classic header.
+  assert.match(h, /<div class="badge ok clickable/);
+  assert.match(h, /<div class="bv ok" data-for="cover.living_room_bay_window" style="--p:60;--t:50"><svg class="scene shutter"/);
+  assert.doesNotMatch(h, /class="header"/);
+  const moving = html(newCard(cc.CoverCard, { entity: GARAGE }, makeHass({ [GARAGE]: "opening" })));
+  assert.match(moving, /class="badge active clickable/);
+  assert.match(moving, /class="bv active moving opening"[^>]*><svg class="scene garage"/);
+  // At most three covers drawn.
+  assert.equal((html(newCard(cc.CoverCard, { entities: [BAY, BLIND, GARAGE, AWNING, GATE] })).match(/class="bv /g) || []).length, 3);
+  // Night: forced, else the sun below the horizon or the dark theme.
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, illustration_theme: "night" })), /class="banner night"/);
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({ "sun.sun": "below_horizon" }))), /class="banner night"/);
+  const dark = makeHass();
+  dark.themes = { darkMode: true };
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, dark)), /class="banner night"/);
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, illustration_theme: "day" }, dark)), /class="banner"/);
+  const darkSunUp = makeHass({ "sun.sun": "above_horizon" });
+  darkSunUp.themes = { darkMode: true };
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, darkSunUp)), /class="banner night"/, "dark theme while the sun is up: night");
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, illustration_theme: "day" }, darkSunUp)), /class="banner"/);
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({ "sun.sun": "above_horizon" }))), /class="banner"/, "light theme while the sun is up: day");
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, illustration_theme: "night" }, makeHass({ "sun.sun": "above_horizon" }))), /class="banner night"/);
+  // The mini card has the same banner; illustration: false keeps the classic header.
+  assert.match(html(newCard(cc.CoverMiniCard, { area: "living_room" })), /<div class="banner zoomable">[\s\S]*class="zoom"/);
+  assert.match(html(newCard(cc.CoverMiniCard, { area: "living_room", illustration: false })), /<div class="header">/);
 });
 
 test("buttons call the cover services; open is disabled when fully open, close when fully closed", () => {
@@ -119,8 +153,26 @@ test("unsupported features get no button, no slider and no tilt", () => {
   const h = html(card);
   assert.doesNotMatch(h, /data-action="stop"/);
   assert.doesNotMatch(h, /role="slider"/);
-  // Without a position, the state is written in big.
-  assert.match(h, /class="pos word idle clickable"[^>]*>Closed</);
+  // Without a position, the state is the header pill's: written big only when the pill keeps just its dot.
+  assert.match(h, /class="pos word idle pill-echo clickable"[^>]*>Closed</);
+});
+
+test("one cover: the body does not repeat the pill; a cover partly open says so, the state comes back on a narrow card", () => {
+  const card = newCard(cc.CoverCard, { entity: BAY });
+  const h = html(card);
+  assert.match(h, /class="chip ok[^"]*"[^>]*><span class="dot"><\/span><span class="t">Open<\/span>/);
+  assert.match(h, /<div class="line state ok"><span class="dot"><\/span><span>Partly open<\/span><\/div>/);
+  // Fully closed: the line would say what the pill says.
+  const shut = html(newCard(cc.CoverCard, { entity: "cover.living_room_patio_door" }));
+  assert.match(shut, /<div class="line state [a-z]+ pill-echo"><span class="dot"><\/span><span>Closed<\/span><\/div>/);
+  // Among several covers, each keeps its own state line.
+  const many = html(newCard(cc.CoverCard, { entities: [BAY, "cover.living_room_patio_door"], columns: 2 }));
+  assert.doesNotMatch(many, /pill-echo/);
+  assert.doesNotMatch(many, /Partly open/);
+  const css = card.shadowRoot.innerHTML;
+  assert.match(css, /\.pill-echo \{ display: none; \}/);
+  assert.match(css, /@container cc-card \(max-width: 200px\) \{ \.line\.pill-echo \{ display: flex; \} \.pos\.pill-echo \{ display: block; \} \}/);
+  assert.match(css, /@container cc-card \(max-width: 200px\) \{ \.trow \.chip \{ padding: 5px; \} \.trow \.chip \.t \{ display: none; \} \}/);
 });
 
 test("tilt: slider and buttons when supported, set_cover_tilt_position on commit", () => {

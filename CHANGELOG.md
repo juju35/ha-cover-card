@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.6.0 - 2026-11-17
+
+### Features
+- **Illustrated header** on the full and mini cards (90 px): the title on a facade wall, the covers drawn big at the right with their own pictures (per device class), at their position and animated while they move, standing on a 10 px pavement strip edge to edge. The round icon takes the state colour (moving, open, open garage door/gate/door/window, closed, unavailable) and the line under the title gives the state and summary. Night picture after sunset (`sun.sun`) or with the dark theme, forced with `illustration_theme: day | night`; `illustration: false` keeps the classic header. Both options are in the visual editors.
+- **State pill on the title line** of the illustrated header (full and mini cards): right after the title, in the round icon's state colour, only when the whole title and its whole label fit there, otherwise on its own line under the subtitle (then kept to one line), and only its dot when even that does not fit in the banner or the card is 200 px wide or less; measured on the rendered card, so that it fits in every language (the subtitle no longer repeats the state). The mini card's expand/collapse button is a 24 px frosted round button in the banner's top-right corner.
+- The classic header (`illustration: false`) puts its state pill in the same place, right after the title (under the subtitle when the whole title and label do not fit side by side, only its dot at 200 px or less), instead of at the far right.
+- Night picture with the dark theme even while the sun is up
+
+### Fixes
+- One cover: the body no longer repeats the header pill. Under the position, "Partly open" for a cover between 0 and 100 % (the pill says "Open"); otherwise the state line, and the big state of a cover without a position, are left to the pill and come back only when the pill keeps just its dot.
+
 ## 1.5.1 - 2026-11-16
 
 ### Fixes
