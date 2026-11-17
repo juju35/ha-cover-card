@@ -2326,12 +2326,24 @@ const BASE_STYLE = `
   .badge { width: 40px; height: 40px; border-radius: 50%; flex: none; display: grid; place-items: center;
            background: color-mix(in srgb, var(--cc-accent) 16%, transparent); color: var(--cc-accent); transition: background-color .3s ease, color .3s ease; }
   .badge .icon { width: 24px; height: 24px; }
-  .titles { flex: 1 1 0; min-width: 5ch; }
-  :host([hide-title]) .titles > .name, :host([hide-subtitle]) .titles > .sub { display: none; }
+  .titles { flex: 1 1 0; min-width: 5ch; container: cc-titles / inline-size; display: flex; flex-direction: column; align-items: flex-start; }
+  .titles > * { max-width: 100%; }
+  :host([hide-title]) .titles .name, :host([hide-subtitle]) .titles > .sub { display: none; }
+  /* Banner and classic header: the state pill sits on the title line, right after the title: the title ellipsises first (never under 4
+     characters), the pill keeps its whole label. Without room for both, the pill goes on its own line under the
+     subtitle; on a very narrow card only its dot is left (the label stays in its tooltip and aria-label). */
+  .trow { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .trow .name { flex: 0 1 auto; min-width: 4ch; }
+  .trow .chip { flex: none; max-width: calc(100% - 4ch - 8px); line-height: 16px; }
+  @container cc-titles (max-width: 170px) {
+    .trow { display: contents; }
+    .trow .name { max-width: 100%; }
+    /* On its own line the pill keeps its whole label, over the pictures if need be (it has its own background). */
+    .trow .chip { order: 3; margin-top: 3px; max-width: none; }
+  }
+  @container cc-card (max-width: 200px) { .trow .chip { padding: 5px; } .trow .chip .t { display: none; } }
   .name { font-size: 16px; font-weight: 500; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sub { font-size: 12px; line-height: 1.2; color: var(--secondary-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  /* With a sub-line, the chip sits on the name line: lifted by half the sub-line (12px × 1.2). */
-  .header:has(.sub) > .chip { margin-bottom: 14.4px; }
   .warning { padding: 16px; color: color-mix(in srgb, var(--cc-warn) 40%, var(--primary-text-color, #212121)); }
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; cursor: pointer; font: inherit; font-size: 13px;
          font-weight: 500; padding: 6px 12px; border-radius: 18px; background: var(--secondary-background-color, rgba(127,127,127,.12));
@@ -2362,11 +2374,6 @@ const BASE_STYLE = `
   .favs .btn { font-weight: 400; padding: 5px 12px 5px 8px; }
   .favs .btn .icon { width: 16px; height: 16px; color: var(--secondary-text-color); }
   .favs .btn.on .icon { color: var(--cc-accent); }
-  /* Narrow card: the status chip keeps only its colored dot (its text stays in title and aria-label). */
-  @container (max-width: 230px) {
-    .header .chip { padding: 4px; flex: none; }
-    .header .chip .t { display: none; }
-  }
   @container (max-width: 200px) {
     .header { gap: 6px; padding: 10px 8px 0; }
   }
@@ -2609,19 +2616,6 @@ const BANNER_STYLE = `
            padding: 0 8px var(--g) 14px; }
   .htext .titles { flex: 1 1 auto; min-width: 0; container: cc-titles / inline-size; display: flex; flex-direction: column; align-items: flex-start; }
   .htext .titles > * { max-width: 100%; }
-  /* The state pill sits on the title line, right after the title: the title ellipsises first (never under 4
-     characters), the pill keeps its whole label. Without room for both, the pill goes on its own line under the
-     subtitle; on a very narrow card only its dot is left (the label stays in its tooltip and aria-label). */
-  .trow { display: flex; align-items: center; gap: 8px; min-width: 0; }
-  .trow .name { flex: 0 1 auto; min-width: 4ch; }
-  .trow .chip { flex: none; max-width: calc(100% - 4ch - 8px); line-height: 16px; }
-  @container cc-titles (max-width: 170px) {
-    .trow { display: contents; }
-    .trow .name { max-width: 100%; }
-    /* On its own line the pill keeps its whole label, over the pictures if need be (it has its own background). */
-    .trow .chip { order: 3; margin-top: 3px; max-width: none; }
-  }
-  @container cc-card (max-width: 200px) { .trow .chip { padding: 5px; } .trow .chip .t { display: none; } }
   .banner .chip { background: color-mix(in srgb, var(--c) 18%, rgba(255,255,255,.78)); color: color-mix(in srgb, var(--c) 45%, #0d2a45); }
   .banner.night .chip { background: color-mix(in srgb, var(--c) 30%, rgba(8,18,38,.55)); color: color-mix(in srgb, var(--c) 35%, #ffffff); }
   .banner .name { font-size: 16px; font-weight: 500; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -3210,10 +3204,12 @@ class CoverBase extends HTMLElement {
       <div class="header">
         <div class="badge${clickable}" aria-label="${label}">${svgIcon(icon)}</div>
         <div class="titles">
-          <div class="name">${esc(this._title(items))}</div>
+          <div class="trow">
+            <div class="name">${esc(this._title(items))}</div>
+            <span class="chip ${agg.cls}${clickable}" title="${label}" aria-label="${label}"><span class="dot"></span><span class="t">${label}</span></span>
+          </div>
           <div class="sub">${esc(this._subtitle(items))}</div>
         </div>
-        <span class="chip ${agg.cls}${clickable}" title="${label}" aria-label="${label}"><span class="dot"></span><span class="t">${label}</span></span>
         ${this._zoomButton()}
       </div>`;
   }

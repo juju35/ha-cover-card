@@ -83,6 +83,8 @@ test("one cover: header, position, state, picture slider and buttons", () => {
   assert.match(h, /<div class="name">Bay window<\/div>/);
   assert.match(h, /<div class="sub">Roller shutter · Living room<\/div>/);
   assert.match(h, /class="chip ok[^"]*"[^>]*><span class="dot"><\/span><span class="t">Open<\/span>/);
+  // The classic header has the state pill right after the title, like the banner.
+  assert.match(h, /<div class="trow">\s*<div class="name">Bay window<\/div>\s*<span class="chip ok[^>]*>[\s\S]*?<\/span><\/span>\s*<\/div>\s*<div class="sub">/);
   // The header badge carries the project accent, not the state; only the status chip above keeps the state class.
   assert.match(h, /<div class="badge clickable/);
   assert.doesNotMatch(h, /class="badge (ok|idle|active|warn|crit)/);
