@@ -8,6 +8,9 @@
 - The classic header (`illustration: false`) puts its state pill in the same place, right after the title (under the subtitle when narrow, only its dot at 200 px or less), instead of at the far right.
 - Night picture with the dark theme even while the sun is up
 
+### Fixes
+- One cover: the body no longer repeats the header pill. Under the position, "Partly open" for a cover between 0 and 100 % (the pill says "Open"); otherwise the state line, and the big state of a cover without a position, are left to the pill and come back only when the pill keeps just its dot.
+
 ## 1.5.1 - 2026-11-16
 
 ### Fixes

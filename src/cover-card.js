@@ -95,6 +95,7 @@ const STRINGS = {
     move: "Move",
     move_to: "Move to {to}",
     cancel: "Cancel",
+    partly_open: "Partly open",
     s_open: "Open",
     s_closed: "Closed",
     s_opening: "Opening",
@@ -181,6 +182,7 @@ const STRINGS = {
     move: "Déplacer",
     move_to: "Aller à {to}",
     cancel: "Annuler",
+    partly_open: "Partiellement ouvert",
     s_open: "Ouvert",
     s_closed: "Fermé",
     s_opening: "Ouverture",
@@ -267,6 +269,7 @@ const STRINGS = {
     move: "Bewegen",
     move_to: "Auf {to} fahren",
     cancel: "Abbrechen",
+    partly_open: "Teilweise offen",
     s_open: "Offen",
     s_closed: "Geschlossen",
     s_opening: "Öffnet",
@@ -353,6 +356,7 @@ const STRINGS = {
     move: "Mover",
     move_to: "Ir a {to}",
     cancel: "Cancelar",
+    partly_open: "Parcialmente abierto",
     s_open: "Abierto",
     s_closed: "Cerrado",
     s_opening: "Abriendo",
@@ -439,6 +443,7 @@ const STRINGS = {
     move: "Помери",
     move_to: "Помери на {to}",
     cancel: "Откажи",
+    partly_open: "Делимично отворено",
     s_open: "Отворено",
     s_closed: "Затворено",
     s_opening: "Отвара се",
@@ -525,6 +530,7 @@ const STRINGS = {
     move: "Pomeri",
     move_to: "Pomeri na {to}",
     cancel: "Otkaži",
+    partly_open: "Delimično otvoreno",
     s_open: "Otvoreno",
     s_closed: "Zatvoreno",
     s_opening: "Otvara se",
@@ -611,6 +617,7 @@ const STRINGS = {
     move: "Sposta",
     move_to: "Vai a {to}",
     cancel: "Annulla",
+    partly_open: "Parzialmente aperto",
     s_open: "Aperto",
     s_closed: "Chiuso",
     s_opening: "In apertura",
@@ -697,6 +704,7 @@ const STRINGS = {
     move: "Verplaatsen",
     move_to: "Naar {to}",
     cancel: "Annuleren",
+    partly_open: "Gedeeltelijk open",
     s_open: "Open",
     s_closed: "Gesloten",
     s_opening: "Gaat open",
@@ -783,6 +791,7 @@ const STRINGS = {
     move: "Mover",
     move_to: "Ir para {to}",
     cancel: "Cancelar",
+    partly_open: "Parcialmente aberto",
     s_open: "Aberto",
     s_closed: "Fechado",
     s_opening: "A abrir",
@@ -869,6 +878,7 @@ const STRINGS = {
     move: "Przesuń",
     move_to: "Przesuń na {to}",
     cancel: "Anuluj",
+    partly_open: "Częściowo otwarte",
     s_open: "Otwarte",
     s_closed: "Zamknięte",
     s_opening: "Otwieranie",
@@ -955,6 +965,7 @@ const STRINGS = {
     move: "Mută",
     move_to: "Mută la {to}",
     cancel: "Anulează",
+    partly_open: "Parțial deschis",
     s_open: "Deschis",
     s_closed: "Închis",
     s_opening: "Se deschide",
@@ -1041,6 +1052,7 @@ const STRINGS = {
     move: "Flyt",
     move_to: "Flyt til {to}",
     cancel: "Annuller",
+    partly_open: "Delvist åben",
     s_open: "Åben",
     s_closed: "Lukket",
     s_opening: "Åbner",
@@ -1127,6 +1139,7 @@ const STRINGS = {
     move: "Flytta",
     move_to: "Flytta till {to}",
     cancel: "Avbryt",
+    partly_open: "Delvis öppen",
     s_open: "Öppen",
     s_closed: "Stängd",
     s_opening: "Öppnas",
@@ -1213,6 +1226,7 @@ const STRINGS = {
     move: "Премести",
     move_to: "Премести на {to}",
     cancel: "Отказ",
+    partly_open: "Частично отворено",
     s_open: "Отворено",
     s_closed: "Затворено",
     s_opening: "Отваря се",
@@ -1299,6 +1313,7 @@ const STRINGS = {
     move: "Переместить",
     move_to: "Переместить на {to}",
     cancel: "Отмена",
+    partly_open: "Частично открыто",
     s_open: "Открыто",
     s_closed: "Закрыто",
     s_opening: "Открывается",
@@ -1385,6 +1400,7 @@ const STRINGS = {
     move: "Перемістити",
     move_to: "Перемістити на {to}",
     cancel: "Скасувати",
+    partly_open: "Частково відчинено",
     s_open: "Відкрито",
     s_closed: "Закрито",
     s_opening: "Відкривається",
@@ -1471,6 +1487,7 @@ const STRINGS = {
     move: "Mozgatás",
     move_to: "Mozgatás ide: {to}",
     cancel: "Mégse",
+    partly_open: "Részben nyitva",
     s_open: "Nyitva",
     s_closed: "Zárva",
     s_opening: "Nyílik",
@@ -1557,6 +1574,7 @@ const STRINGS = {
     move: "Presunúť",
     move_to: "Presunúť na {to}",
     cancel: "Zrušiť",
+    partly_open: "Čiastočne otvorené",
     s_open: "Otvorené",
     s_closed: "Zatvorené",
     s_opening: "Otvára sa",
@@ -1643,6 +1661,7 @@ const STRINGS = {
     move: "Přesunout",
     move_to: "Přesunout na {to}",
     cancel: "Zrušit",
+    partly_open: "Částečně otevřeno",
     s_open: "Otevřeno",
     s_closed: "Zavřeno",
     s_opening: "Otevírá se",
@@ -1729,6 +1748,7 @@ const STRINGS = {
     move: "Premakni",
     move_to: "Premakni na {to}",
     cancel: "Prekliči",
+    partly_open: "Delno odprto",
     s_open: "Odprto",
     s_closed: "Zaprto",
     s_opening: "Odpiranje",
@@ -1815,6 +1835,7 @@ const STRINGS = {
     move: "Pārvietot",
     move_to: "Pārvietot uz {to}",
     cancel: "Atcelt",
+    partly_open: "Daļēji atvērts",
     s_open: "Atvērts",
     s_closed: "Aizvērts",
     s_opening: "Atveras",
@@ -1901,6 +1922,7 @@ const STRINGS = {
     move: "Μετακίνηση",
     move_to: "Μετακίνηση στο {to}",
     cancel: "Άκυρο",
+    partly_open: "Μερικώς ανοιχτό",
     s_open: "Ανοιχτό",
     s_closed: "Κλειστό",
     s_opening: "Ανοίγει",
@@ -2405,6 +2427,9 @@ const FULL_STYLE = `
   .line span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .line .icon { width: 16px; height: 16px; }
   .line.state { color: var(--ink); }
+  /* What the header pill already says is not repeated under it, unless the pill keeps only its dot. */
+  .pill-echo { display: none; }
+  @container cc-card (max-width: 200px) { .line.pill-echo { display: flex; } .pos.pill-echo { display: block; } }
   .controls { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
   .controls .btn { flex: 1 1 auto; }
   .tilt-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 8px; font-size: 12px; color: var(--secondary-text-color); }
@@ -3398,7 +3423,7 @@ class CoverCard extends CoverBase {
     const c = this._config;
     const parts = [];
     if (items.length === 1) {
-      parts.push(this._detail(items[0]));
+      parts.push(this._detail(items[0], false, true));
     } else {
       if (c.show_controls !== false && c.show_group_controls !== false) parts.push(`<div class="group">${this._groupButtons(items)}</div>`);
       parts.push(this._favorites(items, favoritesOf(c.favorites), null));
@@ -3417,16 +3442,22 @@ class CoverCard extends CoverBase {
   }
 
   // One cover in full: picture and position, state, buttons, tilt and favorites.
-  _detail(item, inRow = false) {
+  // `single`: the card's only cover, whose state the header pill already says. The body then does not repeat it: the
+  // line under the position says what the pill does not (a cover only partly open), and the state comes back
+  // (.pill-echo) only on a card so narrow that the pill keeps just its dot.
+  _detail(item, inRow = false, single = false) {
     const s = item.s;
     const c = this._config;
     const cls = stateClass(s, item.cls);
     const p = this._pos(item);
     const word = p === null || isOffline(s);
+    const partly = single && s?.state === "open" && p > 0 && p < 100;
+    const echo = single && !partly ? " pill-echo" : "";
+    const stateText = partly ? this._t("partly_open") : this._stateText(s);
     const stateLine =
-      c.show_state === false ? "" : `<div class="line state ${cls}"><span class="dot"></span><span>${esc(this._stateText(s))}</span></div>`;
+      c.show_state === false ? "" : `<div class="line state ${cls}${echo}"><span class="dot"></span><span>${esc(stateText)}</span></div>`;
     const value = word
-      ? `<div class="pos word ${cls} clickable" role="button" tabindex="0" data-entity="${esc(item.id)}">${esc(this._stateText(s))}</div>`
+      ? `<div class="pos word ${cls}${echo} clickable" role="button" tabindex="0" data-entity="${esc(item.id)}">${esc(this._stateText(s))}</div>`
       : `<div class="pos clickable" role="button" tabindex="0" data-entity="${esc(item.id)}" data-label="${esc(`${item.id}|pos`)}">${esc(this._pct(p))}</div>${stateLine}`;
     // In a row of several, the row itself carries the buttons.
     const controls = c.show_controls !== false && s && !inRow ? `<div class="controls">${this._buttons(item)}</div>` : "";

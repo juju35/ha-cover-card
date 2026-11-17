@@ -153,8 +153,26 @@ test("unsupported features get no button, no slider and no tilt", () => {
   const h = html(card);
   assert.doesNotMatch(h, /data-action="stop"/);
   assert.doesNotMatch(h, /role="slider"/);
-  // Without a position, the state is written in big.
-  assert.match(h, /class="pos word idle clickable"[^>]*>Closed</);
+  // Without a position, the state is the header pill's: written big only when the pill keeps just its dot.
+  assert.match(h, /class="pos word idle pill-echo clickable"[^>]*>Closed</);
+});
+
+test("one cover: the body does not repeat the pill; a cover partly open says so, the state comes back on a narrow card", () => {
+  const card = newCard(cc.CoverCard, { entity: BAY });
+  const h = html(card);
+  assert.match(h, /class="chip ok[^"]*"[^>]*><span class="dot"><\/span><span class="t">Open<\/span>/);
+  assert.match(h, /<div class="line state ok"><span class="dot"><\/span><span>Partly open<\/span><\/div>/);
+  // Fully closed: the line would say what the pill says.
+  const shut = html(newCard(cc.CoverCard, { entity: "cover.living_room_patio_door" }));
+  assert.match(shut, /<div class="line state [a-z]+ pill-echo"><span class="dot"><\/span><span>Closed<\/span><\/div>/);
+  // Among several covers, each keeps its own state line.
+  const many = html(newCard(cc.CoverCard, { entities: [BAY, "cover.living_room_patio_door"], columns: 2 }));
+  assert.doesNotMatch(many, /pill-echo/);
+  assert.doesNotMatch(many, /Partly open/);
+  const css = card.shadowRoot.innerHTML;
+  assert.match(css, /\.pill-echo \{ display: none; \}/);
+  assert.match(css, /@container cc-card \(max-width: 200px\) \{ \.line\.pill-echo \{ display: flex; \} \.pos\.pill-echo \{ display: block; \} \}/);
+  assert.match(css, /@container cc-card \(max-width: 200px\) \{ \.trow \.chip \{ padding: 5px; \} \.trow \.chip \.t \{ display: none; \} \}/);
 });
 
 test("tilt: slider and buttons when supported, set_cover_tilt_position on commit", () => {

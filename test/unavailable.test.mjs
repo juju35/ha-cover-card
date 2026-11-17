@@ -31,7 +31,7 @@ for (const [name, Card] of [
 test("the position slider of an unavailable cover is disabled", () => {
   const html = newCard(cc.CoverCard, { entity: GUEST }).shadowRoot.innerHTML;
   assert.match(html, /role="slider"[^>]*aria-disabled="true"/);
-  assert.match(html, /class="pos word crit clickable"[^>]*>Unavailable</);
+  assert.match(html, /class="pos word crit pill-echo clickable"[^>]*>Unavailable</);
 });
 
 test("a missing entity is shown as not found, among available ones in a group", () => {
