@@ -17,10 +17,15 @@ const TILT_FEATURES = F.OPEN_TILT | F.CLOSE_TILT | F.STOP_TILT | F.SET_TILT_POSI
 // Device classes of the cover domain; a cover without one is drawn as a roller shutter.
 const CLASSES = ["shutter", "blind", "shade", "curtain", "awning", "garage", "gate", "door", "window", "damper"];
 // Open is worth a warning for these (an open garage door, gate, door or window), not for a shutter or a blind.
-const GUARDED = new Set(["garage", "gate", "door", "window"]);
+// The pictures the card draws: the device classes, and a swing gate (a gate cover whose name says it swings, or
+// `device_class: swing`), whose two leaves open on their hinges where a sliding gate's leaf slides.
+const PICTURES = [...CLASSES.slice(0, 7), "swing", ...CLASSES.slice(7)];
+const GUARDED = new Set(["garage", "gate", "swing", "door", "window"]);
 // Moving these lets someone in or closes on someone: unless `confirm` says otherwise, opening, closing or setting
 // their position asks first.
-const SECURED = new Set(["garage", "gate", "door"]);
+const SECURED = new Set(["garage", "gate", "swing", "door"]);
+// Gates whose pedestrian opening the card looks for on their device.
+const GATES = new Set(["gate", "swing"]);
 
 // Material Design Icons (Apache 2.0, https://pictogrammers.com): [closed, open] per device class, and the buttons.
 const ICONS = {
@@ -65,6 +70,7 @@ const ICONS = {
     "M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z",
     "M12 5C15.87 5 19 8.13 19 12C19 15.87 15.87 19 12 19C8.13 19 5 15.87 5 12C5 8.13 8.13 5 12 5M12 2C17.5 2 22 6.5 22 12C22 17.5 17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4Z",
   ],
+  walk: "M14.12,10H19V8.2H15.38L13.38,4.87C13.08,4.37 12.54,4.03 11.92,4.03C11.74,4.03 11.58,4.06 11.42,4.11L6,5.8V11H7.8V7.33L9.91,6.67L6,22H7.8L10.67,13.89L13,17V22H14.8V15.59L12.31,11.05L13.04,8.18M14,3.8C15,3.8 15.8,3 15.8,2C15.8,1 15,0.2 14,0.2C13,0.2 12.2,1 12.2,2C12.2,3 13,3.8 14,3.8Z",
   open: "M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z",
   close: "M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z",
   stop: "M18,18H6V6H18V18Z",
@@ -78,6 +84,8 @@ const ICONS = {
   collapse: "M19.5,3.09L15,7.59V4H13V11H20V9H16.41L20.91,4.5L19.5,3.09M4,13V15H7.59L3.09,19.5L4.5,20.91L9,16.41V20H11V13H4Z",
   alert: "M13 14H11V9H13M13 18H11V16H13M1 21H23L12 2L1 21Z",
 };
+// A swing gate shows the gate icons.
+ICONS.swing = ICONS.gate;
 const STRINGS = {
   en: {
     covers: "Covers",
@@ -115,15 +123,18 @@ const STRINGS = {
     c_awning: "Awning",
     c_garage: "Garage door",
     c_gate: "Gate",
+    c_swing: "Swing gate",
     c_door: "Door",
     c_window: "Window",
     c_damper: "Damper",
+    pedestrian: "Pedestrian",
     confirm_open: "Open {name}?",
     confirm_close: "Close {name}?",
     confirm_open_all: "Open all {n} covers?",
     confirm_close_all: "Close all {n} covers?",
     confirm_move: "Move {name} to {to}?",
     confirm_move_all: "Move {n} covers to {to}?",
+    confirm_pedestrian: "Open {name} for a pedestrian?",
     not_found: "Entity not found",
     no_entities: "Choose at least one cover: entity, entities or area.",
     unknown_area: "Area not found: {area}",
@@ -145,12 +156,14 @@ const STRINGS = {
     e_show_favorites: "Show favorite positions",
     e_expanded: "Unfold every cover",
     e_confirm: "Ask before opening or closing",
+    e_pedestrian: "Pedestrian opening",
     e_columns: "Columns",
     e_zoom: "Detail button",
     e_language: "Language",
     h_area: "Adds every cover of this area to the list",
     h_favorites: "Pick or type positions; each becomes a button",
     h_device_class: "Drawn picture, when the device class of the covers does not match",
+    h_pedestrian: "A position in % (e.g. 30), or a button, script or switch to press; else the gate's own pedestrian button, when its device has one",
     h_columns: "With several covers: 1 shows foldable rows, 2 or 3 a grid of unfolded tiles",
     h_zoom: "Button at the top right that switches the mini card to the full card and back",
     confirm_auto: "Garage doors, gates and doors",
@@ -202,15 +215,18 @@ const STRINGS = {
     c_awning: "Store banne",
     c_garage: "Porte de garage",
     c_gate: "Portail",
+    c_swing: "Portail battant",
     c_door: "Porte",
     c_window: "Fenêtre",
     c_damper: "Clapet",
+    pedestrian: "Piéton",
     confirm_open: "Ouvrir {name} ?",
     confirm_close: "Fermer {name} ?",
     confirm_open_all: "Ouvrir les {n} ouvrants ?",
     confirm_close_all: "Fermer les {n} ouvrants ?",
     confirm_move: "Déplacer {name} à {to} ?",
     confirm_move_all: "Déplacer {n} ouvrants à {to} ?",
+    confirm_pedestrian: "Ouvrir {name} pour un piéton ?",
     not_found: "Entité introuvable",
     no_entities: "Choisissez au moins un ouvrant : entity, entities ou area.",
     unknown_area: "Pièce introuvable : {area}",
@@ -232,12 +248,14 @@ const STRINGS = {
     e_show_favorites: "Afficher les positions favorites",
     e_expanded: "Déplier chaque ouvrant",
     e_confirm: "Demander avant d'ouvrir ou de fermer",
+    e_pedestrian: "Ouverture piéton",
     e_columns: "Colonnes",
     e_zoom: "Bouton détail",
     e_language: "Langue",
     h_area: "Ajoute à la liste tous les ouvrants de cette pièce",
     h_favorites: "Choisissez ou saisissez des positions ; chacune devient un bouton",
     h_device_class: "Illustration dessinée, quand la classe d'appareil des ouvrants ne convient pas",
+    h_pedestrian: "Une position en % (ex. 30), ou un bouton, script ou interrupteur à actionner ; sinon le bouton piéton du portail, si son appareil en a un",
     h_columns: "Avec plusieurs ouvrants : 1 affiche des lignes repliables, 2 ou 3 une grille de vignettes dépliées",
     h_zoom: "Bouton en haut à droite qui passe la mini-carte en carte complète et inversement",
     confirm_auto: "Portes de garage, portails et portes",
@@ -289,15 +307,18 @@ const STRINGS = {
     c_awning: "Markise",
     c_garage: "Garagentor",
     c_gate: "Tor",
+    c_swing: "Flügeltor",
     c_door: "Tür",
     c_window: "Fenster",
     c_damper: "Klappe",
+    pedestrian: "Fußgänger",
     confirm_open: "{name} öffnen?",
     confirm_close: "{name} schließen?",
     confirm_open_all: "Alle {n} Abdeckungen öffnen?",
     confirm_close_all: "Alle {n} Abdeckungen schließen?",
     confirm_move: "{name} auf {to} fahren?",
     confirm_move_all: "{n} Abdeckungen auf {to} fahren?",
+    confirm_pedestrian: "{name} für Fußgänger öffnen?",
     not_found: "Entität nicht gefunden",
     no_entities: "Wähle mindestens eine Abdeckung: entity, entities oder area.",
     unknown_area: "Bereich nicht gefunden: {area}",
@@ -319,12 +340,14 @@ const STRINGS = {
     e_show_favorites: "Lieblingspositionen anzeigen",
     e_expanded: "Jede Abdeckung aufklappen",
     e_confirm: "Vor dem Öffnen oder Schließen nachfragen",
+    e_pedestrian: "Fußgängeröffnung",
     e_columns: "Spalten",
     e_zoom: "Detail-Schaltfläche",
     e_language: "Sprache",
     h_area: "Fügt alle Abdeckungen dieses Bereichs zur Liste hinzu",
     h_favorites: "Positionen wählen oder eingeben; jede wird zu einer Schaltfläche",
     h_device_class: "Gezeichnetes Bild, wenn die Geräteklasse der Abdeckungen nicht passt",
+    h_pedestrian: "Eine Position in % (z. B. 30) oder eine Taste, ein Skript oder ein Schalter; sonst die Fußgängertaste des Tors, wenn sein Gerät eine hat",
     h_columns: "Bei mehreren Abdeckungen: 1 zeigt einklappbare Zeilen, 2 oder 3 ein Raster aufgeklappter Kacheln",
     h_zoom: "Schaltfläche oben rechts, um zwischen kompakter und vollständiger Kartenansicht zu wechseln",
     confirm_auto: "Garagentore, Tore und Türen",
@@ -376,15 +399,18 @@ const STRINGS = {
     c_awning: "Toldo",
     c_garage: "Puerta de garaje",
     c_gate: "Portón",
+    c_swing: "Puerta batiente",
     c_door: "Puerta",
     c_window: "Ventana",
     c_damper: "Compuerta",
+    pedestrian: "Peatonal",
     confirm_open: "¿Abrir {name}?",
     confirm_close: "¿Cerrar {name}?",
     confirm_open_all: "¿Abrir los {n} cerramientos?",
     confirm_close_all: "¿Cerrar los {n} cerramientos?",
     confirm_move: "¿Mover {name} a {to}?",
     confirm_move_all: "¿Mover {n} cerramientos a {to}?",
+    confirm_pedestrian: "¿Abrir {name} en modo peatonal?",
     not_found: "Entidad no encontrada",
     no_entities: "Elige al menos un cerramiento: entity, entities o area.",
     unknown_area: "Área no encontrada: {area}",
@@ -406,12 +432,14 @@ const STRINGS = {
     e_show_favorites: "Mostrar las posiciones favoritas",
     e_expanded: "Desplegar cada cerramiento",
     e_confirm: "Preguntar antes de abrir o cerrar",
+    e_pedestrian: "Apertura peatonal",
     e_columns: "Columnas",
     e_zoom: "Botón de detalle",
     e_language: "Idioma",
     h_area: "Añade a la lista todos los cerramientos de esta área",
     h_favorites: "Elige o escribe posiciones; cada una se convierte en un botón",
     h_device_class: "Ilustración dibujada, cuando la clase de dispositivo no corresponde",
+    h_pedestrian: "Una posición en % (p. ej. 30), o un botón, script o interruptor; si no, el botón peatonal de la puerta, si su dispositivo tiene uno",
     h_columns: "Con varios cerramientos: 1 muestra filas plegables, 2 o 3 una cuadrícula de mosaicos desplegados",
     h_zoom: "Botón arriba a la derecha que cambia la minitarjeta a la tarjeta completa y viceversa",
     confirm_auto: "Puertas de garaje, portones y puertas",
@@ -463,15 +491,18 @@ const STRINGS = {
     c_awning: "Тенда",
     c_garage: "Гаражна врата",
     c_gate: "Капија",
+    c_swing: "Крилна капија",
     c_door: "Врата",
     c_window: "Прозор",
     c_damper: "Клапна",
+    pedestrian: "Пешачки",
     confirm_open: "Отворити {name}?",
     confirm_close: "Затворити {name}?",
     confirm_open_all: "Отворити све затвараче ({n})?",
     confirm_close_all: "Затворити све затвараче ({n})?",
     confirm_move: "Померити {name} на {to}?",
     confirm_move_all: "Померити затвараче ({n}) на {to}?",
+    confirm_pedestrian: "Отворити {name} за пешака?",
     not_found: "Ентитет није пронађен",
     no_entities: "Изаберите бар један затварач: entity, entities или area.",
     unknown_area: "Простор није пронађен: {area}",
@@ -493,12 +524,14 @@ const STRINGS = {
     e_show_favorites: "Прикажи омиљене положаје",
     e_expanded: "Прошири сваки затварач",
     e_confirm: "Питај пре отварања или затварања",
+    e_pedestrian: "Пешачко отварање",
     e_columns: "Колоне",
     e_zoom: "Дугме за детаље",
     e_language: "Језик",
     h_area: "Додаје на листу све затвараче овог простора",
     h_favorites: "Изаберите или унесите положаје; сваки постаје дугме",
     h_device_class: "Нацртана илустрација, када класа уређаја не одговара",
+    h_pedestrian: "Положај у % (нпр. 30) или дугме, скрипта или прекидач; иначе пешачко дугме капије, ако га уређај има",
     h_columns: "Са више затварача: 1 приказује редове који се скупљају, 2 или 3 мрежу проширених плочица",
     h_zoom: "Дугме горе десно које пребацује мини картицу на пуну картицу и назад",
     confirm_auto: "Гаражна врата, капије и врата",
@@ -550,15 +583,18 @@ const STRINGS = {
     c_awning: "Tenda",
     c_garage: "Garažna vrata",
     c_gate: "Kapija",
+    c_swing: "Krilna kapija",
     c_door: "Vrata",
     c_window: "Prozor",
     c_damper: "Klapna",
+    pedestrian: "Pešački",
     confirm_open: "Otvoriti {name}?",
     confirm_close: "Zatvoriti {name}?",
     confirm_open_all: "Otvoriti sve zatvarače ({n})?",
     confirm_close_all: "Zatvoriti sve zatvarače ({n})?",
     confirm_move: "Pomeriti {name} na {to}?",
     confirm_move_all: "Pomeriti zatvarače ({n}) na {to}?",
+    confirm_pedestrian: "Otvoriti {name} za pešaka?",
     not_found: "Entitet nije pronađen",
     no_entities: "Izaberite bar jedan zatvarač: entity, entities ili area.",
     unknown_area: "Prostor nije pronađen: {area}",
@@ -580,12 +616,14 @@ const STRINGS = {
     e_show_favorites: "Prikaži omiljene položaje",
     e_expanded: "Proširi svaki zatvarač",
     e_confirm: "Pitaj pre otvaranja ili zatvaranja",
+    e_pedestrian: "Pešačko otvaranje",
     e_columns: "Kolone",
     e_zoom: "Dugme za detalje",
     e_language: "Jezik",
     h_area: "Dodaje na listu sve zatvarače ovog prostora",
     h_favorites: "Izaberite ili unesite položaje; svaki postaje dugme",
     h_device_class: "Nacrtana ilustracija, kada klasa uređaja ne odgovara",
+    h_pedestrian: "Položaj u % (npr. 30) ili dugme, skripta ili prekidač; inače pešačko dugme kapije, ako ga uređaj ima",
     h_columns: "Sa više zatvarača: 1 prikazuje redove koji se skupljaju, 2 ili 3 mrežu proširenih pločica",
     h_zoom: "Dugme gore desno koje prebacuje mini karticu na punu karticu i nazad",
     confirm_auto: "Garažna vrata, kapije i vrata",
@@ -637,15 +675,18 @@ const STRINGS = {
     c_awning: "Tenda da sole",
     c_garage: "Porta del garage",
     c_gate: "Cancello",
+    c_swing: "Cancello a battente",
     c_door: "Porta",
     c_window: "Finestra",
     c_damper: "Serranda",
+    pedestrian: "Pedonale",
     confirm_open: "Aprire {name}?",
     confirm_close: "Chiudere {name}?",
     confirm_open_all: "Aprire tutte le {n} coperture?",
     confirm_close_all: "Chiudere tutte le {n} coperture?",
     confirm_move: "Spostare {name} a {to}?",
     confirm_move_all: "Spostare {n} coperture a {to}?",
+    confirm_pedestrian: "Aprire {name} in modalità pedonale?",
     not_found: "Entità non trovata",
     no_entities: "Scegli almeno una copertura: entity, entities o area.",
     unknown_area: "Area non trovata: {area}",
@@ -667,12 +708,14 @@ const STRINGS = {
     e_show_favorites: "Mostra le posizioni preferite",
     e_expanded: "Espandi ogni copertura",
     e_confirm: "Chiedi prima di aprire o chiudere",
+    e_pedestrian: "Apertura pedonale",
     e_columns: "Colonne",
     e_zoom: "Pulsante dettagli",
     e_language: "Lingua",
     h_area: "Aggiunge all'elenco tutte le coperture di quest'area",
     h_favorites: "Scegli o scrivi posizioni; ognuna diventa un pulsante",
     h_device_class: "Illustrazione disegnata, quando la classe del dispositivo non corrisponde",
+    h_pedestrian: "Una posizione in % (es. 30), oppure un pulsante, script o interruttore; altrimenti il pulsante pedonale del cancello, se il dispositivo ne ha uno",
     h_columns: "Con più coperture: 1 mostra righe richiudibili, 2 o 3 una griglia di riquadri espansi",
     h_zoom: "Pulsante in alto a destra che passa dalla mini scheda alla scheda completa e viceversa",
     confirm_auto: "Porte del garage, cancelli e porte",
@@ -724,15 +767,18 @@ const STRINGS = {
     c_awning: "Zonnescherm",
     c_garage: "Garagedeur",
     c_gate: "Poort",
+    c_swing: "Draaipoort",
     c_door: "Deur",
     c_window: "Raam",
     c_damper: "Klep",
+    pedestrian: "Voetganger",
     confirm_open: "{name} openen?",
     confirm_close: "{name} sluiten?",
     confirm_open_all: "Alle {n} afdekkingen openen?",
     confirm_close_all: "Alle {n} afdekkingen sluiten?",
     confirm_move: "{name} naar {to} verplaatsen?",
     confirm_move_all: "{n} afdekkingen naar {to} verplaatsen?",
+    confirm_pedestrian: "{name} openen voor een voetganger?",
     not_found: "Entiteit niet gevonden",
     no_entities: "Kies minstens één afdekking: entity, entities of area.",
     unknown_area: "Ruimte niet gevonden: {area}",
@@ -754,12 +800,14 @@ const STRINGS = {
     e_show_favorites: "Favoriete posities tonen",
     e_expanded: "Elke afdekking uitklappen",
     e_confirm: "Vragen voor openen of sluiten",
+    e_pedestrian: "Voetgangersopening",
     e_columns: "Kolommen",
     e_zoom: "Detailknop",
     e_language: "Taal",
     h_area: "Voegt alle afdekkingen van deze ruimte aan de lijst toe",
     h_favorites: "Kies of typ posities; elke positie wordt een knop",
     h_device_class: "Getekende afbeelding, als de apparaatklasse niet past",
+    h_pedestrian: "Een positie in % (bijv. 30), of een knop, script of schakelaar; anders de voetgangersknop van de poort, als het apparaat er een heeft",
     h_columns: "Bij meerdere afdekkingen: 1 toont inklapbare rijen, 2 of 3 een raster van uitgeklapte tegels",
     h_zoom: "Knop rechtsboven die de minikaart naar de volledige kaart schakelt en terug",
     confirm_auto: "Garagedeuren, poorten en deuren",
@@ -811,15 +859,18 @@ const STRINGS = {
     c_awning: "Toldo",
     c_garage: "Porta de garagem",
     c_gate: "Portão",
+    c_swing: "Portão de batente",
     c_door: "Porta",
     c_window: "Janela",
     c_damper: "Registo",
+    pedestrian: "Pedonal",
     confirm_open: "Abrir {name}?",
     confirm_close: "Fechar {name}?",
     confirm_open_all: "Abrir os {n} estores?",
     confirm_close_all: "Fechar os {n} estores?",
     confirm_move: "Mover {name} para {to}?",
     confirm_move_all: "Mover {n} estores para {to}?",
+    confirm_pedestrian: "Abrir {name} para um peão?",
     not_found: "Entidade não encontrada",
     no_entities: "Escolha pelo menos um estore: entity, entities ou area.",
     unknown_area: "Divisão não encontrada: {area}",
@@ -841,12 +892,14 @@ const STRINGS = {
     e_show_favorites: "Mostrar as posições favoritas",
     e_expanded: "Expandir cada estore",
     e_confirm: "Perguntar antes de abrir ou fechar",
+    e_pedestrian: "Abertura pedonal",
     e_columns: "Colunas",
     e_zoom: "Botão de detalhe",
     e_language: "Idioma",
     h_area: "Adiciona à lista todos os estores desta divisão",
     h_favorites: "Escolha ou escreva posições; cada uma torna-se um botão",
     h_device_class: "Ilustração desenhada, quando a classe do dispositivo não corresponde",
+    h_pedestrian: "Uma posição em % (ex. 30), ou um botão, script ou interruptor; caso contrário o botão pedonal do portão, se o dispositivo tiver um",
     h_columns: "Com vários estores: 1 mostra linhas recolhíveis, 2 ou 3 uma grelha de mosaicos expandidos",
     h_zoom: "Botão no canto superior direito que alterna o mini cartão para o cartão completo e vice-versa",
     confirm_auto: "Portas de garagem, portões e portas",
@@ -898,15 +951,18 @@ const STRINGS = {
     c_awning: "Markiza",
     c_garage: "Brama garażowa",
     c_gate: "Brama",
+    c_swing: "Brama skrzydłowa",
     c_door: "Drzwi",
     c_window: "Okno",
     c_damper: "Przepustnica",
+    pedestrian: "Dla pieszych",
     confirm_open: "Otworzyć {name}?",
     confirm_close: "Zamknąć {name}?",
     confirm_open_all: "Otworzyć wszystkie osłony ({n})?",
     confirm_close_all: "Zamknąć wszystkie osłony ({n})?",
     confirm_move: "Przesunąć {name} na {to}?",
     confirm_move_all: "Przesunąć osłony ({n}) na {to}?",
+    confirm_pedestrian: "Otworzyć {name} dla pieszego?",
     not_found: "Nie znaleziono encji",
     no_entities: "Wybierz co najmniej jedną osłonę: entity, entities lub area.",
     unknown_area: "Nie znaleziono obszaru: {area}",
@@ -928,12 +984,14 @@ const STRINGS = {
     e_show_favorites: "Pokaż ulubione pozycje",
     e_expanded: "Rozwiń każdą osłonę",
     e_confirm: "Pytaj przed otwarciem lub zamknięciem",
+    e_pedestrian: "Otwarcie dla pieszych",
     e_columns: "Kolumny",
     e_zoom: "Przycisk szczegółów",
     e_language: "Język",
     h_area: "Dodaje do listy wszystkie osłony tego obszaru",
     h_favorites: "Wybierz lub wpisz pozycje; każda staje się przyciskiem",
     h_device_class: "Rysowana ilustracja, gdy klasa urządzenia nie pasuje",
+    h_pedestrian: "Pozycja w % (np. 30) albo przycisk, skrypt lub przełącznik; w przeciwnym razie przycisk dla pieszych bramy, jeśli urządzenie go ma",
     h_columns: "Przy kilku osłonach: 1 pokazuje zwijane wiersze, 2 lub 3 siatkę rozwiniętych kafelków",
     h_zoom: "Przycisk w prawym górnym rogu, który przełącza mini kartę na pełną kartę i z powrotem",
     confirm_auto: "Bramy garażowe, bramy i drzwi",
@@ -985,15 +1043,18 @@ const STRINGS = {
     c_awning: "Copertină",
     c_garage: "Ușă de garaj",
     c_gate: "Poartă",
+    c_swing: "Poartă batantă",
     c_door: "Ușă",
     c_window: "Fereastră",
     c_damper: "Clapetă",
+    pedestrian: "Pietonal",
     confirm_open: "Deschizi {name}?",
     confirm_close: "Închizi {name}?",
     confirm_open_all: "Deschizi toate jaluzelele ({n})?",
     confirm_close_all: "Închizi toate jaluzelele ({n})?",
     confirm_move: "Muți {name} la {to}?",
     confirm_move_all: "Muți jaluzelele ({n}) la {to}?",
+    confirm_pedestrian: "Deschideți {name} pentru un pieton?",
     not_found: "Entitate negăsită",
     no_entities: "Alege cel puțin o jaluzea: entity, entities sau area.",
     unknown_area: "Zonă negăsită: {area}",
@@ -1015,12 +1076,14 @@ const STRINGS = {
     e_show_favorites: "Afișează pozițiile favorite",
     e_expanded: "Extinde fiecare jaluzea",
     e_confirm: "Întreabă înainte de deschidere sau închidere",
+    e_pedestrian: "Deschidere pietonală",
     e_columns: "Coloane",
     e_zoom: "Buton de detalii",
     e_language: "Limbă",
     h_area: "Adaugă în listă toate jaluzelele din această zonă",
     h_favorites: "Alege sau scrie poziții; fiecare devine un buton",
     h_device_class: "Ilustrație desenată, când clasa dispozitivului nu se potrivește",
+    h_pedestrian: "O poziție în % (ex. 30) sau un buton, script ori comutator; altfel butonul pietonal al porții, dacă dispozitivul are unul",
     h_columns: "Cu mai multe jaluzele: 1 afișează rânduri pliabile, 2 sau 3 o grilă de plăci extinse",
     h_zoom: "Buton în dreapta sus care comută mini cardul la cardul complet și înapoi",
     confirm_auto: "Uși de garaj, porți și uși",
@@ -1072,15 +1135,18 @@ const STRINGS = {
     c_awning: "Markise",
     c_garage: "Garageport",
     c_gate: "Låge",
+    c_swing: "Fløjlåge",
     c_door: "Dør",
     c_window: "Vindue",
     c_damper: "Spjæld",
+    pedestrian: "Fodgænger",
     confirm_open: "Åbn {name}?",
     confirm_close: "Luk {name}?",
     confirm_open_all: "Åbn alle {n} afskærmninger?",
     confirm_close_all: "Luk alle {n} afskærmninger?",
     confirm_move: "Flyt {name} til {to}?",
     confirm_move_all: "Flyt {n} afskærmninger til {to}?",
+    confirm_pedestrian: "Åbn {name} for en fodgænger?",
     not_found: "Enhed ikke fundet",
     no_entities: "Vælg mindst én afskærmning: entity, entities eller area.",
     unknown_area: "Område ikke fundet: {area}",
@@ -1102,12 +1168,14 @@ const STRINGS = {
     e_show_favorites: "Vis favoritpositioner",
     e_expanded: "Fold hver afskærmning ud",
     e_confirm: "Spørg før åbning eller lukning",
+    e_pedestrian: "Fodgængeråbning",
     e_columns: "Kolonner",
     e_zoom: "Detaljeknap",
     e_language: "Sprog",
     h_area: "Føjer alle afskærmninger i dette område til listen",
     h_favorites: "Vælg eller skriv positioner; hver bliver en knap",
     h_device_class: "Tegnet illustration, når enhedsklassen ikke passer",
+    h_pedestrian: "En position i % (f.eks. 30) eller en knap, et script eller en kontakt; ellers lågens fodgængerknap, hvis enheden har en",
     h_columns: "Med flere afskærmninger: 1 viser sammenfoldelige rækker, 2 eller 3 et gitter af udfoldede felter",
     h_zoom: "Knap øverst til højre, der skifter minikortet til hele kortet og tilbage",
     confirm_auto: "Garageporte, låger og døre",
@@ -1159,15 +1227,18 @@ const STRINGS = {
     c_awning: "Markis",
     c_garage: "Garageport",
     c_gate: "Grind",
+    c_swing: "Slagrind",
     c_door: "Dörr",
     c_window: "Fönster",
     c_damper: "Spjäll",
+    pedestrian: "Gående",
     confirm_open: "Öppna {name}?",
     confirm_close: "Stäng {name}?",
     confirm_open_all: "Öppna alla {n} skydd?",
     confirm_close_all: "Stäng alla {n} skydd?",
     confirm_move: "Flytta {name} till {to}?",
     confirm_move_all: "Flytta {n} skydd till {to}?",
+    confirm_pedestrian: "Öppna {name} för en gående?",
     not_found: "Entiteten hittades inte",
     no_entities: "Välj minst ett skydd: entity, entities eller area.",
     unknown_area: "Området hittades inte: {area}",
@@ -1189,12 +1260,14 @@ const STRINGS = {
     e_show_favorites: "Visa favoritpositioner",
     e_expanded: "Fäll ut varje skydd",
     e_confirm: "Fråga innan öppning eller stängning",
+    e_pedestrian: "Gångöppning",
     e_columns: "Kolumner",
     e_zoom: "Detaljknapp",
     e_language: "Språk",
     h_area: "Lägger till alla skydd i detta område i listan",
     h_favorites: "Välj eller skriv positioner; var och en blir en knapp",
     h_device_class: "Ritad illustration, när enhetsklassen inte stämmer",
+    h_pedestrian: "En position i % (t.ex. 30) eller en knapp, ett skript eller en brytare; annars grindens gångknapp, om enheten har en",
     h_columns: "Med flera skydd: 1 visar hopfällbara rader, 2 eller 3 ett rutnät av utfällda rutor",
     h_zoom: "Knapp uppe till höger som växlar minikortet till hela kortet och tillbaka",
     confirm_auto: "Garageportar, grindar och dörrar",
@@ -1246,15 +1319,18 @@ const STRINGS = {
     c_awning: "Сенник",
     c_garage: "Гаражна врата",
     c_gate: "Порта",
+    c_swing: "Двукрила порта",
     c_door: "Врата",
     c_window: "Прозорец",
     c_damper: "Клапа",
+    pedestrian: "Пешеходно",
     confirm_open: "Да се отвори ли {name}?",
     confirm_close: "Да се затвори ли {name}?",
     confirm_open_all: "Да се отворят ли всички щори ({n})?",
     confirm_close_all: "Да се затворят ли всички щори ({n})?",
     confirm_move: "Да се премести ли {name} на {to}?",
     confirm_move_all: "Да се преместят ли щорите ({n}) на {to}?",
+    confirm_pedestrian: "Да се отвори ли {name} за пешеходец?",
     not_found: "Обектът не е намерен",
     no_entities: "Изберете поне една щора: entity, entities или area.",
     unknown_area: "Зоната не е намерена: {area}",
@@ -1276,12 +1352,14 @@ const STRINGS = {
     e_show_favorites: "Покажи любимите позиции",
     e_expanded: "Разгъни всяка щора",
     e_confirm: "Питай преди отваряне или затваряне",
+    e_pedestrian: "Пешеходно отваряне",
     e_columns: "Колони",
     e_zoom: "Бутон за подробности",
     e_language: "Език",
     h_area: "Добавя в списъка всички щори от тази зона",
     h_favorites: "Изберете или въведете позиции; всяка става бутон",
     h_device_class: "Нарисувана илюстрация, когато класът на устройството не съвпада",
+    h_pedestrian: "Позиция в % (напр. 30) или бутон, скрипт или превключвател; иначе пешеходният бутон на портата, ако устройството има такъв",
     h_columns: "При няколко щори: 1 показва сгъваеми редове, 2 или 3 мрежа от разгънати плочки",
     h_zoom: "Бутон горе вдясно, който превключва мини картата към пълната карта и обратно",
     confirm_auto: "Гаражни врати, порти и врати",
@@ -1333,15 +1411,18 @@ const STRINGS = {
     c_awning: "Маркиза",
     c_garage: "Гаражные ворота",
     c_gate: "Ворота",
+    c_swing: "Распашные ворота",
     c_door: "Дверь",
     c_window: "Окно",
     c_damper: "Заслонка",
+    pedestrian: "Для пешехода",
     confirm_open: "Открыть {name}?",
     confirm_close: "Закрыть {name}?",
     confirm_open_all: "Открыть все шторы ({n})?",
     confirm_close_all: "Закрыть все шторы ({n})?",
     confirm_move: "Переместить {name} на {to}?",
     confirm_move_all: "Переместить шторы ({n}) на {to}?",
+    confirm_pedestrian: "Открыть {name} для пешехода?",
     not_found: "Объект не найден",
     no_entities: "Выберите хотя бы одну штору: entity, entities или area.",
     unknown_area: "Пространство не найдено: {area}",
@@ -1363,12 +1444,14 @@ const STRINGS = {
     e_show_favorites: "Показывать избранные положения",
     e_expanded: "Разворачивать каждую штору",
     e_confirm: "Спрашивать перед открытием или закрытием",
+    e_pedestrian: "Открытие для пешехода",
     e_columns: "Столбцы",
     e_zoom: "Кнопка подробностей",
     e_language: "Язык",
     h_area: "Добавляет в список все шторы этого пространства",
     h_favorites: "Выберите или введите положения; каждое станет кнопкой",
     h_device_class: "Нарисованная иллюстрация, если класс устройства не подходит",
+    h_pedestrian: "Положение в % (например, 30) или кнопка, скрипт или выключатель; иначе пешеходная кнопка ворот, если она есть у устройства",
     h_columns: "Для нескольких штор: 1 — сворачиваемые строки, 2 или 3 — сетка развёрнутых плиток",
     h_zoom: "Кнопка в правом верхнем углу, переключающая мини-карточку на полную и обратно",
     confirm_auto: "Гаражные ворота, ворота и двери",
@@ -1420,15 +1503,18 @@ const STRINGS = {
     c_awning: "Маркіза",
     c_garage: "Гаражні ворота",
     c_gate: "Ворота",
+    c_swing: "Розпашні ворота",
     c_door: "Двері",
     c_window: "Вікно",
     c_damper: "Заслінка",
+    pedestrian: "Для пішохода",
     confirm_open: "Відкрити {name}?",
     confirm_close: "Закрити {name}?",
     confirm_open_all: "Відкрити всі штори ({n})?",
     confirm_close_all: "Закрити всі штори ({n})?",
     confirm_move: "Перемістити {name} на {to}?",
     confirm_move_all: "Перемістити штори ({n}) на {to}?",
+    confirm_pedestrian: "Відчинити {name} для пішохода?",
     not_found: "Об'єкт не знайдено",
     no_entities: "Виберіть принаймні одну штору: entity, entities або area.",
     unknown_area: "Простір не знайдено: {area}",
@@ -1450,12 +1536,14 @@ const STRINGS = {
     e_show_favorites: "Показувати улюблені положення",
     e_expanded: "Розгортати кожну штору",
     e_confirm: "Питати перед відкриттям або закриттям",
+    e_pedestrian: "Відчинення для пішохода",
     e_columns: "Стовпці",
     e_zoom: "Кнопка подробиць",
     e_language: "Мова",
     h_area: "Додає до списку всі штори цього простору",
     h_favorites: "Виберіть або введіть положення; кожне стане кнопкою",
     h_device_class: "Намальована ілюстрація, якщо клас пристрою не підходить",
+    h_pedestrian: "Положення у % (наприклад, 30) або кнопка, скрипт чи вимикач; інакше пішохідна кнопка воріт, якщо вона є в пристрою",
     h_columns: "Для кількох штор: 1 — згортані рядки, 2 або 3 — сітка розгорнутих плиток",
     h_zoom: "Кнопка у правому верхньому куті, що перемикає міні-картку на повну і назад",
     confirm_auto: "Гаражні ворота, ворота та двері",
@@ -1507,15 +1595,18 @@ const STRINGS = {
     c_awning: "Napellenző",
     c_garage: "Garázskapu",
     c_gate: "Kapu",
+    c_swing: "Nyíló kapu",
     c_door: "Ajtó",
     c_window: "Ablak",
     c_damper: "Csappantyú",
+    pedestrian: "Gyalogos",
     confirm_open: "Kinyitod: {name}?",
     confirm_close: "Bezárod: {name}?",
     confirm_open_all: "Kinyitod mind a(z) {n} árnyékolót?",
     confirm_close_all: "Bezárod mind a(z) {n} árnyékolót?",
     confirm_move: "Mozgatod: {name} → {to}?",
     confirm_move_all: "Mozgatsz {n} árnyékolót ide: {to}?",
+    confirm_pedestrian: "Kinyitja gyalogosnak: {name}?",
     not_found: "Entitás nem található",
     no_entities: "Válassz legalább egy árnyékolót: entity, entities vagy area.",
     unknown_area: "Terület nem található: {area}",
@@ -1537,12 +1628,14 @@ const STRINGS = {
     e_show_favorites: "Kedvenc pozíciók megjelenítése",
     e_expanded: "Minden árnyékoló kibontása",
     e_confirm: "Kérdezzen nyitás vagy zárás előtt",
+    e_pedestrian: "Gyalogos nyitás",
     e_columns: "Oszlopok",
     e_zoom: "Részletek gomb",
     e_language: "Nyelv",
     h_area: "A terület összes árnyékolóját hozzáadja a listához",
     h_favorites: "Válassz vagy írj be pozíciókat; mindegyik gomb lesz",
     h_device_class: "Rajzolt illusztráció, ha az eszközosztály nem megfelelő",
+    h_pedestrian: "Pozíció %-ban (pl. 30), vagy egy gomb, szkript vagy kapcsoló; különben a kapu gyalogos gombja, ha az eszköznek van",
     h_columns: "Több árnyékolónál: 1 összecsukható sorokat mutat, 2 vagy 3 kibontott csempék rácsát",
     h_zoom: "Jobb felső gomb, amely a mini kártyát teljes kártyára váltja és vissza",
     confirm_auto: "Garázskapuk, kapuk és ajtók",
@@ -1594,15 +1687,18 @@ const STRINGS = {
     c_awning: "Markíza",
     c_garage: "Garážová brána",
     c_gate: "Brána",
+    c_swing: "Krídlová brána",
     c_door: "Dvere",
     c_window: "Okno",
     c_damper: "Klapka",
+    pedestrian: "Pre chodca",
     confirm_open: "Otvoriť {name}?",
     confirm_close: "Zatvoriť {name}?",
     confirm_open_all: "Otvoriť všetky clony ({n})?",
     confirm_close_all: "Zatvoriť všetky clony ({n})?",
     confirm_move: "Presunúť {name} na {to}?",
     confirm_move_all: "Presunúť clony ({n}) na {to}?",
+    confirm_pedestrian: "Otvoriť {name} pre chodca?",
     not_found: "Entita sa nenašla",
     no_entities: "Vyberte aspoň jednu clonu: entity, entities alebo area.",
     unknown_area: "Oblasť sa nenašla: {area}",
@@ -1624,12 +1720,14 @@ const STRINGS = {
     e_show_favorites: "Zobraziť obľúbené polohy",
     e_expanded: "Rozbaliť každú clonu",
     e_confirm: "Pýtať sa pred otvorením alebo zatvorením",
+    e_pedestrian: "Otvorenie pre chodcov",
     e_columns: "Stĺpce",
     e_zoom: "Tlačidlo podrobností",
     e_language: "Jazyk",
     h_area: "Pridá do zoznamu všetky clony tejto oblasti",
     h_favorites: "Vyberte alebo zadajte polohy; každá sa stane tlačidlom",
     h_device_class: "Kreslená ilustrácia, keď trieda zariadenia nesedí",
+    h_pedestrian: "Poloha v % (napr. 30) alebo tlačidlo, skript či vypínač; inak tlačidlo pre chodcov brány, ak ho zariadenie má",
     h_columns: "Pri viacerých clonách: 1 zobrazí zbaliteľné riadky, 2 alebo 3 mriežku rozbalených dlaždíc",
     h_zoom: "Tlačidlo vpravo hore, ktoré prepína mini kartu na celú kartu a späť",
     confirm_auto: "Garážové brány, brány a dvere",
@@ -1681,15 +1779,18 @@ const STRINGS = {
     c_awning: "Markýza",
     c_garage: "Garážová vrata",
     c_gate: "Brána",
+    c_swing: "Křídlová brána",
     c_door: "Dveře",
     c_window: "Okno",
     c_damper: "Klapka",
+    pedestrian: "Pro pěší",
     confirm_open: "Otevřít {name}?",
     confirm_close: "Zavřít {name}?",
     confirm_open_all: "Otevřít všechny clony ({n})?",
     confirm_close_all: "Zavřít všechny clony ({n})?",
     confirm_move: "Přesunout {name} na {to}?",
     confirm_move_all: "Přesunout clony ({n}) na {to}?",
+    confirm_pedestrian: "Otevřít {name} pro pěší?",
     not_found: "Entita nenalezena",
     no_entities: "Vyberte alespoň jednu clonu: entity, entities nebo area.",
     unknown_area: "Oblast nenalezena: {area}",
@@ -1711,12 +1812,14 @@ const STRINGS = {
     e_show_favorites: "Zobrazit oblíbené polohy",
     e_expanded: "Rozbalit každou clonu",
     e_confirm: "Ptát se před otevřením nebo zavřením",
+    e_pedestrian: "Otevření pro pěší",
     e_columns: "Sloupce",
     e_zoom: "Tlačítko podrobností",
     e_language: "Jazyk",
     h_area: "Přidá do seznamu všechny clony této oblasti",
     h_favorites: "Vyberte nebo zadejte polohy; každá se stane tlačítkem",
     h_device_class: "Kreslená ilustrace, když třída zařízení neodpovídá",
+    h_pedestrian: "Poloha v % (např. 30) nebo tlačítko, skript či vypínač; jinak tlačítko pro pěší brány, pokud ho zařízení má",
     h_columns: "U více clon: 1 zobrazí sbalitelné řádky, 2 nebo 3 mřížku rozbalených dlaždic",
     h_zoom: "Tlačítko vpravo nahoře, které přepíná mini kartu na celou kartu a zpět",
     confirm_auto: "Garážová vrata, brány a dveře",
@@ -1768,15 +1871,18 @@ const STRINGS = {
     c_awning: "Markiza",
     c_garage: "Garažna vrata",
     c_gate: "Vrata dvorišča",
+    c_swing: "Krilna vrata",
     c_door: "Vrata",
     c_window: "Okno",
     c_damper: "Loputa",
+    pedestrian: "Za pešce",
     confirm_open: "Odprem {name}?",
     confirm_close: "Zaprem {name}?",
     confirm_open_all: "Odprem vsa senčila ({n})?",
     confirm_close_all: "Zaprem vsa senčila ({n})?",
     confirm_move: "Premaknem {name} na {to}?",
     confirm_move_all: "Premaknem senčila ({n}) na {to}?",
+    confirm_pedestrian: "Odprem {name} za pešca?",
     not_found: "Entiteta ni najdena",
     no_entities: "Izberite vsaj eno senčilo: entity, entities ali area.",
     unknown_area: "Območje ni najdeno: {area}",
@@ -1798,12 +1904,14 @@ const STRINGS = {
     e_show_favorites: "Prikaži priljubljene položaje",
     e_expanded: "Razširi vsako senčilo",
     e_confirm: "Vprašaj pred odpiranjem ali zapiranjem",
+    e_pedestrian: "Odpiranje za pešce",
     e_columns: "Stolpci",
     e_zoom: "Gumb za podrobnosti",
     e_language: "Jezik",
     h_area: "Na seznam doda vsa senčila tega območja",
     h_favorites: "Izberite ali vpišite položaje; vsak postane gumb",
     h_device_class: "Narisana ilustracija, ko razred naprave ne ustreza",
+    h_pedestrian: "Položaj v % (npr. 30) ali gumb, skript ali stikalo; sicer gumb za pešce na vratih, če ga naprava ima",
     h_columns: "Pri več senčilih: 1 prikaže zložljive vrstice, 2 ali 3 mrežo razširjenih ploščic",
     h_zoom: "Gumb zgoraj desno, ki preklopi mini kartico na celotno kartico in nazaj",
     confirm_auto: "Garažna vrata, dvoriščna vrata in vrata",
@@ -1855,15 +1963,18 @@ const STRINGS = {
     c_awning: "Markīze",
     c_garage: "Garāžas vārti",
     c_gate: "Vārti",
+    c_swing: "Vērtņu vārti",
     c_door: "Durvis",
     c_window: "Logs",
     c_damper: "Vārsts",
+    pedestrian: "Gājējam",
     confirm_open: "Atvērt {name}?",
     confirm_close: "Aizvērt {name}?",
     confirm_open_all: "Atvērt visus aizsegus ({n})?",
     confirm_close_all: "Aizvērt visus aizsegus ({n})?",
     confirm_move: "Pārvietot {name} uz {to}?",
     confirm_move_all: "Pārvietot aizsegus ({n}) uz {to}?",
+    confirm_pedestrian: "Atvērt {name} gājējam?",
     not_found: "Vienība nav atrasta",
     no_entities: "Izvēlieties vismaz vienu aizsegu: entity, entities vai area.",
     unknown_area: "Apgabals nav atrasts: {area}",
@@ -1885,12 +1996,14 @@ const STRINGS = {
     e_show_favorites: "Rādīt iecienītās pozīcijas",
     e_expanded: "Izvērst katru aizsegu",
     e_confirm: "Jautāt pirms atvēršanas vai aizvēršanas",
+    e_pedestrian: "Atvēršana gājējiem",
     e_columns: "Kolonnas",
     e_zoom: "Detaļu poga",
     e_language: "Valoda",
     h_area: "Pievieno sarakstam visus šī apgabala aizsegus",
     h_favorites: "Izvēlieties vai ierakstiet pozīcijas; katra kļūst par pogu",
     h_device_class: "Zīmēta ilustrācija, ja ierīces klase neatbilst",
+    h_pedestrian: "Pozīcija % (piem., 30) vai poga, skripts vai slēdzis; citādi vārtu gājēju poga, ja ierīcei tāda ir",
     h_columns: "Ar vairākiem aizsegiem: 1 rāda sakļaujamas rindas, 2 vai 3 izvērstu flīžu režģi",
     h_zoom: "Poga augšējā labajā stūrī, kas pārslēdz mini karti uz pilno karti un atpakaļ",
     confirm_auto: "Garāžas vārti, vārti un durvis",
@@ -1942,15 +2055,18 @@ const STRINGS = {
     c_awning: "Τέντα",
     c_garage: "Γκαραζόπορτα",
     c_gate: "Αυλόπορτα",
+    c_swing: "Ανοιγόμενη αυλόπορτα",
     c_door: "Πόρτα",
     c_window: "Παράθυρο",
     c_damper: "Διάφραγμα",
+    pedestrian: "Πεζός",
     confirm_open: "Άνοιγμα: {name};",
     confirm_close: "Κλείσιμο: {name};",
     confirm_open_all: "Άνοιγμα όλων των σκιάστρων ({n});",
     confirm_close_all: "Κλείσιμο όλων των σκιάστρων ({n});",
     confirm_move: "Μετακίνηση {name} στο {to};",
     confirm_move_all: "Μετακίνηση σκιάστρων ({n}) στο {to};",
+    confirm_pedestrian: "Άνοιγμα {name} για πεζό;",
     not_found: "Η οντότητα δεν βρέθηκε",
     no_entities: "Επιλέξτε τουλάχιστον ένα σκιάστρο: entity, entities ή area.",
     unknown_area: "Η περιοχή δεν βρέθηκε: {area}",
@@ -1972,12 +2088,14 @@ const STRINGS = {
     e_show_favorites: "Εμφάνιση αγαπημένων θέσεων",
     e_expanded: "Ανάπτυξη κάθε σκιάστρου",
     e_confirm: "Ερώτηση πριν από άνοιγμα ή κλείσιμο",
+    e_pedestrian: "Άνοιγμα για πεζούς",
     e_columns: "Στήλες",
     e_zoom: "Κουμπί λεπτομερειών",
     e_language: "Γλώσσα",
     h_area: "Προσθέτει στη λίστα όλα τα σκιάστρα αυτής της περιοχής",
     h_favorites: "Επιλέξτε ή πληκτρολογήστε θέσεις· η καθεμία γίνεται κουμπί",
     h_device_class: "Σχεδιασμένη εικόνα, όταν η κλάση συσκευής δεν ταιριάζει",
+    h_pedestrian: "Θέση σε % (π.χ. 30) ή κουμπί, σενάριο ή διακόπτης· αλλιώς το κουμπί πεζών της αυλόπορτας, αν η συσκευή έχει",
     h_columns: "Με πολλά σκίαστρα: 1 δείχνει πτυσσόμενες γραμμές, 2 ή 3 πλέγμα αναπτυγμένων πλακιδίων",
     h_zoom: "Κουμπί πάνω δεξιά που αλλάζει τη μίνι κάρτα σε πλήρη κάρτα και πίσω",
     confirm_auto: "Γκαραζόπορτες, αυλόπορτες και πόρτες",
@@ -2060,8 +2178,34 @@ const hasTilt = (s) => (featuresOf(s) & TILT_FEATURES) !== 0;
 const isOffline = (s) => !s || s.state === "unavailable";
 const isMoving = (s) => s?.state === "opening" || s?.state === "closing";
 
-const classOf = (s, override) =>
-  CLASSES.includes(override) ? override : CLASSES.includes(s?.attributes?.device_class) ? s.attributes.device_class : "shutter";
+// A gate whose name says it swings (two leaves on hinges) in any of the card's languages.
+const SWING_RE = /swing|battant|batant|fl[uü]gel|drehtor|batiente|battente|draai|batente|skrzyd|kr[ií]dl|k[rř][ií]dl|krilna|крил|распаш|розпаш|ny[ií]l[oó]|двукрил|slagrind|fløj|vērtņ|ανοιγ/i;
+const classOf = (s, override) => {
+  if (PICTURES.includes(override)) return override;
+  const dc = s?.attributes?.device_class;
+  if (dc === "gate" && SWING_RE.test(s?.attributes?.friendly_name || s?.entity_id || "")) return "swing";
+  return CLASSES.includes(dc) ? dc : "shutter";
+};
+
+// The pedestrian opening of a gate: `pedestrian` (the cover's, else the card's) as a position in % or an entity to
+// press (button, script, switch), `false` for none; unset, the gate's own pedestrian button or switch, found on its
+// device by its name. Returns { position } or { entity }, or null.
+const PEDESTRIAN_RE = /pedestrian|pi[eé]ton|fu(ss|ß)g|peat[oó]n|pedonal|voetg|piesz|pietonal|g[aå]ende|fodg|chodc|pě[sš]|pe[sš]c|pe[sš]ak|gājēj|πεζ|пешех|пешач|пішох|gyalog|wicket/i;
+const pedestrianOf = (hass, id, cls, own) => {
+  if (own === false) return null;
+  if (typeof own === "number" || (typeof own === "string" && own.trim() !== "" && Number.isFinite(Number(own)))) return { position: clamp(Math.round(Number(own))) };
+  if (typeof own === "string" && own.includes(".")) return { entity: own };
+  if (!GATES.has(cls)) return null;
+  const device = hass?.entities?.[id]?.device_id;
+  if (!device) return null;
+  const found = Object.values(hass.entities || {}).find(
+    (e) =>
+      e.device_id === device &&
+      /^(button|input_button|switch)\./.test(e.entity_id) &&
+      PEDESTRIAN_RE.test(`${e.entity_id} ${e.name || ""} ${hass.states?.[e.entity_id]?.attributes?.friendly_name || ""}`),
+  );
+  return found ? { entity: found.entity_id } : null;
+};
 
 // State of one cover → color class: moving is active (blue), an open garage door, gate, door or window a warning,
 // another open cover green, closed grey, unavailable red.
@@ -2207,6 +2351,18 @@ const SCENES = {
       <circle cx="26" cy="108" r="2.5" fill="#6f747a"/><circle cx="74" cy="108" r="2.5" fill="#6f747a"/></g></g></svg>
     <rect x="5" y="44" width="10" height="68" rx="1.5" fill="#a9a59c" stroke="#8f8b82"/><rect x="85" y="44" width="10" height="68" rx="1.5" fill="#a9a59c" stroke="#8f8b82"/>
     <rect x="4" y="41" width="12" height="4" rx="1" fill="#8f8b82"/><rect x="84" y="41" width="12" height="4" rx="1" fill="#8f8b82"/>${lamp(10, 35)}`,
+  // Swing gate between two pillars: two leaves on their hinges, narrower as they swing open, their paths on the
+  // drive; lamp on the left pillar.
+  swing: () => `<path d="M2 112H98" stroke="#b9bfc6" stroke-width="2"/>
+    <path d="M15 112Q24 98 50 104M85 112Q76 98 50 104" fill="none" stroke="#b9bfc6" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <g class="leaf-l"><g class="bob"><path d="M15 56Q32 50 50 54V108H15Z" fill="none" stroke="#3d4147" stroke-width="3"/>
+      <path d="${range(4, (i) => `M${22 + i * 7} ${54 - (i < 2 ? i : 3 - i) * 0.6}V108`)}" stroke="#4a4e54" stroke-width="2.2"/>
+      <path d="M15 82H50" stroke="#3d4147" stroke-width="2"/></g></g>
+    <g class="leaf-r"><g class="bob"><path d="M85 56Q68 50 50 54V108H85Z" fill="none" stroke="#3d4147" stroke-width="3"/>
+      <path d="${range(4, (i) => `M${78 - i * 7} ${54 - (i < 2 ? i : 3 - i) * 0.6}V108`)}" stroke="#4a4e54" stroke-width="2.2"/>
+      <path d="M50 82H85" stroke="#3d4147" stroke-width="2"/></g></g>
+    <rect x="5" y="44" width="10" height="68" rx="1.5" fill="#a9a59c" stroke="#8f8b82"/><rect x="85" y="44" width="10" height="68" rx="1.5" fill="#a9a59c" stroke="#8f8b82"/>
+    <rect x="4" y="41" width="12" height="4" rx="1" fill="#8f8b82"/><rect x="84" y="41" width="12" height="4" rx="1" fill="#8f8b82"/>${lamp(10, 35)}`,
   // Door: wooden leaf swinging inward (narrower as it opens), lamp above it.
   door: (u) => `<rect x="20" y="14" width="60" height="98" rx="2" fill="url(#${u}f)" stroke="#c4c5c2"/>
     <rect x="25" y="19" width="50" height="93" fill="#2b2f36"/><path d="M25 112l10-8h30l10 8" fill="#3b4048"/>
@@ -2239,7 +2395,7 @@ const AXES = {
   down: { from: 20, len: 54, open: 1 },
   across: { from: 14, len: 72, open: 1 },
 };
-const axisOf = (cls) => (cls === "curtain" || cls === "gate" ? "across" : cls === "awning" ? "down" : "up");
+const axisOf = (cls) => (cls === "curtain" || cls === "gate" || cls === "swing" ? "across" : cls === "awning" ? "down" : "up");
 // Where position `p` lies along the rail of `axis`, in viewBox units.
 const railAt = (axis, p) => {
   const a = AXES[axis];
@@ -2280,6 +2436,8 @@ const SCENE_STYLE = `
   .valance { transform-box: view-box; transform: translateY(calc(var(--p) * 0.54px)); }
   .flutter { transform-origin: top center; }
   .leaf { transform-origin: left center; transform: scaleX(calc(1 - var(--p) * 0.0072)); }
+  .leaf-l { transform-origin: left center; transform: scaleX(calc(1 - var(--p) * 0.0076)); }
+  .leaf-r { transform-origin: right center; transform: scaleX(calc(1 - var(--p) * 0.0076)); }
   .sash { transform-origin: top center; transform: scaleY(calc(1 - var(--p) * 0.0042)); }
   .blade { transform-origin: center; transform: scaleY(calc(1 - var(--p) * 0.0094)); }
   .air { opacity: calc(var(--p) / 100); }
@@ -2288,7 +2446,7 @@ const SCENE_STYLE = `
   .target { fill: var(--cc-accent); }
   .knob { transform-box: view-box; transform: translateY(calc((100 - var(--p)) * 0.88px)); }
   .awning .knob { transform: translateY(calc(var(--p) * 0.54px)); }
-  .curtain .knob, .gate .knob { transform: translateX(calc(var(--p) * 0.72px)); }
+  .curtain .knob, .gate .knob, .swing .knob { transform: translateX(calc(var(--p) * 0.72px)); }
   .handle { fill: var(--card-background-color, #fff); stroke: var(--c, var(--cc-accent)); stroke-width: 2.4; }
   /* Moving: the slats roll and the edge steps toward where the cover goes, the bottom bar, folds and valance sway,
      the warning lamps blink, the air flows and the knob pulses. */
@@ -2297,6 +2455,9 @@ const SCENE_STYLE = `
   .opening .shift { animation: cc-rise 1.6s ease-in-out infinite; }
   .closing .shift { animation: cc-fall 1.6s ease-in-out infinite; }
   .gate.scene .shift { animation: none; }
+  /* A swing gate on the move: its leaves swing a step further on their hinges, the way it goes. */
+  .opening .swing .leaf-l, .opening .swing .leaf-r { animation: cc-swing-open 1.6s ease-in-out infinite; }
+  .closing .swing .leaf-l, .closing .swing .leaf-r { animation: cc-swing-close 1.6s ease-in-out infinite; }
   .moving .bob { animation: cc-bob .5s ease-in-out infinite alternate; }
   .moving .sway { animation: cc-sway .8s ease-in-out infinite alternate; }
   .moving .flutter { animation: cc-sway .4s ease-in-out infinite alternate; }
@@ -2306,6 +2467,8 @@ const SCENE_STYLE = `
   .moving .handle { animation: cc-pulse 1s ease-in-out infinite alternate; }
   @keyframes cc-roll { from { transform: translateY(0); } to { transform: translateY(-5px); } }
   @keyframes cc-rise { 0%, 15% { transform: translateY(calc(var(--p) * var(--k) * 1px)); } 85%, 100% { transform: translateY(calc(var(--p) * var(--k) * 1px - 8px)); } }
+  @keyframes cc-swing-open { 0%, 15% { transform: scaleX(calc(1 - var(--p) * 0.0076)); } 85%, 100% { transform: scaleX(calc(1 - min(100, var(--p) + 14) * 0.0076)); } }
+  @keyframes cc-swing-close { 0%, 15% { transform: scaleX(calc(1 - var(--p) * 0.0076)); } 85%, 100% { transform: scaleX(calc(1 - max(0, var(--p) - 14) * 0.0076)); } }
   @keyframes cc-fall { 0%, 15% { transform: translateY(calc(var(--p) * var(--k) * 1px)); } 85%, 100% { transform: translateY(calc(var(--p) * var(--k) * 1px + 8px)); } }
   @keyframes cc-bob { from { transform: translateY(0); } to { transform: translateY(-1.2px); } }
   @keyframes cc-sway { from { transform: skewX(-2deg); } to { transform: skewX(2deg); } }
@@ -2521,6 +2684,18 @@ const MINI_STYLE = `
   .thumb .visual .scene { filter: drop-shadow(0 2px 4px rgba(0,0,0,.18)); }
   .thumb .tname { font-size: 11px; color: var(--secondary-text-color); max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .thumb .tval { font-size: 12px; font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .single { display: flex; align-items: center; gap: 12px; }
+  .sinfo { flex: 1; min-width: 0; cursor: pointer; }
+  .sval { font-size: 28px; line-height: 1.15; color: var(--ink); white-space: nowrap; }
+  .sstate { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--secondary-text-color); }
+  .sbtns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .sbtns .btn.round { width: 42px; height: 42px; }
+  .sbtns .btn.round .icon { width: 20px; height: 20px; }
+  @container (max-width: 280px) {
+    .single { flex-direction: column; align-items: stretch; gap: 8px; }
+    .sbtns { justify-content: space-between; }
+    .sbtns .btn.round { width: 36px; height: 36px; }
+  }
   .group { display: flex; flex-wrap: wrap; gap: 6px; }
   .group .btn { flex: 1 1 auto; }
   @container (max-width: 280px) {
@@ -2842,6 +3017,7 @@ class CoverBase extends HTMLElement {
         s,
         noFeedback,
         cls: classOf(s, i.device_class || this._config.device_class),
+        pedestrian: pedestrianOf(this._hass, i.entity, classOf(s, i.device_class || this._config.device_class), i.pedestrian ?? this._config.pedestrian),
         // Covers whose integration reports the position the wrong way round (often awnings): the card mirrors it.
         invert: Boolean(i.invert ?? this._config.invert),
         name: nameOf(this._hass, i.entity, i.name),
@@ -3001,6 +3177,7 @@ class CoverBase extends HTMLElement {
     }
     if (SERVICES[action]) return this._command(action, entity);
     if (GROUP_ACTIONS[action]) return this._groupCommand(GROUP_ACTIONS[action]);
+    if (action === "pedestrian") return this._pedestrian(entity);
     if (action === "fav") return this._favorite(entity, Number(el.dataset.index));
     if (action === "fav_all") return this._favorite(null, Number(el.dataset.index));
     if (entity) this.dispatchEvent(new CustomEvent("hass-more-info", { detail: { entityId: entity }, bubbles: true, composed: true }));
@@ -3022,6 +3199,28 @@ class CoverBase extends HTMLElement {
     const run = () => this._call(service, { entity_id: id });
     if (action === "open" || action === "close") this._maybeConfirm(this._t(`confirm_${action}`, { name: item.name }), this._t(action), run, [item]);
     else run();
+  }
+
+  // Pedestrian opening: the gate to its pedestrian position, or the pedestrian button, script or switch pressed; asks
+  // first like opening it.
+  _pedestrian(id) {
+    const item = this._item(id);
+    const ped = item?.pedestrian;
+    if (!ped || isOffline(item.s)) return;
+    let run;
+    if (ped.position !== undefined) {
+      if (!has(item.s, F.SET_POSITION)) return;
+      run = () => {
+        this._targets[id] = { value: ped.position, until: Date.now() + TARGET_MS };
+        this._call("set_cover_position", { entity_id: id, position: this._sendPos(item, ped.position) });
+        this._update();
+      };
+    } else {
+      const domain = ped.entity.split(".")[0];
+      const [svcDomain, service] = domain === "button" || domain === "input_button" ? [domain, "press"] : domain === "script" || domain === "switch" ? [domain, "turn_on"] : ["homeassistant", "turn_on"];
+      run = () => Promise.resolve(this._hass.callService(svcDomain, service, { entity_id: ped.entity })).catch(() => {});
+    }
+    this._maybeConfirm(this._t("confirm_pedestrian", { name: item.name }), this._t("pedestrian"), run, [item]);
   }
 
   // The covers of the card that can take an action: online and supporting it.
@@ -3383,7 +3582,11 @@ class CoverBase extends HTMLElement {
     const off = isOffline(s);
     const pos = s?.attributes?.assumed_state === true || item.noFeedback ? null : positionOf(s);
     const out = [];
-    for (const action of ["open", "stop", "close"]) {
+    for (const action of ["open", "pedestrian", "stop", "close"]) {
+      if (action === "pedestrian") {
+        out.push(this._pedButton(item, { round, labels, off }));
+        continue;
+      }
       if (!s || !has(s, SERVICES[action][1])) continue;
       const on = (action === "open" && s.state === "opening") || (action === "close" && s.state === "closing");
       const done = (action === "open" && (s.state === "opening" || (pos === 100 && !isMoving(s)))) || (action === "close" && (s.state === "closing" || (pos === 0 && !isMoving(s))));
@@ -3395,6 +3598,15 @@ class CoverBase extends HTMLElement {
       );
     }
     return out.join("");
+  }
+
+  // The pedestrian button of a gate that has a pedestrian opening; lit while the gate stands at its pedestrian position.
+  _pedButton(item, { round, labels, off }) {
+    const ped = item.pedestrian;
+    if (!ped || !item.s || (ped.position !== undefined && !has(item.s, F.SET_POSITION))) return "";
+    const on = ped.position !== undefined && this._posOf(item) === ped.position && !isMoving(item.s);
+    const label = esc(this._t("pedestrian"));
+    return `<button class="btn ${round ? "round small " : ""}pedestrian${on ? " on" : ""}" data-action="pedestrian" data-entity="${esc(item.id)}" title="${label}" aria-label="${label}"${off ? " disabled" : ""}>${svgIcon(ICONS.walk)}${labels && !round ? `<span>${label}</span>` : ""}</button>`;
   }
 
   _favLabel(f) {
@@ -3660,12 +3872,38 @@ class CoverMiniCard extends CoverCard {
     if (ev.detail === 0) this.shadowRoot.querySelector(".zoom")?.focus({ preventScroll: true });
   }
 
+  // A single cover: the banner already draws it, so the body is its position and state, and its buttons as round
+  // ones on the right, as in the other mini cards.
+  _single(item) {
+    const s = item.s;
+    const c = this._config;
+    const cls = stateClass(s, item.cls);
+    const p = this._pos(item);
+    const partly = s?.state === "open" && p > 0 && p < 100;
+    const value = p !== null && !isOffline(s) ? this._pct(p) : this._stateText(s);
+    const state = partly ? this._t("partly_open") : this._stateText(s);
+    const stateLine = p !== null && !isOffline(s) && c.show_state !== false ? `<div class="sstate ${cls}"><span class="dot"></span><span>${esc(state)}</span></div>` : "";
+    const buttons = c.show_controls !== false && s ? `<div class="sbtns">${this._buttons(item, { round: true })}</div>` : "";
+    return `<style>${BASE_STYLE}${SCENE_STYLE}${this._bannerStyle()}${MINI_STYLE}</style>
+      <ha-card>
+        ${this._header([item])}
+        <div class="content">
+          <div class="single">
+            <div class="sinfo clickable" role="button" tabindex="0" data-entity="${esc(item.id)}"><div class="sval">${esc(value)}</div>${stateLine}</div>
+            ${buttons}
+          </div>
+          ${this._favorites([item], item.favorites, item.id)}
+        </div>
+      </ha-card>`;
+  }
+
   _render() {
     if (this._zoomed) return super._render();
     const items = this._items();
     const err = this._configError(items);
     if (err) return this._errorCard(...err);
     const c = this._config;
+    if (items.length === 1) return this._single(items[0]);
     const thumbs = items
       .map((i) => {
         const label = esc(`${i.name}: ${this._valueText(i)}`);
@@ -3804,10 +4042,11 @@ class CoverEditorBase extends HTMLElement {
       { name: "title", selector: { text: {} } },
       {
         name: "device_class",
-        selector: { select: { mode: "dropdown", options: [{ value: "auto", label: tr("class_auto") }, ...CLASSES.map((c) => ({ value: c, label: tr(`c_${c}`) }))] } },
+        selector: { select: { mode: "dropdown", options: [{ value: "auto", label: tr("class_auto") }, ...PICTURES.map((c) => ({ value: c, label: tr(`c_${c}`) }))] } },
       },
       { name: "invert", selector: { boolean: {} } },
       { name: "no_feedback", selector: { boolean: {} } },
+      { name: "pedestrian", selector: { text: {} } },
       {
         name: "favorites",
         selector: { select: { multiple: true, custom_value: true, mode: "dropdown", options: FAVORITE_PRESETS.map((v) => ({ value: v, label: `${v} %` })) } },
