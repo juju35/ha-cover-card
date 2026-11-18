@@ -2455,6 +2455,9 @@ const SCENE_STYLE = `
   .opening .shift { animation: cc-rise 1.6s ease-in-out infinite; }
   .closing .shift { animation: cc-fall 1.6s ease-in-out infinite; }
   .gate.scene .shift { animation: none; }
+  /* A swing gate on the move: its leaves swing a step further on their hinges, the way it goes. */
+  .swing.opening .leaf-l, .swing.opening .leaf-r { animation: cc-swing-open 1.6s ease-in-out infinite; }
+  .swing.closing .leaf-l, .swing.closing .leaf-r { animation: cc-swing-close 1.6s ease-in-out infinite; }
   .moving .bob { animation: cc-bob .5s ease-in-out infinite alternate; }
   .moving .sway { animation: cc-sway .8s ease-in-out infinite alternate; }
   .moving .flutter { animation: cc-sway .4s ease-in-out infinite alternate; }
@@ -2464,6 +2467,8 @@ const SCENE_STYLE = `
   .moving .handle { animation: cc-pulse 1s ease-in-out infinite alternate; }
   @keyframes cc-roll { from { transform: translateY(0); } to { transform: translateY(-5px); } }
   @keyframes cc-rise { 0%, 15% { transform: translateY(calc(var(--p) * var(--k) * 1px)); } 85%, 100% { transform: translateY(calc(var(--p) * var(--k) * 1px - 8px)); } }
+  @keyframes cc-swing-open { 0%, 15% { transform: scaleX(calc(1 - var(--p) * 0.0076)); } 85%, 100% { transform: scaleX(calc(1 - min(100, var(--p) + 14) * 0.0076)); } }
+  @keyframes cc-swing-close { 0%, 15% { transform: scaleX(calc(1 - var(--p) * 0.0076)); } 85%, 100% { transform: scaleX(calc(1 - max(0, var(--p) - 14) * 0.0076)); } }
   @keyframes cc-fall { 0%, 15% { transform: translateY(calc(var(--p) * var(--k) * 1px)); } 85%, 100% { transform: translateY(calc(var(--p) * var(--k) * 1px + 8px)); } }
   @keyframes cc-bob { from { transform: translateY(0); } to { transform: translateY(-1.2px); } }
   @keyframes cc-sway { from { transform: skewX(-2deg); } to { transform: skewX(2deg); } }
