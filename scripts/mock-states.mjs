@@ -53,4 +53,11 @@ states["light.terrace_pergola_led"] = { entity_id: "light.terrace_pergola_led", 
 cover("cover.front_door", "hall", "Front door", "door", "closed", { supported_features: 1 | 2 });
 cover("cover.attic_window", "attic", "Attic window", "window", "open", { current_position: 30 });
 cover("cover.utility_damper", "utility", "Air damper", "damper", "open", { current_position: 70, supported_features: 1 | 2 | 4 });
+// The automatic schedule of the bay window: the opening of the day as a timestamp sensor, the closing as a template
+// sensor giving the time alone, the next opening (tomorrow's), and its condition turned off (a day off at home).
+const sensor = (entity_id, state, attributes = {}) => (states[entity_id] = { entity_id, state, attributes });
+sensor("sensor.bay_window_opening", "2026-06-15T07:42:00+00:00", { friendly_name: "Bay window opening", device_class: "timestamp" });
+sensor("sensor.bay_window_closing", "18:05", { friendly_name: "Bay window closing" });
+sensor("sensor.bay_window_next_opening", "08:12", { friendly_name: "Bay window next opening" });
+sensor("input_boolean.covers_auto_open", "off", { friendly_name: "Open the covers automatically" });
 cover("cover.guest_room_shutter", "bedroom", "Guest room shutter", "shutter", "unavailable", { supported_features: POSITION });

@@ -66,8 +66,10 @@ const pageHtml = (theme, width) => `<!doctype html><html><head><meta charset="ut
 </style></head><body><div id="root"></div></body></html>`;
 
 // Opens a card on a fresh page and mounts it with the mock hass; `overrides` patch the mock states for this shot only.
-async function openCard(browser, { file, type, config, theme, width, overrides }) {
-  const page = await browser.newPage({ deviceScaleFactor: 2, viewport: { width: 1000, height: 2000 } });
+async function openCard(browser, { file, type, config, theme, width, overrides, clock }) {
+  // A capture showing a time of day (the automatic schedule) is taken at a fixed time, in UTC, so it stays the same.
+  const page = await browser.newPage({ deviceScaleFactor: 2, viewport: { width: 1000, height: 2000 }, ...(clock ? { timezoneId: "UTC" } : {}) });
+  if (clock) await page.clock.setFixedTime(new Date(clock));
   page.on("pageerror", (err) => {
     console.error(`pageerror (${file}): ${err.message}`);
     pageErrors.push(`${file}: ${err.message}`);

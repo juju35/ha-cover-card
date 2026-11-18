@@ -375,6 +375,60 @@ test("a mini card of one cover: its position and state, its own round buttons, n
   assert.match(html(newCard(cc.CoverMiniCard, { entity: "cover.swing_gate" })), /data-action="pedestrian"/);
 });
 
+test("schedule times: a time alone is its next occurrence, a date and time is kept as it is", () => {
+  const now = new Date(2026, 5, 15, 15, 20).getTime();
+  const at = (v) => cc.whenOf(v, now)?.getTime();
+  assert.equal(at("18:05"), new Date(2026, 5, 15, 18, 5).getTime());
+  assert.equal(at("18:05:30"), new Date(2026, 5, 15, 18, 5, 30).getTime());
+  assert.equal(at("7h42"), new Date(2026, 5, 16, 7, 42).getTime(), "already past today: tomorrow");
+  assert.equal(at("2026-06-15 07:42:00"), new Date(2026, 5, 15, 7, 42).getTime(), "an input_datetime with a date");
+  assert.equal(at("2026-06-16T06:42:00Z"), Date.UTC(2026, 5, 16, 6, 42));
+  for (const v of ["unknown", "unavailable", "", "2026-06-16", "25:00", "12:61", undefined]) assert.equal(cc.whenOf(v, now), null, String(v));
+  assert.equal(cc.dayDiff(now, new Date(2026, 5, 16, 0, 10)), 1);
+  assert.equal(cc.dayDiff(now, new Date(2026, 5, 15, 23, 59)), 0);
+});
+
+test("schedule options: a cover's own, else the card's for its only cover", () => {
+  assert.equal(cc.scheduleOf({ entity: BAY }, null), null);
+  assert.deepEqual(plain(cc.scheduleOf({}, { close_time: "sensor.c", close_condition: "input_boolean.x" })), {
+    open_time: null,
+    close_time: "sensor.c",
+    open_condition: null,
+    close_condition: "input_boolean.x",
+  });
+  assert.equal(cc.scheduleOf({ open_time: "sensor.o" }, { close_time: "sensor.c" }).close_time, null, "the cover's own wins whole");
+});
+
+test("schedule: the next automatic action in the accent with its countdown, a past one dimmed, a skipped one struck", () => {
+  const pad = (n) => String(n).padStart(2, "0");
+  const hm = (d) => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  // In 2 h 45 min to the second (the countdown rounds up to the minute).
+  const soon = new Date(Date.now() + (2 * 60 + 45) * 60000);
+  const hms = (d) => `${hm(d)}:${pad(d.getSeconds())}`;
+  const iso = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${hm(d)}:00`;
+  const earlier = new Date(Date.now() - 60 * 60000);
+  const sameDay = earlier.getDate() === new Date().getDate();
+  const hass = makeHass({ "sensor.open_at": iso(earlier), "sensor.close_at": hms(soon), "input_boolean.auto_open": "on" });
+  const card = newCard(cc.CoverCard, { entity: BAY, open_time: "sensor.open_at", close_time: "sensor.close_at", open_condition: "input_boolean.auto_open" }, hass);
+  const h = html(card);
+  assert.match(h, /<div class="sched" role="group" aria-label="Automatic schedule">/);
+  assert.match(h, /class="slot next">[\s\S]*?Closes <span class="in">· in 2 h 45 min<\/span>/);
+  if (sameDay) assert.match(h, /class="slot done">[\s\S]*?Opened</);
+  // The opening turned off by its condition: struck through, never the next one.
+  const off = html(newCard(cc.CoverCard, { entity: BAY, open_time: "06:00", close_time: hm(soon), open_condition: "input_boolean.auto_open" }, makeHass({ "input_boolean.auto_open": "off" })));
+  assert.match(off, /class="slot skip">[\s\S]*?Opens <span class="in">· skipped<\/span>/);
+  assert.match(off, /class="slot next">/);
+  // Hidden with show_schedule: false, and nothing for a time that cannot be read.
+  assert.doesNotMatch(html(newCard(cc.CoverCard, { entity: BAY, close_time: "18:00", show_schedule: false })), /class="sched/);
+  assert.doesNotMatch(html(newCard(cc.CoverCard, { entity: BAY, close_time: "sensor.nothing" })), /class="sched/);
+  // The mini card shows it small; a card of several covers once, above them.
+  assert.match(html(newCard(cc.CoverMiniCard, { entity: BAY, close_time: "18:00" })), /class="sched small"/);
+  const group = html(newCard(cc.CoverCard, { area: "living_room", close_time: "18:00" }));
+  assert.equal(group.match(/class="sched"/g).length, 1);
+  // The French words and duration.
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, close_time: hms(soon), language: "fr" })), /Fermeture <span class="in">· dans 2 h 45<\/span>/);
+});
+
 test("configuration errors are shown in the card", () => {
   assert.match(html(newCard(cc.CoverCard, {})), /Choose at least one cover/);
   assert.match(html(newCard(cc.CoverCard, { area: "nowhere" })), /Area not found: nowhere/);

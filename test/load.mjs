@@ -56,6 +56,8 @@ export const load = () => {
     },
     setTimeout,
     clearTimeout,
+    setInterval,
+    clearInterval,
   };
   // document-level listeners, fired by hand with fireDocument(type, ev).
   sandbox.fireDocument = (type, ev) => {
@@ -68,7 +70,7 @@ export const load = () => {
   vm.createContext(sandbox);
   return vm.runInContext(
     `${source}
-    ({ STRINGS, F, CLASSES, PICTURES, pedestrianOf, ICONS, esc, lang, t, fmtPct, positionOf, tiltOf, featuresOf, stateClass, classOf, itemsOf, favoritesOf, toForm, fromForm, columnsOf,
+    ({ STRINGS, F, CLASSES, PICTURES, pedestrianOf, ICONS, esc, lang, t, fmtPct, positionOf, tiltOf, featuresOf, stateClass, classOf, itemsOf, favoritesOf, toForm, fromForm, columnsOf, whenOf, scheduleOf, dayDiff,
        coverSvg, SCENES, CoverCard: customElements.get("cover-card"), CoverMiniCard: customElements.get("cover-mini-card"),
        CoverCardEditor: customElements.get("cover-card-editor"), CoverMiniCardEditor: customElements.get("cover-mini-card-editor"), window, document })`,
     sandbox,

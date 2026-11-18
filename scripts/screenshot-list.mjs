@@ -35,12 +35,32 @@ export const shots = twins([
   { file: "card-barrier", type: "cover-card", width: 420, config: { entity: "cover.car_park_barrier" } },
   { file: "card-hinged", type: "cover-card", width: 420, config: { entity: "cover.hinged_shutters", favorites: [0, 50, 100] } },
   { file: "card-pergola", type: "cover-card", width: 420, config: { entity: "cover.terrace_pergola", light: "light.terrace_pergola_led", favorites: [{ name: "Shade", tilt: 20 }, { name: "Breeze", tilt: 90 }] } },
+  // The automatic schedule, at a fixed time of day (`clock`, UTC): the opening done, the closing to come.
+  {
+    file: "card-schedule",
+    type: "cover-card",
+    width: 420,
+    clock: "2026-06-15T15:20:00Z",
+    config: { entity: "cover.living_room_bay_window", open_time: "sensor.bay_window_opening", close_time: "sensor.bay_window_closing", favorites: [25, 50, 75] },
+  },
   { file: "card-unavailable", type: "cover-card", width: 420, config: { entity: "cover.guest_room_shutter" } },
   { file: "mini-card", type: "cover-mini-card", width: 400, config: { area: "living_room" } },
   { file: "mini-card-swing", type: "cover-mini-card", width: 400, config: { entity: "cover.swing_gate" } },
   { file: "mini-card-barrier", type: "cover-mini-card", width: 400, config: { entity: "cover.car_park_barrier" } },
   { file: "mini-card-hinged", type: "cover-mini-card", width: 400, config: { entity: "cover.hinged_shutters" } },
   { file: "mini-card-pergola", type: "cover-mini-card", width: 400, config: { entity: "cover.terrace_pergola", light: "light.terrace_pergola_led" } },
+  {
+    file: "mini-card-schedule",
+    type: "cover-mini-card",
+    width: 400,
+    clock: "2026-06-15T15:20:00Z",
+    config: {
+      entity: "cover.living_room_bay_window",
+      open_time: "sensor.bay_window_next_opening",
+      close_time: "sensor.bay_window_closing",
+      open_condition: "input_boolean.covers_auto_open",
+    },
+  },
   { file: "mini-card-all", type: "cover-mini-card", width: 460, config: { title: "Every kind of cover", entities: ALL } },
   { file: "mini-card-zoomed", type: "cover-mini-card", width: 420, config: { entities: LIVING, title: "Living room" }, clicks: ['[data-action="zoom"]', '[data-action="toggle"][data-entity="cover.living_room_patio_door"]'] },
 ]);

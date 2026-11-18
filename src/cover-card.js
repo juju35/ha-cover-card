@@ -79,6 +79,9 @@ const ICONS = {
   tilt_open: "M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z",
   tilt_close: "M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z",
   tilt: "M20,19H4.09L14.18,4.43L15.82,5.57L11.28,12.13C12.89,12.96 14,14.62 14,16.54C14,16.7 14,16.85 13.97,17H20V19M7.91,17H11.96C12,16.85 12,16.7 12,16.54C12,15.28 11.24,14.22 10.14,13.78L7.91,17Z",
+  // mdi:arrow-collapse-up / mdi:arrow-collapse-down: the automatic opening and closing of the schedule.
+  sch_open: "M4.08,11.92L12,4L19.92,11.92L18.5,13.33L13,7.83V22H11V7.83L5.5,13.33L4.08,11.92M12,4H22V2H2V4H12Z",
+  sch_close: "M19.92,12.08L12,20L4.08,12.08L5.5,10.67L11,16.17V2H13V16.17L18.5,10.66L19.92,12.08M12,20H2V22H22V20H12Z",
   star: "M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z",
   chevron_down: "M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z",
   // mdi:arrow-expand and mdi:arrow-collapse (mini card detail button)
@@ -198,6 +201,26 @@ const STRINGS = {
     theme_auto: "Automatic: night with a dark theme, day with a light theme",
     theme_day: "Day",
     theme_night: "Night",
+    sch_title: "Automatic schedule",
+    sch_opens: "Opens",
+    sch_closes: "Closes",
+    sch_opened: "Opened",
+    sch_closed: "Closed",
+    sch_tomorrow: "tomorrow",
+    sch_in: "in {d}",
+    sch_skipped: "skipped",
+    dur_m: "{m} min",
+    dur_h: "{h} h",
+    dur_hm: "{h} h {m} min",
+    e_open_time: "Automatic opening time",
+    e_close_time: "Automatic closing time",
+    e_open_condition: "Automatic opening enabled",
+    e_close_condition: "Automatic closing enabled",
+    e_show_schedule: "Show the automatic schedule",
+    h_open_time: "A sensor or input_datetime holding the time (HH:MM) or the date and time of the next automatic opening",
+    h_close_time: "A sensor or input_datetime holding the time (HH:MM) or the date and time of the next automatic closing",
+    h_open_condition: "An on/off entity (input_boolean, binary_sensor, schedule…): while it is off, the opening is shown as skipped",
+    h_close_condition: "An on/off entity (input_boolean, binary_sensor, schedule…): while it is off, the closing is shown as skipped",
   },
   fr: {
     covers: "Ouvrants",
@@ -295,6 +318,26 @@ const STRINGS = {
     theme_auto: "Automatique : nuit avec un thème sombre, jour avec un thème clair",
     theme_day: "Jour",
     theme_night: "Nuit",
+    sch_title: "Horaires automatiques",
+    sch_opens: "Ouverture",
+    sch_closes: "Fermeture",
+    sch_opened: "Ouvert",
+    sch_closed: "Fermé",
+    sch_tomorrow: "demain",
+    sch_in: "dans {d}",
+    sch_skipped: "sautée",
+    dur_m: "{m} min",
+    dur_h: "{h} h",
+    dur_hm: "{h} h {m}",
+    e_open_time: "Heure d'ouverture automatique",
+    e_close_time: "Heure de fermeture automatique",
+    e_open_condition: "Ouverture automatique active",
+    e_close_condition: "Fermeture automatique active",
+    e_show_schedule: "Afficher les horaires automatiques",
+    h_open_time: "Un capteur ou input_datetime donnant l'heure (HH:MM) ou la date et l'heure de la prochaine ouverture automatique",
+    h_close_time: "Un capteur ou input_datetime donnant l'heure (HH:MM) ou la date et l'heure de la prochaine fermeture automatique",
+    h_open_condition: "Une entité on/off (input_boolean, binary_sensor, schedule…) : tant qu'elle est à off, l'ouverture est affichée comme sautée",
+    h_close_condition: "Une entité on/off (input_boolean, binary_sensor, schedule…) : tant qu'elle est à off, la fermeture est affichée comme sautée",
   },
   de: {
     covers: "Abdeckungen",
@@ -392,6 +435,26 @@ const STRINGS = {
     theme_auto: "Automatisch: Nacht bei dunklem Thema, Tag bei hellem Thema",
     theme_day: "Tag",
     theme_night: "Nacht",
+    sch_title: "Automatischer Zeitplan",
+    sch_opens: "Öffnet",
+    sch_closes: "Schließt",
+    sch_opened: "Geöffnet",
+    sch_closed: "Geschlossen",
+    sch_tomorrow: "morgen",
+    sch_in: "in {d}",
+    sch_skipped: "übersprungen",
+    dur_m: "{m} Min.",
+    dur_h: "{h} Std.",
+    dur_hm: "{h} Std. {m} Min.",
+    e_open_time: "Automatische Öffnungszeit",
+    e_close_time: "Automatische Schließzeit",
+    e_open_condition: "Automatisches Öffnen aktiv",
+    e_close_condition: "Automatisches Schließen aktiv",
+    e_show_schedule: "Automatischen Zeitplan anzeigen",
+    h_open_time: "Ein Sensor oder input_datetime mit der Uhrzeit (HH:MM) oder Datum und Uhrzeit des nächsten automatischen Öffnens",
+    h_close_time: "Ein Sensor oder input_datetime mit der Uhrzeit (HH:MM) oder Datum und Uhrzeit des nächsten automatischen Schließens",
+    h_open_condition: "Eine Ein/Aus-Entität (input_boolean, binary_sensor, schedule…): solange sie aus ist, wird das Öffnen als übersprungen angezeigt",
+    h_close_condition: "Eine Ein/Aus-Entität (input_boolean, binary_sensor, schedule…): solange sie aus ist, wird das Schließen als übersprungen angezeigt",
   },
   es: {
     covers: "Cerramientos",
@@ -489,6 +552,26 @@ const STRINGS = {
     theme_auto: "Automático: noche con un tema oscuro, día con un tema claro",
     theme_day: "Día",
     theme_night: "Noche",
+    sch_title: "Horario automático",
+    sch_opens: "Abre",
+    sch_closes: "Cierra",
+    sch_opened: "Abierta",
+    sch_closed: "Cerrada",
+    sch_tomorrow: "mañana",
+    sch_in: "en {d}",
+    sch_skipped: "omitida",
+    dur_m: "{m} min",
+    dur_h: "{h} h",
+    dur_hm: "{h} h {m} min",
+    e_open_time: "Hora de apertura automática",
+    e_close_time: "Hora de cierre automático",
+    e_open_condition: "Apertura automática activa",
+    e_close_condition: "Cierre automático activo",
+    e_show_schedule: "Mostrar el horario automático",
+    h_open_time: "Un sensor o input_datetime con la hora (HH:MM) o la fecha y hora de la próxima apertura automática",
+    h_close_time: "Un sensor o input_datetime con la hora (HH:MM) o la fecha y hora del próximo cierre automático",
+    h_open_condition: "Una entidad on/off (input_boolean, binary_sensor, schedule…): mientras esté en off, la apertura se muestra como omitida",
+    h_close_condition: "Una entidad on/off (input_boolean, binary_sensor, schedule…): mientras esté en off, el cierre se muestra como omitido",
   },
   sr: {
     covers: "Затварачи",
@@ -586,6 +669,26 @@ const STRINGS = {
     theme_auto: "Аутоматски: ноћ уз тамну тему, дан уз светлу тему",
     theme_day: "Дан",
     theme_night: "Ноћ",
+    sch_title: "Аутоматски распоред",
+    sch_opens: "Отвара се",
+    sch_closes: "Затвара се",
+    sch_opened: "Отворено",
+    sch_closed: "Затворено",
+    sch_tomorrow: "сутра",
+    sch_in: "за {d}",
+    sch_skipped: "прескочено",
+    dur_m: "{m} мин",
+    dur_h: "{h} ч",
+    dur_hm: "{h} ч {m} мин",
+    e_open_time: "Време аутоматског отварања",
+    e_close_time: "Време аутоматског затварања",
+    e_open_condition: "Аутоматско отварање укључено",
+    e_close_condition: "Аутоматско затварање укључено",
+    e_show_schedule: "Прикажи аутоматски распоред",
+    h_open_time: "Сензор или input_datetime са временом (HH:MM) или датумом и временом следећег аутоматског отварања",
+    h_close_time: "Сензор или input_datetime са временом (HH:MM) или датумом и временом следећег аутоматског затварања",
+    h_open_condition: "Ентитет укључено/искључено (input_boolean, binary_sensor, schedule…): док је искључен, отварање се приказује као прескочено",
+    h_close_condition: "Ентитет укључено/искључено (input_boolean, binary_sensor, schedule…): док је искључен, затварање се приказује као прескочено",
   },
   "sr-Latn": {
     covers: "Zatvarači",
@@ -683,6 +786,26 @@ const STRINGS = {
     theme_auto: "Automatski: noć uz tamnu temu, dan uz svetlu temu",
     theme_day: "Dan",
     theme_night: "Noć",
+    sch_title: "Automatski raspored",
+    sch_opens: "Otvara se",
+    sch_closes: "Zatvara se",
+    sch_opened: "Otvoreno",
+    sch_closed: "Zatvoreno",
+    sch_tomorrow: "sutra",
+    sch_in: "za {d}",
+    sch_skipped: "preskočeno",
+    dur_m: "{m} min",
+    dur_h: "{h} č",
+    dur_hm: "{h} č {m} min",
+    e_open_time: "Vreme automatskog otvaranja",
+    e_close_time: "Vreme automatskog zatvaranja",
+    e_open_condition: "Automatsko otvaranje uključeno",
+    e_close_condition: "Automatsko zatvaranje uključeno",
+    e_show_schedule: "Prikaži automatski raspored",
+    h_open_time: "Senzor ili input_datetime sa vremenom (HH:MM) ili datumom i vremenom sledećeg automatskog otvaranja",
+    h_close_time: "Senzor ili input_datetime sa vremenom (HH:MM) ili datumom i vremenom sledećeg automatskog zatvaranja",
+    h_open_condition: "Entitet uključeno/isključeno (input_boolean, binary_sensor, schedule…): dok je isključen, otvaranje se prikazuje kao preskočeno",
+    h_close_condition: "Entitet uključeno/isključeno (input_boolean, binary_sensor, schedule…): dok je isključen, zatvaranje se prikazuje kao preskočeno",
   },
   it: {
     covers: "Coperture",
@@ -780,6 +903,26 @@ const STRINGS = {
     theme_auto: "Automatico: notte con un tema scuro, giorno con un tema chiaro",
     theme_day: "Giorno",
     theme_night: "Notte",
+    sch_title: "Orari automatici",
+    sch_opens: "Apre",
+    sch_closes: "Chiude",
+    sch_opened: "Aperta",
+    sch_closed: "Chiusa",
+    sch_tomorrow: "domani",
+    sch_in: "tra {d}",
+    sch_skipped: "saltata",
+    dur_m: "{m} min",
+    dur_h: "{h} h",
+    dur_hm: "{h} h {m} min",
+    e_open_time: "Ora di apertura automatica",
+    e_close_time: "Ora di chiusura automatica",
+    e_open_condition: "Apertura automatica attiva",
+    e_close_condition: "Chiusura automatica attiva",
+    e_show_schedule: "Mostra gli orari automatici",
+    h_open_time: "Un sensore o input_datetime con l'ora (HH:MM) o la data e l'ora della prossima apertura automatica",
+    h_close_time: "Un sensore o input_datetime con l'ora (HH:MM) o la data e l'ora della prossima chiusura automatica",
+    h_open_condition: "Un'entità on/off (input_boolean, binary_sensor, schedule…): finché è off, l'apertura appare come saltata",
+    h_close_condition: "Un'entità on/off (input_boolean, binary_sensor, schedule…): finché è off, la chiusura appare come saltata",
   },
   nl: {
     covers: "Afdekkingen",
@@ -877,6 +1020,26 @@ const STRINGS = {
     theme_auto: "Automatisch: nacht met een donker thema, dag met een licht thema",
     theme_day: "Dag",
     theme_night: "Nacht",
+    sch_title: "Automatisch schema",
+    sch_opens: "Opent",
+    sch_closes: "Sluit",
+    sch_opened: "Geopend",
+    sch_closed: "Gesloten",
+    sch_tomorrow: "morgen",
+    sch_in: "over {d}",
+    sch_skipped: "overgeslagen",
+    dur_m: "{m} min",
+    dur_h: "{h} u",
+    dur_hm: "{h} u {m} min",
+    e_open_time: "Tijd automatisch openen",
+    e_close_time: "Tijd automatisch sluiten",
+    e_open_condition: "Automatisch openen actief",
+    e_close_condition: "Automatisch sluiten actief",
+    e_show_schedule: "Automatisch schema tonen",
+    h_open_time: "Een sensor of input_datetime met de tijd (HH:MM) of de datum en tijd van het volgende automatisch openen",
+    h_close_time: "Een sensor of input_datetime met de tijd (HH:MM) of de datum en tijd van het volgende automatisch sluiten",
+    h_open_condition: "Een aan/uit-entiteit (input_boolean, binary_sensor, schedule…): zolang die uit staat, wordt het openen als overgeslagen getoond",
+    h_close_condition: "Een aan/uit-entiteit (input_boolean, binary_sensor, schedule…): zolang die uit staat, wordt het sluiten als overgeslagen getoond",
   },
   pt: {
     covers: "Estores",
@@ -974,6 +1137,26 @@ const STRINGS = {
     theme_auto: "Automático: noite com um tema escuro, dia com um tema claro",
     theme_day: "Dia",
     theme_night: "Noite",
+    sch_title: "Horário automático",
+    sch_opens: "Abre",
+    sch_closes: "Fecha",
+    sch_opened: "Aberto",
+    sch_closed: "Fechado",
+    sch_tomorrow: "amanhã",
+    sch_in: "daqui a {d}",
+    sch_skipped: "ignorada",
+    dur_m: "{m} min",
+    dur_h: "{h} h",
+    dur_hm: "{h} h {m} min",
+    e_open_time: "Hora de abertura automática",
+    e_close_time: "Hora de fecho automático",
+    e_open_condition: "Abertura automática ativa",
+    e_close_condition: "Fecho automático ativo",
+    e_show_schedule: "Mostrar o horário automático",
+    h_open_time: "Um sensor ou input_datetime com a hora (HH:MM) ou a data e hora da próxima abertura automática",
+    h_close_time: "Um sensor ou input_datetime com a hora (HH:MM) ou a data e hora do próximo fecho automático",
+    h_open_condition: "Uma entidade on/off (input_boolean, binary_sensor, schedule…): enquanto estiver off, a abertura aparece como ignorada",
+    h_close_condition: "Uma entidade on/off (input_boolean, binary_sensor, schedule…): enquanto estiver off, o fecho aparece como ignorado",
   },
   pl: {
     covers: "Osłony",
@@ -1071,6 +1254,26 @@ const STRINGS = {
     theme_auto: "Automatycznie: noc przy ciemnym motywie, dzień przy jasnym motywie",
     theme_day: "Dzień",
     theme_night: "Noc",
+    sch_title: "Harmonogram automatyczny",
+    sch_opens: "Otwarcie",
+    sch_closes: "Zamknięcie",
+    sch_opened: "Otwarto",
+    sch_closed: "Zamknięto",
+    sch_tomorrow: "jutro",
+    sch_in: "za {d}",
+    sch_skipped: "pominięte",
+    dur_m: "{m} min",
+    dur_h: "{h} godz.",
+    dur_hm: "{h} godz. {m} min",
+    e_open_time: "Godzina automatycznego otwarcia",
+    e_close_time: "Godzina automatycznego zamknięcia",
+    e_open_condition: "Automatyczne otwieranie włączone",
+    e_close_condition: "Automatyczne zamykanie włączone",
+    e_show_schedule: "Pokaż harmonogram automatyczny",
+    h_open_time: "Czujnik lub input_datetime z godziną (HH:MM) albo datą i godziną następnego automatycznego otwarcia",
+    h_close_time: "Czujnik lub input_datetime z godziną (HH:MM) albo datą i godziną następnego automatycznego zamknięcia",
+    h_open_condition: "Encja wł./wył. (input_boolean, binary_sensor, schedule…): gdy jest wyłączona, otwarcie jest pokazane jako pominięte",
+    h_close_condition: "Encja wł./wył. (input_boolean, binary_sensor, schedule…): gdy jest wyłączona, zamknięcie jest pokazane jako pominięte",
   },
   ro: {
     covers: "Jaluzele",
@@ -1168,6 +1371,26 @@ const STRINGS = {
     theme_auto: "Automat: noapte cu o temă întunecată, zi cu o temă luminoasă",
     theme_day: "Zi",
     theme_night: "Noapte",
+    sch_title: "Program automat",
+    sch_opens: "Se deschide",
+    sch_closes: "Se închide",
+    sch_opened: "Deschis",
+    sch_closed: "Închis",
+    sch_tomorrow: "mâine",
+    sch_in: "în {d}",
+    sch_skipped: "omisă",
+    dur_m: "{m} min",
+    dur_h: "{h} h",
+    dur_hm: "{h} h {m} min",
+    e_open_time: "Ora deschiderii automate",
+    e_close_time: "Ora închiderii automate",
+    e_open_condition: "Deschidere automată activă",
+    e_close_condition: "Închidere automată activă",
+    e_show_schedule: "Afișează programul automat",
+    h_open_time: "Un senzor sau input_datetime cu ora (HH:MM) sau data și ora următoarei deschideri automate",
+    h_close_time: "Un senzor sau input_datetime cu ora (HH:MM) sau data și ora următoarei închideri automate",
+    h_open_condition: "O entitate on/off (input_boolean, binary_sensor, schedule…): cât timp este off, deschiderea apare ca omisă",
+    h_close_condition: "O entitate on/off (input_boolean, binary_sensor, schedule…): cât timp este off, închiderea apare ca omisă",
   },
   da: {
     covers: "Afskærmninger",
@@ -1265,6 +1488,26 @@ const STRINGS = {
     theme_auto: "Automatisk: nat med et mørkt tema, dag med et lyst tema",
     theme_day: "Dag",
     theme_night: "Nat",
+    sch_title: "Automatisk tidsplan",
+    sch_opens: "Åbner",
+    sch_closes: "Lukker",
+    sch_opened: "Åbnet",
+    sch_closed: "Lukket",
+    sch_tomorrow: "i morgen",
+    sch_in: "om {d}",
+    sch_skipped: "sprunget over",
+    dur_m: "{m} min",
+    dur_h: "{h} t",
+    dur_hm: "{h} t {m} min",
+    e_open_time: "Tidspunkt for automatisk åbning",
+    e_close_time: "Tidspunkt for automatisk lukning",
+    e_open_condition: "Automatisk åbning aktiv",
+    e_close_condition: "Automatisk lukning aktiv",
+    e_show_schedule: "Vis den automatiske tidsplan",
+    h_open_time: "En sensor eller input_datetime med tidspunktet (HH:MM) eller dato og tid for næste automatiske åbning",
+    h_close_time: "En sensor eller input_datetime med tidspunktet (HH:MM) eller dato og tid for næste automatiske lukning",
+    h_open_condition: "En til/fra-entitet (input_boolean, binary_sensor, schedule…): mens den er fra, vises åbningen som sprunget over",
+    h_close_condition: "En til/fra-entitet (input_boolean, binary_sensor, schedule…): mens den er fra, vises lukningen som sprunget over",
   },
   sv: {
     covers: "Skydd",
@@ -1362,6 +1605,26 @@ const STRINGS = {
     theme_auto: "Automatiskt: natt med ett mörkt tema, dag med ett ljust tema",
     theme_day: "Dag",
     theme_night: "Natt",
+    sch_title: "Automatiskt schema",
+    sch_opens: "Öppnas",
+    sch_closes: "Stängs",
+    sch_opened: "Öppnad",
+    sch_closed: "Stängd",
+    sch_tomorrow: "i morgon",
+    sch_in: "om {d}",
+    sch_skipped: "hoppas över",
+    dur_m: "{m} min",
+    dur_h: "{h} tim",
+    dur_hm: "{h} tim {m} min",
+    e_open_time: "Tid för automatisk öppning",
+    e_close_time: "Tid för automatisk stängning",
+    e_open_condition: "Automatisk öppning aktiv",
+    e_close_condition: "Automatisk stängning aktiv",
+    e_show_schedule: "Visa det automatiska schemat",
+    h_open_time: "En sensor eller input_datetime med tiden (HH:MM) eller datum och tid för nästa automatiska öppning",
+    h_close_time: "En sensor eller input_datetime med tiden (HH:MM) eller datum och tid för nästa automatiska stängning",
+    h_open_condition: "En på/av-entitet (input_boolean, binary_sensor, schedule…): så länge den är av visas öppningen som överhoppad",
+    h_close_condition: "En på/av-entitet (input_boolean, binary_sensor, schedule…): så länge den är av visas stängningen som överhoppad",
   },
   bg: {
     covers: "Щори",
@@ -1459,6 +1722,26 @@ const STRINGS = {
     theme_auto: "Автоматично: нощ с тъмна тема, ден със светла тема",
     theme_day: "Ден",
     theme_night: "Нощ",
+    sch_title: "Автоматичен график",
+    sch_opens: "Отваря",
+    sch_closes: "Затваря",
+    sch_opened: "Отворено",
+    sch_closed: "Затворено",
+    sch_tomorrow: "утре",
+    sch_in: "след {d}",
+    sch_skipped: "пропуснато",
+    dur_m: "{m} мин",
+    dur_h: "{h} ч",
+    dur_hm: "{h} ч {m} мин",
+    e_open_time: "Час на автоматично отваряне",
+    e_close_time: "Час на автоматично затваряне",
+    e_open_condition: "Автоматичното отваряне е активно",
+    e_close_condition: "Автоматичното затваряне е активно",
+    e_show_schedule: "Показване на автоматичния график",
+    h_open_time: "Сензор или input_datetime с часа (HH:MM) или датата и часа на следващото автоматично отваряне",
+    h_close_time: "Сензор или input_datetime с часа (HH:MM) или датата и часа на следващото автоматично затваряне",
+    h_open_condition: "Обект вкл./изкл. (input_boolean, binary_sensor, schedule…): докато е изключен, отварянето се показва като пропуснато",
+    h_close_condition: "Обект вкл./изкл. (input_boolean, binary_sensor, schedule…): докато е изключен, затварянето се показва като пропуснато",
   },
   ru: {
     covers: "Шторы",
@@ -1556,6 +1839,26 @@ const STRINGS = {
     theme_auto: "Автоматически: ночь при тёмной теме, день при светлой теме",
     theme_day: "День",
     theme_night: "Ночь",
+    sch_title: "Автоматическое расписание",
+    sch_opens: "Открытие",
+    sch_closes: "Закрытие",
+    sch_opened: "Открыто",
+    sch_closed: "Закрыто",
+    sch_tomorrow: "завтра",
+    sch_in: "через {d}",
+    sch_skipped: "пропущено",
+    dur_m: "{m} мин",
+    dur_h: "{h} ч",
+    dur_hm: "{h} ч {m} мин",
+    e_open_time: "Время автоматического открытия",
+    e_close_time: "Время автоматического закрытия",
+    e_open_condition: "Автоматическое открытие включено",
+    e_close_condition: "Автоматическое закрытие включено",
+    e_show_schedule: "Показывать автоматическое расписание",
+    h_open_time: "Датчик или input_datetime со временем (ЧЧ:ММ) или датой и временем следующего автоматического открытия",
+    h_close_time: "Датчик или input_datetime со временем (ЧЧ:ММ) или датой и временем следующего автоматического закрытия",
+    h_open_condition: "Объект вкл./выкл. (input_boolean, binary_sensor, schedule…): пока он выключен, открытие показано как пропущенное",
+    h_close_condition: "Объект вкл./выкл. (input_boolean, binary_sensor, schedule…): пока он выключен, закрытие показано как пропущенное",
   },
   uk: {
     covers: "Штори",
@@ -1653,6 +1956,26 @@ const STRINGS = {
     theme_auto: "Автоматично: ніч з темною темою, день зі світлою темою",
     theme_day: "День",
     theme_night: "Ніч",
+    sch_title: "Автоматичний розклад",
+    sch_opens: "Відкриття",
+    sch_closes: "Закриття",
+    sch_opened: "Відкрито",
+    sch_closed: "Закрито",
+    sch_tomorrow: "завтра",
+    sch_in: "через {d}",
+    sch_skipped: "пропущено",
+    dur_m: "{m} хв",
+    dur_h: "{h} год",
+    dur_hm: "{h} год {m} хв",
+    e_open_time: "Час автоматичного відкриття",
+    e_close_time: "Час автоматичного закриття",
+    e_open_condition: "Автоматичне відкриття увімкнено",
+    e_close_condition: "Автоматичне закриття увімкнено",
+    e_show_schedule: "Показувати автоматичний розклад",
+    h_open_time: "Датчик або input_datetime з часом (ГГ:ХХ) або датою й часом наступного автоматичного відкриття",
+    h_close_time: "Датчик або input_datetime з часом (ГГ:ХХ) або датою й часом наступного автоматичного закриття",
+    h_open_condition: "Об'єкт увімк./вимк. (input_boolean, binary_sensor, schedule…): поки він вимкнений, відкриття показано як пропущене",
+    h_close_condition: "Об'єкт увімк./вимк. (input_boolean, binary_sensor, schedule…): поки він вимкнений, закриття показано як пропущене",
   },
   hu: {
     covers: "Árnyékolók",
@@ -1750,6 +2073,26 @@ const STRINGS = {
     theme_auto: "Automatikus: éjszaka sötét témával, nappal világos témával",
     theme_day: "Nappal",
     theme_night: "Éjszaka",
+    sch_title: "Automatikus ütemezés",
+    sch_opens: "Nyitás",
+    sch_closes: "Zárás",
+    sch_opened: "Kinyitva",
+    sch_closed: "Bezárva",
+    sch_tomorrow: "holnap",
+    sch_in: "{d} múlva",
+    sch_skipped: "kihagyva",
+    dur_m: "{m} perc",
+    dur_h: "{h} óra",
+    dur_hm: "{h} óra {m} perc",
+    e_open_time: "Automatikus nyitás ideje",
+    e_close_time: "Automatikus zárás ideje",
+    e_open_condition: "Automatikus nyitás engedélyezve",
+    e_close_condition: "Automatikus zárás engedélyezve",
+    e_show_schedule: "Automatikus ütemezés megjelenítése",
+    h_open_time: "Érzékelő vagy input_datetime a következő automatikus nyitás idejével (ÓÓ:PP) vagy dátumával és idejével",
+    h_close_time: "Érzékelő vagy input_datetime a következő automatikus zárás idejével (ÓÓ:PP) vagy dátumával és idejével",
+    h_open_condition: "Be/ki entitás (input_boolean, binary_sensor, schedule…): amíg ki van kapcsolva, a nyitás kihagyottként jelenik meg",
+    h_close_condition: "Be/ki entitás (input_boolean, binary_sensor, schedule…): amíg ki van kapcsolva, a zárás kihagyottként jelenik meg",
   },
   sk: {
     covers: "Clony",
@@ -1847,6 +2190,26 @@ const STRINGS = {
     theme_auto: "Automaticky: noc s tmavou témou, deň so svetlou témou",
     theme_day: "Deň",
     theme_night: "Noc",
+    sch_title: "Automatický rozvrh",
+    sch_opens: "Otvorenie",
+    sch_closes: "Zatvorenie",
+    sch_opened: "Otvorené",
+    sch_closed: "Zatvorené",
+    sch_tomorrow: "zajtra",
+    sch_in: "o {d}",
+    sch_skipped: "preskočené",
+    dur_m: "{m} min",
+    dur_h: "{h} h",
+    dur_hm: "{h} h {m} min",
+    e_open_time: "Čas automatického otvorenia",
+    e_close_time: "Čas automatického zatvorenia",
+    e_open_condition: "Automatické otváranie zapnuté",
+    e_close_condition: "Automatické zatváranie zapnuté",
+    e_show_schedule: "Zobraziť automatický rozvrh",
+    h_open_time: "Senzor alebo input_datetime s časom (HH:MM) alebo dátumom a časom ďalšieho automatického otvorenia",
+    h_close_time: "Senzor alebo input_datetime s časom (HH:MM) alebo dátumom a časom ďalšieho automatického zatvorenia",
+    h_open_condition: "Entita zap./vyp. (input_boolean, binary_sensor, schedule…): kým je vypnutá, otvorenie sa zobrazí ako preskočené",
+    h_close_condition: "Entita zap./vyp. (input_boolean, binary_sensor, schedule…): kým je vypnutá, zatvorenie sa zobrazí ako preskočené",
   },
   cs: {
     covers: "Clony",
@@ -1944,6 +2307,26 @@ const STRINGS = {
     theme_auto: "Automaticky: noc s tmavým motivem, den se světlým motivem",
     theme_day: "Den",
     theme_night: "Noc",
+    sch_title: "Automatický rozvrh",
+    sch_opens: "Otevření",
+    sch_closes: "Zavření",
+    sch_opened: "Otevřeno",
+    sch_closed: "Zavřeno",
+    sch_tomorrow: "zítra",
+    sch_in: "za {d}",
+    sch_skipped: "přeskočeno",
+    dur_m: "{m} min",
+    dur_h: "{h} h",
+    dur_hm: "{h} h {m} min",
+    e_open_time: "Čas automatického otevření",
+    e_close_time: "Čas automatického zavření",
+    e_open_condition: "Automatické otevírání zapnuto",
+    e_close_condition: "Automatické zavírání zapnuto",
+    e_show_schedule: "Zobrazit automatický rozvrh",
+    h_open_time: "Senzor nebo input_datetime s časem (HH:MM) nebo datem a časem příštího automatického otevření",
+    h_close_time: "Senzor nebo input_datetime s časem (HH:MM) nebo datem a časem příštího automatického zavření",
+    h_open_condition: "Entita zap./vyp. (input_boolean, binary_sensor, schedule…): dokud je vypnutá, otevření se zobrazí jako přeskočené",
+    h_close_condition: "Entita zap./vyp. (input_boolean, binary_sensor, schedule…): dokud je vypnutá, zavření se zobrazí jako přeskočené",
   },
   sl: {
     covers: "Senčila",
@@ -2041,6 +2424,26 @@ const STRINGS = {
     theme_auto: "Samodejno: noč s temno temo, dan s svetlo temo",
     theme_day: "Dan",
     theme_night: "Noč",
+    sch_title: "Samodejni urnik",
+    sch_opens: "Odpiranje",
+    sch_closes: "Zapiranje",
+    sch_opened: "Odprto",
+    sch_closed: "Zaprto",
+    sch_tomorrow: "jutri",
+    sch_in: "čez {d}",
+    sch_skipped: "preskočeno",
+    dur_m: "{m} min",
+    dur_h: "{h} h",
+    dur_hm: "{h} h {m} min",
+    e_open_time: "Čas samodejnega odpiranja",
+    e_close_time: "Čas samodejnega zapiranja",
+    e_open_condition: "Samodejno odpiranje vklopljeno",
+    e_close_condition: "Samodejno zapiranje vklopljeno",
+    e_show_schedule: "Prikaži samodejni urnik",
+    h_open_time: "Senzor ali input_datetime s časom (HH:MM) ali datumom in časom naslednjega samodejnega odpiranja",
+    h_close_time: "Senzor ali input_datetime s časom (HH:MM) ali datumom in časom naslednjega samodejnega zapiranja",
+    h_open_condition: "Entiteta vklop/izklop (input_boolean, binary_sensor, schedule…): dokler je izklopljena, je odpiranje prikazano kot preskočeno",
+    h_close_condition: "Entiteta vklop/izklop (input_boolean, binary_sensor, schedule…): dokler je izklopljena, je zapiranje prikazano kot preskočeno",
   },
   lv: {
     covers: "Aizsegi",
@@ -2138,6 +2541,26 @@ const STRINGS = {
     theme_auto: "Automātiski: nakts ar tumšu tēmu, diena ar gaišu tēmu",
     theme_day: "Diena",
     theme_night: "Nakts",
+    sch_title: "Automātiskais grafiks",
+    sch_opens: "Atvēršana",
+    sch_closes: "Aizvēršana",
+    sch_opened: "Atvērts",
+    sch_closed: "Aizvērts",
+    sch_tomorrow: "rīt",
+    sch_in: "pēc {d}",
+    sch_skipped: "izlaists",
+    dur_m: "{m} min",
+    dur_h: "{h} h",
+    dur_hm: "{h} h {m} min",
+    e_open_time: "Automātiskās atvēršanas laiks",
+    e_close_time: "Automātiskās aizvēršanas laiks",
+    e_open_condition: "Automātiskā atvēršana ieslēgta",
+    e_close_condition: "Automātiskā aizvēršana ieslēgta",
+    e_show_schedule: "Rādīt automātisko grafiku",
+    h_open_time: "Sensors vai input_datetime ar nākamās automātiskās atvēršanas laiku (HH:MM) vai datumu un laiku",
+    h_close_time: "Sensors vai input_datetime ar nākamās automātiskās aizvēršanas laiku (HH:MM) vai datumu un laiku",
+    h_open_condition: "Ieslēgšanas/izslēgšanas vienība (input_boolean, binary_sensor, schedule…): kamēr tā ir izslēgta, atvēršana tiek rādīta kā izlaista",
+    h_close_condition: "Ieslēgšanas/izslēgšanas vienība (input_boolean, binary_sensor, schedule…): kamēr tā ir izslēgta, aizvēršana tiek rādīta kā izlaista",
   },
   el: {
     covers: "Σκιάστρα",
@@ -2235,6 +2658,26 @@ const STRINGS = {
     theme_auto: "Αυτόματο: νύχτα με σκούρο θέμα, μέρα με ανοιχτό θέμα",
     theme_day: "Ημέρα",
     theme_night: "Νύχτα",
+    sch_title: "Αυτόματο πρόγραμμα",
+    sch_opens: "Άνοιγμα",
+    sch_closes: "Κλείσιμο",
+    sch_opened: "Άνοιξε",
+    sch_closed: "Έκλεισε",
+    sch_tomorrow: "αύριο",
+    sch_in: "σε {d}",
+    sch_skipped: "παραλείπεται",
+    dur_m: "{m} λεπ.",
+    dur_h: "{h} ώρ.",
+    dur_hm: "{h} ώρ. {m} λεπ.",
+    e_open_time: "Ώρα αυτόματου ανοίγματος",
+    e_close_time: "Ώρα αυτόματου κλεισίματος",
+    e_open_condition: "Αυτόματο άνοιγμα ενεργό",
+    e_close_condition: "Αυτόματο κλείσιμο ενεργό",
+    e_show_schedule: "Εμφάνιση του αυτόματου προγράμματος",
+    h_open_time: "Αισθητήρας ή input_datetime με την ώρα (ΩΩ:ΛΛ) ή την ημερομηνία και ώρα του επόμενου αυτόματου ανοίγματος",
+    h_close_time: "Αισθητήρας ή input_datetime με την ώρα (ΩΩ:ΛΛ) ή την ημερομηνία και ώρα του επόμενου αυτόματου κλεισίματος",
+    h_open_condition: "Οντότητα on/off (input_boolean, binary_sensor, schedule…): όσο είναι off, το άνοιγμα εμφανίζεται ως παραλειπόμενο",
+    h_close_condition: "Οντότητα on/off (input_boolean, binary_sensor, schedule…): όσο είναι off, το κλείσιμο εμφανίζεται ως παραλειπόμενο",
   },
 };
 
@@ -2270,6 +2713,58 @@ const fmtPct = (v, locale) =>
     : (PCT_FMT[locale] ??= new Intl.NumberFormat(locale, { style: "percent", maximumFractionDigits: 0 })).format(Math.round(v) / 100);
 
 const clamp = (v, lo = 0, hi = 100) => Math.min(hi, Math.max(lo, v));
+
+// ---------------------------------------------------------------------------
+// Automatic schedule: the next automatic opening and closing, read from entities (or written as times)
+// ---------------------------------------------------------------------------
+
+const SCHEDULE_KEYS = ["open_time", "close_time", "open_condition", "close_condition"];
+// The words of a tile: to come, then gone by.
+const SCHEDULE_WORDS = { open: ["sch_opens", "sch_opened"], close: ["sch_closes", "sch_closed"] };
+
+// The schedule options of a cover (its own, else the card's when `card` is given), or null when it has no time.
+const scheduleOf = (own, card) => {
+  const src = own && (own.open_time || own.close_time) ? own : card;
+  if (!src || (!src.open_time && !src.close_time)) return null;
+  return Object.fromEntries(SCHEDULE_KEYS.map((k) => [k, typeof src[k] === "string" ? src[k] : null]));
+};
+
+// When a time happens, as a Date, from an entity's state or a time written in the option itself:
+// - a time alone ("07:42", "07:42:00": a template sensor, a time-only input_datetime) is its next occurrence, today
+//   or tomorrow when already past;
+// - a date and time (a timestamp sensor, "2026-11-19 07:42:00" of an input_datetime) is taken as it is, past or not.
+const TIME_RE = /^\s*(\d{1,2})[:h](\d{2})(?::(\d{2}))?\s*$/;
+const whenOf = (value, now) => {
+  if (typeof value !== "string") return null;
+  const m = TIME_RE.exec(value);
+  if (m) {
+    const [h, min, sec] = [Number(m[1]), Number(m[2]), Number(m[3] || 0)];
+    if (h > 23 || min > 59 || sec > 59) return null;
+    const d = new Date(now);
+    d.setHours(h, min, sec, 0);
+    if (d.getTime() <= now) d.setDate(d.getDate() + 1);
+    return d;
+  }
+  if (!/\d{1,2}:\d{2}/.test(value)) return null;
+  const ms = Date.parse(value.trim().replace(/^(\d{4}-\d{2}-\d{2}) /, "$1T"));
+  return Number.isFinite(ms) ? new Date(ms) : null;
+};
+
+// Days between two dates, by the calendar (0 today, 1 tomorrow).
+const dayDiff = (a, b) => Math.round((new Date(b).setHours(0, 0, 0, 0) - new Date(a).setHours(0, 0, 0, 0)) / 86400000);
+
+// Hours and minutes as Home Assistant shows them: its time format (12 / 24 h), else the language's; like Home
+// Assistant, two-digit hours on a 24-hour clock ("07:42"), not on a 12-hour one ("7:42 AM").
+const TIME_FMT = {};
+const fmtTime = (date, locale, format) => {
+  const key = `${locale}|${format}`;
+  if (!TIME_FMT[key]) {
+    const h12 =
+      format === "12" || (format !== "24" && ["h11", "h12"].includes(new Intl.DateTimeFormat(locale, { hour: "numeric" }).resolvedOptions().hourCycle));
+    TIME_FMT[key] = new Intl.DateTimeFormat(locale, { hour: h12 ? "numeric" : "2-digit", minute: "2-digit", hourCycle: h12 ? "h12" : "h23" });
+  }
+  return TIME_FMT[key].format(date);
+};
 
 // A position attribute as a whole number from 0 to 100, or null when the cover does not report it.
 const numAttr = (s, key) => {
@@ -2754,6 +3249,24 @@ const BASE_STYLE = `
   .favs .btn { font-weight: 400; padding: 5px 12px 5px 8px; }
   .favs .btn .icon { width: 16px; height: 16px; color: var(--secondary-text-color); }
   .favs .btn.on .icon { color: var(--cc-accent); }
+  .sched { display: flex; flex-wrap: wrap; gap: 8px; }
+  .sched .slot { flex: 1 1 0; min-width: 130px; display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 12px;
+                 background: var(--secondary-background-color, rgba(127,127,127,.12)); font-size: 12px; color: var(--secondary-text-color); }
+  .sched .k { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+  .sched .l { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sched b { font-size: 15px; font-weight: 600; color: var(--primary-text-color); font-variant-numeric: tabular-nums; }
+  .sched .pi { width: 28px; height: 28px; flex: none; border-radius: 50%; display: grid; place-items: center;
+               background: color-mix(in srgb, var(--cc-accent) 14%, transparent); color: var(--cc-accent); }
+  .sched .pi .icon { width: 16px; height: 16px; }
+  .sched .slot.next { background: color-mix(in srgb, var(--cc-accent) 12%, transparent); }
+  .sched .slot.next .in { color: var(--cc-accent); font-weight: 500; }
+  .sched .slot.done { opacity: .6; }
+  .sched .slot.skip b { text-decoration: line-through; color: var(--secondary-text-color); font-weight: 500; }
+  .sched .slot.skip .pi { background: rgba(127,127,127,.15); color: var(--secondary-text-color); }
+  .sched.small { gap: 6px; }
+  .sched.small .slot { padding: 5px 8px; min-width: 110px; gap: 6px; }
+  .sched.small b { font-size: 13px; }
+  .sched.small .pi { width: 24px; height: 24px; }
   @container (max-width: 200px) {
     .header { gap: 6px; padding: 10px 8px 0; }
   }
@@ -3125,7 +3638,9 @@ class CoverBase extends HTMLElement {
     const { items } = itemsOf(h, this._config);
     // With an area, the registries tell which covers belong to it.
     const reg = this._config.area ? [h.entities, h.devices] : [];
-    return [h.language, h.locale, h.areas, h.themes?.darkMode, ...reg, ...items.map((i) => h.states[i.entity])];
+    // The entities of the automatic schedule, the card's and every cover's.
+    const sched = [this._config, ...items].flatMap((o) => SCHEDULE_KEYS.map((k) => o[k]).filter((v) => typeof v === "string" && v.includes(".")));
+    return [h.language, h.locale, h.areas, h.themes?.darkMode, ...reg, ...items.map((i) => h.states[i.entity]), ...sched.map((id) => h.states[id])];
   }
 
   // A click elsewhere on the page folds the covers back to their defaults and closes the popup.
@@ -3152,6 +3667,7 @@ class CoverBase extends HTMLElement {
       this._pillResize.observe(this);
     }
     document.fonts?.ready?.then(() => this._fitPill());
+    this._connected = true;
     // Back on the page after leaving it: rendered again in its default state.
     if (this._hass && this._config) this._update();
     if (this._confirm) window.addEventListener("keydown", this._onKey);
@@ -3167,6 +3683,8 @@ class CoverBase extends HTMLElement {
     this._toggled = new Map();
     this._confirm = null;
     clearTimeout(this._holdTimer);
+    this._connected = false;
+    this._syncClock();
     clearTimeout(this._kbd?.timer);
     this._kbd = null;
     this._drag = null;
@@ -3226,6 +3744,9 @@ class CoverBase extends HTMLElement {
         name: nameOf(this._hass, i.entity, i.name),
         // A cover's own favorites, else the card's (on a card of several covers, the card's apply to all of them).
         favorites: i.favorites !== undefined ? favoritesOf(i.favorites) : items.length === 1 ? cardFavs : [],
+        // Its automatic schedule: its own, else the card's when it is the card's only cover (on a card of several
+        // covers, the card's schedule is shown once, above them).
+        schedule: scheduleOf(i, items.length === 1 ? this._config : null),
       };
     });
   }
@@ -3273,6 +3794,7 @@ class CoverBase extends HTMLElement {
       return;
     }
     this._dirty = false;
+    this._syncClock();
     if (this._hold) {
       const changed = this._hass.states[this._hold.id] !== this._hold.s;
       if (!changed && Date.now() < this._hold.until) return;
@@ -3745,6 +4267,70 @@ class CoverBase extends HTMLElement {
     return this._config.illustration === false ? "" : BANNER_STYLE;
   }
 
+  // The countdown of the automatic schedule moves on: a render every 20 s while the card is on the page and shows a
+  // schedule (a render that changes nothing writes nothing).
+  _syncClock() {
+    const want = Boolean(this._connected && this._hass && this._hasSchedule());
+    if (want && !this._clock) {
+      this._clock = setInterval(() => this._update(), 20000);
+      this._clock.unref?.();
+    } else if (!want && this._clock) {
+      clearInterval(this._clock);
+      this._clock = null;
+    }
+  }
+
+  _hasSchedule() {
+    const c = this._config;
+    if (!c || c.show_schedule === false) return false;
+    return Boolean(scheduleOf(c, null)) || itemsOf(this._hass, c).items.some((i) => scheduleOf(i, null));
+  }
+
+  // The automatic opening and closing as two tiles: the next one in the accent color with its countdown, one already
+  // past (a date and time gone by) dimmed, one turned off by its condition (an entity at off) struck through.
+  _schedule(sched, small = false) {
+    if (!sched || this._config.show_schedule === false) return "";
+    const now = Date.now();
+    const locale = intlLocale(this._hass, this._config);
+    const slots = ["open", "close"]
+      .map((kind) => {
+        const ref = sched[`${kind}_time`];
+        if (!ref) return null;
+        const value = TIME_RE.test(ref) ? ref : this._hass.states[ref]?.state;
+        const when = whenOf(value, now);
+        if (!when) return null;
+        const cond = sched[`${kind}_condition`];
+        return { kind, when, skipped: Boolean(cond) && this._hass.states[cond]?.state === "off", past: when.getTime() <= now };
+      })
+      .filter(Boolean);
+    if (!slots.length) return "";
+    const next = slots.filter((x) => !x.skipped && !x.past).sort((a, b) => a.when - b.when)[0];
+    const tiles = slots.map((x) => {
+      const days = dayDiff(now, x.when);
+      const day = days === 1 ? this._t("sch_tomorrow") : days > 1 || days < 0 ? new Intl.DateTimeFormat(locale, { weekday: "short" }).format(x.when) : "";
+      const word = this._t(SCHEDULE_WORDS[x.kind][x.past ? 1 : 0]);
+      const mins = Math.ceil((x.when.getTime() - now) / 60000);
+      const soon = x === next && mins < 1440;
+      // A skipped one keeps its word alone ("Opens · skipped"), so that the label fits a small tile.
+      const head = esc([word, x.past || soon || x.skipped ? "" : day].filter(Boolean).join(" "));
+      const extra = x.skipped ? this._t("sch_skipped") : soon ? this._t("sch_in", { d: this._duration(mins) }) : "";
+      const cls = x.skipped ? " skip" : x === next ? " next" : x.past ? " done" : "";
+      const time = fmtTime(x.when, locale, this._hass.locale?.time_format);
+      return `<div class="slot${cls}"><span class="pi">${svgIcon(ICONS[`sch_${x.kind}`])}</span><span class="k"><span class="l">${head}${
+        extra ? ` <span class="in">· ${esc(extra)}</span>` : ""
+      }</span><b>${esc(time)}</b></span></div>`;
+    });
+    return `<div class="sched${small ? " small" : ""}" role="group" aria-label="${esc(this._t("sch_title"))}">${tiles.join("")}</div>`;
+  }
+
+  // A duration in minutes, as hours and minutes ("2 h 45 min", "35 min").
+  _duration(mins) {
+    const h = Math.floor(mins / 60);
+    const m = mins % 60;
+    if (!h) return this._t("dur_m", { m });
+    return this._t(m ? "dur_hm" : "dur_h", { h, m });
+  }
+
   _errorCard(key, vars) {
     return `<style>${BASE_STYLE}</style><ha-card><div class="warning">${esc(this._t(key, vars))}</div></ha-card>`;
   }
@@ -3908,6 +4494,7 @@ class CoverCard extends CoverBase {
     } else {
       if (c.show_controls !== false && c.show_group_controls !== false) parts.push(`<div class="group">${this._groupButtons(items)}</div>`);
       parts.push(this._favorites(items, favoritesOf(c.favorites), null));
+      parts.push(this._schedule(scheduleOf(c, null)));
       const cols = columnsOf(c);
       parts.push(
         cols > 1
@@ -3951,6 +4538,7 @@ class CoverCard extends CoverBase {
         <div class="info${c.center_value ? " center" : ""}">${value}${controls}</div>
       </div>
       ${this._tilt(item)}
+      ${this._schedule(item.schedule)}
       ${this._favorites([item], item.favorites, item.id)}`;
   }
 
@@ -4115,6 +4703,7 @@ class CoverMiniCard extends CoverCard {
             <div class="sinfo clickable" role="button" tabindex="0" data-entity="${esc(item.id)}"><div class="sval">${esc(value)}</div>${stateLine}</div>
             ${buttons}
           </div>
+          ${this._schedule(item.schedule, true)}
           ${this._favorites([item], item.favorites, item.id)}
         </div>
       </ha-card>`;
@@ -4142,6 +4731,7 @@ class CoverMiniCard extends CoverCard {
         <div class="content">
           <div class="thumbs">${thumbs}</div>
           ${group}
+          ${this._schedule(scheduleOf(c, null), true)}
           ${this._favorites(items, favoritesOf(c.favorites), null)}
         </div>
       </ha-card>`;
@@ -4271,6 +4861,10 @@ class CoverEditorBase extends HTMLElement {
       { name: "no_feedback", selector: { boolean: {} } },
       { name: "pedestrian", selector: { text: {} } },
       { name: "light", selector: { entity: { domain: ["light", "switch"] } } },
+      { name: "open_time", selector: { entity: { domain: ["sensor", "input_datetime"] } } },
+      { name: "close_time", selector: { entity: { domain: ["sensor", "input_datetime"] } } },
+      { name: "open_condition", selector: { entity: { domain: ["binary_sensor", "input_boolean", "switch", "schedule"] } } },
+      { name: "close_condition", selector: { entity: { domain: ["binary_sensor", "input_boolean", "switch", "schedule"] } } },
       {
         name: "favorites",
         selector: { select: { multiple: true, custom_value: true, mode: "dropdown", options: FAVORITE_PRESETS.map((v) => ({ value: v, label: `${v} %` })) } },
@@ -4326,6 +4920,7 @@ const CARD_TOGGLES = [
   ["show_group_controls", true],
   ["show_tilt", true],
   ["show_favorites", true],
+  ["show_schedule", true],
   ["expanded", false],
 ];
 
