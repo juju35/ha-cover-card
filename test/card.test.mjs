@@ -110,9 +110,9 @@ test("illustrated header: title on the wall, state-colored icon, the covers' own
   assert.match(moving, /class="bv active moving opening"[^>]*><svg class="scene garage"/);
   // At most three covers drawn.
   assert.equal((html(newCard(cc.CoverCard, { entities: [BAY, BLIND, GARAGE, AWNING, GATE] })).match(/class="bv /g) || []).length, 3);
-  // Night: forced, else the sun below the horizon or the dark theme.
+  // Night: forced, else the dark theme alone.
   assert.match(html(newCard(cc.CoverCard, { entity: BAY, illustration_theme: "night" })), /class="banner night"/);
-  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({ "sun.sun": "below_horizon" }))), /class="banner night"/);
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY }, makeHass({ "sun.sun": "below_horizon" }))), /class="banner"/, "light theme after sunset: day");
   const dark = makeHass();
   dark.themes = { darkMode: true };
   assert.match(html(newCard(cc.CoverCard, { entity: BAY }, dark)), /class="banner night"/);

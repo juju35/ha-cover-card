@@ -162,7 +162,7 @@ const STRINGS = {
     h_no_feedback: "For a cover that never reports its state back (a radio RTS motor): draw it closed at rest",
     e_illustration: "Animated illustration",
     e_illustration_theme: "Illustration theme",
-    theme_auto: "Automatic (sun or dark theme)",
+    theme_auto: "Automatic: night with a dark theme, day with a light theme",
     theme_day: "Day",
     theme_night: "Night",
   },
@@ -249,7 +249,7 @@ const STRINGS = {
     h_no_feedback: "Pour un ouvrant qui ne remonte jamais son état (un moteur radio RTS) : dessiné fermé au repos",
     e_illustration: "Illustration animée",
     e_illustration_theme: "Thème de l’illustration",
-    theme_auto: "Automatique (soleil ou thème sombre)",
+    theme_auto: "Automatique : nuit avec un thème sombre, jour avec un thème clair",
     theme_day: "Jour",
     theme_night: "Nuit",
   },
@@ -336,7 +336,7 @@ const STRINGS = {
     h_no_feedback: "Für eine Abdeckung, die ihren Zustand nie zurückmeldet (ein RTS-Funkmotor): im Ruhezustand geschlossen gezeichnet",
     e_illustration: "Animierte Illustration",
     e_illustration_theme: "Thema der Illustration",
-    theme_auto: "Automatisch (Sonne oder dunkles Design)",
+    theme_auto: "Automatisch: Nacht bei dunklem Thema, Tag bei hellem Thema",
     theme_day: "Tag",
     theme_night: "Nacht",
   },
@@ -423,7 +423,7 @@ const STRINGS = {
     h_no_feedback: "Para una cubierta que nunca informa su estado (un motor de radio RTS): dibujada cerrada en reposo",
     e_illustration: "Ilustración animada",
     e_illustration_theme: "Tema de la ilustración",
-    theme_auto: "Automático (sol o tema oscuro)",
+    theme_auto: "Automático: noche con un tema oscuro, día con un tema claro",
     theme_day: "Día",
     theme_night: "Noche",
   },
@@ -510,7 +510,7 @@ const STRINGS = {
     h_no_feedback: "За застор који никада не пријављује своје стање (радио RTS мотор): нацртан затворено у мировању",
     e_illustration: "Анимирана илустрација",
     e_illustration_theme: "Тема илустрације",
-    theme_auto: "Аутоматски (сунце или тамна тема)",
+    theme_auto: "Аутоматски: ноћ уз тамну тему, дан уз светлу тему",
     theme_day: "Дан",
     theme_night: "Ноћ",
   },
@@ -597,7 +597,7 @@ const STRINGS = {
     h_no_feedback: "Za zastor koji nikada ne prijavljuje svoje stanje (radio RTS motor): nacrtan zatvoreno u mirovanju",
     e_illustration: "Animirana ilustracija",
     e_illustration_theme: "Tema ilustracije",
-    theme_auto: "Automatski (sunce ili tamna tema)",
+    theme_auto: "Automatski: noć uz tamnu temu, dan uz svetlu temu",
     theme_day: "Dan",
     theme_night: "Noć",
   },
@@ -684,7 +684,7 @@ const STRINGS = {
     h_no_feedback: "Per una copertura che non segnala mai il suo stato (un motore radio RTS): disegnata chiusa a riposo",
     e_illustration: "Illustrazione animata",
     e_illustration_theme: "Tema dell’illustrazione",
-    theme_auto: "Automatico (sole o tema scuro)",
+    theme_auto: "Automatico: notte con un tema scuro, giorno con un tema chiaro",
     theme_day: "Giorno",
     theme_night: "Notte",
   },
@@ -771,7 +771,7 @@ const STRINGS = {
     h_no_feedback: "Voor een afdekking die haar status nooit terugmeldt (een RTS-radiomotor): in rust gesloten getekend",
     e_illustration: "Geanimeerde illustratie",
     e_illustration_theme: "Thema van de illustratie",
-    theme_auto: "Automatisch (zon of donker thema)",
+    theme_auto: "Automatisch: nacht met een donker thema, dag met een licht thema",
     theme_day: "Dag",
     theme_night: "Nacht",
   },
@@ -858,7 +858,7 @@ const STRINGS = {
     h_no_feedback: "Para um estore que nunca comunica o seu estado (um motor de rádio RTS): desenhado fechado em repouso",
     e_illustration: "Ilustração animada",
     e_illustration_theme: "Tema da ilustração",
-    theme_auto: "Automático (sol ou tema escuro)",
+    theme_auto: "Automático: noite com um tema escuro, dia com um tema claro",
     theme_day: "Dia",
     theme_night: "Noite",
   },
@@ -945,7 +945,7 @@ const STRINGS = {
     h_no_feedback: "Dla osłony, która nigdy nie zgłasza swojego stanu (radiowy silnik RTS): rysowana jako zamknięta w spoczynku",
     e_illustration: "Animowana ilustracja",
     e_illustration_theme: "Motyw ilustracji",
-    theme_auto: "Automatycznie (słońce lub ciemny motyw)",
+    theme_auto: "Automatycznie: noc przy ciemnym motywie, dzień przy jasnym motywie",
     theme_day: "Dzień",
     theme_night: "Noc",
   },
@@ -1032,7 +1032,7 @@ const STRINGS = {
     h_no_feedback: "Pentru un element care nu își raportează niciodată starea (un motor radio RTS): desenat închis în repaus",
     e_illustration: "Ilustrație animată",
     e_illustration_theme: "Tema ilustrației",
-    theme_auto: "Automat (soare sau temă întunecată)",
+    theme_auto: "Automat: noapte cu o temă întunecată, zi cu o temă luminoasă",
     theme_day: "Zi",
     theme_night: "Noapte",
   },
@@ -1119,7 +1119,7 @@ const STRINGS = {
     h_no_feedback: "For en afskærmning, der aldrig melder sin tilstand tilbage (en RTS-radiomotor): tegnet lukket i hvile",
     e_illustration: "Animeret illustration",
     e_illustration_theme: "Illustrationens tema",
-    theme_auto: "Automatisk (sol eller mørkt tema)",
+    theme_auto: "Automatisk: nat med et mørkt tema, dag med et lyst tema",
     theme_day: "Dag",
     theme_night: "Nat",
   },
@@ -1206,7 +1206,7 @@ const STRINGS = {
     h_no_feedback: "För en täckning som aldrig rapporterar sitt tillstånd (en RTS-radiomotor): ritas stängd i viloläge",
     e_illustration: "Animerad illustration",
     e_illustration_theme: "Illustrationens tema",
-    theme_auto: "Automatiskt (sol eller mörkt tema)",
+    theme_auto: "Automatiskt: natt med ett mörkt tema, dag med ett ljust tema",
     theme_day: "Dag",
     theme_night: "Natt",
   },
@@ -1293,7 +1293,7 @@ const STRINGS = {
     h_no_feedback: "За покритие, което никога не докладва състоянието си (радио RTS мотор): нарисувано затворено в покой",
     e_illustration: "Анимирана илюстрация",
     e_illustration_theme: "Тема на илюстрацията",
-    theme_auto: "Автоматично (слънце или тъмна тема)",
+    theme_auto: "Автоматично: нощ с тъмна тема, ден със светла тема",
     theme_day: "Ден",
     theme_night: "Нощ",
   },
@@ -1380,7 +1380,7 @@ const STRINGS = {
     h_no_feedback: "Для шторы, которая никогда не сообщает своё состояние (радиомотор RTS): отрисовывается закрытой в покое",
     e_illustration: "Анимированная иллюстрация",
     e_illustration_theme: "Тема иллюстрации",
-    theme_auto: "Автоматически (солнце или тёмная тема)",
+    theme_auto: "Автоматически: ночь при тёмной теме, день при светлой теме",
     theme_day: "День",
     theme_night: "Ночь",
   },
@@ -1467,7 +1467,7 @@ const STRINGS = {
     h_no_feedback: "Для штори, яка ніколи не повідомляє свій стан (радіомотор RTS): малюється закритою у спокої",
     e_illustration: "Анімована ілюстрація",
     e_illustration_theme: "Тема ілюстрації",
-    theme_auto: "Автоматично (сонце або темна тема)",
+    theme_auto: "Автоматично: ніч з темною темою, день зі світлою темою",
     theme_day: "День",
     theme_night: "Ніч",
   },
@@ -1554,7 +1554,7 @@ const STRINGS = {
     h_no_feedback: "Olyan árnyékolóhoz, amely soha nem jelzi vissza az állapotát (RTS rádiómotor): nyugalmi helyzetben zárva rajzolva",
     e_illustration: "Animált illusztráció",
     e_illustration_theme: "Az illusztráció témája",
-    theme_auto: "Automatikus (nap vagy sötét téma)",
+    theme_auto: "Automatikus: éjszaka sötét témával, nappal világos témával",
     theme_day: "Nappal",
     theme_night: "Éjszaka",
   },
@@ -1641,7 +1641,7 @@ const STRINGS = {
     h_no_feedback: "Pre kryt, ktorý nikdy nehlási svoj stav (rádiový motor RTS): v pokoji vykreslený zatvorený",
     e_illustration: "Animovaná ilustrácia",
     e_illustration_theme: "Téma ilustrácie",
-    theme_auto: "Automaticky (slnko alebo tmavá téma)",
+    theme_auto: "Automaticky: noc s tmavou témou, deň so svetlou témou",
     theme_day: "Deň",
     theme_night: "Noc",
   },
@@ -1728,7 +1728,7 @@ const STRINGS = {
     h_no_feedback: "Pro kryt, který nikdy nehlásí svůj stav (rádiový motor RTS): v klidu vykreslen zavřený",
     e_illustration: "Animovaná ilustrace",
     e_illustration_theme: "Motiv ilustrace",
-    theme_auto: "Automaticky (slunce nebo tmavý motiv)",
+    theme_auto: "Automaticky: noc s tmavým motivem, den se světlým motivem",
     theme_day: "Den",
     theme_night: "Noc",
   },
@@ -1815,7 +1815,7 @@ const STRINGS = {
     h_no_feedback: "Za senčilo, ki nikoli ne sporoči svojega stanja (radijski motor RTS): v mirovanju narisano zaprto",
     e_illustration: "Animirana ilustracija",
     e_illustration_theme: "Tema ilustracije",
-    theme_auto: "Samodejno (sonce ali temna tema)",
+    theme_auto: "Samodejno: noč s temno temo, dan s svetlo temo",
     theme_day: "Dan",
     theme_night: "Noč",
   },
@@ -1902,7 +1902,7 @@ const STRINGS = {
     h_no_feedback: "Pārsegam, kas nekad nepaziņo savu stāvokli (RTS radio motors): miera stāvoklī zīmēts aizvērts",
     e_illustration: "Animēta ilustrācija",
     e_illustration_theme: "Ilustrācijas motīvs",
-    theme_auto: "Automātiski (saule vai tumšais motīvs)",
+    theme_auto: "Automātiski: nakts ar tumšu tēmu, diena ar gaišu tēmu",
     theme_day: "Diena",
     theme_night: "Nakts",
   },
@@ -1989,7 +1989,7 @@ const STRINGS = {
     h_no_feedback: "Για ένα κάλυμμα που δεν αναφέρει ποτέ την κατάστασή του (ραδιοκινητήρας RTS): σχεδιάζεται κλειστό σε ηρεμία",
     e_illustration: "Κινούμενη εικονογράφηση",
     e_illustration_theme: "Θέμα εικονογράφησης",
-    theme_auto: "Αυτόματο (ήλιος ή σκούρο θέμα)",
+    theme_auto: "Αυτόματο: νύχτα με σκούρο θέμα, μέρα με ανοιχτό θέμα",
     theme_day: "Ημέρα",
     theme_night: "Νύχτα",
   },
@@ -2620,10 +2620,12 @@ const textWidth = (el) => {
   return range.getBoundingClientRect().width;
 };
 
+// Night picture: forced by illustration_theme, else Home Assistant's dark mode alone (a light theme keeps the day
+// picture after sunset).
 const isNight = (hass, config) => {
   if (config?.illustration_theme === "night") return true;
   if (config?.illustration_theme === "day") return false;
-  return hass?.states?.["sun.sun"]?.state === "below_horizon" || Boolean(hass?.themes?.darkMode);
+  return Boolean(hass?.themes?.darkMode);
 };
 
 // A potted plant against the wall, standing on the pavement.
@@ -2747,7 +2749,7 @@ class CoverBase extends HTMLElement {
     const { items } = itemsOf(h, this._config);
     // With an area, the registries tell which covers belong to it.
     const reg = this._config.area ? [h.entities, h.devices] : [];
-    return [h.language, h.locale, h.areas, h.themes?.darkMode, h.states?.["sun.sun"]?.state, ...reg, ...items.map((i) => h.states[i.entity])];
+    return [h.language, h.locale, h.areas, h.themes?.darkMode, ...reg, ...items.map((i) => h.states[i.entity])];
   }
 
   // A click elsewhere on the page folds the covers back to their defaults and closes the popup.
