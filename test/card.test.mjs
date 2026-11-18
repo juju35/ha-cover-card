@@ -38,7 +38,7 @@ test("device class picks the scene, a cover without one is a shutter, an overrid
   assert.equal(cc.classOf({ attributes: { device_class: "garage" } }), "garage");
   assert.equal(cc.classOf({ attributes: {} }), "shutter");
   assert.equal(cc.classOf({ attributes: { device_class: "garage" } }, "gate"), "gate");
-  for (const c of cc.CLASSES) {
+  for (const c of cc.PICTURES) {
     assert.ok(cc.SCENES[c], c);
     assert.equal(cc.ICONS[c].length, 2, c);
     assert.match(cc.coverSvg(c, { slider: true, target: 30 }), /^<svg class="scene [a-z]+" viewBox="0 0 100 120"[\s\S]*class="target"[\s\S]*<\/svg>$/);
@@ -665,4 +665,42 @@ test("no_feedback can be set for the whole card and stays out of the YAML when o
   assert.equal(cc.fromForm({ entities: [GATE], no_feedback: false }, {}, toggles).no_feedback, undefined);
   assert.equal(cc.fromForm({ entities: [GATE], no_feedback: true }, {}, toggles).no_feedback, true);
   assert.equal(cc.toForm({ entity: GATE }, toggles).no_feedback, false);
+});
+
+test("a gate named as swinging is drawn as a swing gate, slid across, and asks before moving", () => {
+  const g = (name) => ({ entity_id: "cover.x", attributes: { device_class: "gate", friendly_name: name } });
+  assert.equal(cc.classOf(g("Swing gate")), "swing");
+  assert.equal(cc.classOf(g("Portail battant")), "swing");
+  assert.equal(cc.classOf(g("Flügeltor Einfahrt")), "swing");
+  assert.equal(cc.classOf(g("Driveway gate")), "gate");
+  assert.equal(cc.classOf(g("Driveway gate"), "swing"), "swing");
+  assert.equal(cc.stateClass({ state: "open" }, "swing"), "warn");
+  const card = newCard(cc.CoverCard, { entity: "cover.swing_gate" });
+  assert.match(html(card), /class="scene swing"/);
+  assert.match(html(card), /data-axis="across"/);
+});
+
+test("a gate's pedestrian opening: its own button found on its device, a position or an entity set, or none", () => {
+  const hass = makeHass();
+  assert.deepEqual(plain(cc.pedestrianOf(hass, "cover.swing_gate", "swing")), { entity: "button.swing_gate_pedestrian" });
+  assert.equal(cc.pedestrianOf(hass, "cover.swing_gate", "swing", false), null);
+  assert.deepEqual(plain(cc.pedestrianOf(hass, "cover.driveway_gate", "gate", 30)), { position: 30 });
+  assert.deepEqual(plain(cc.pedestrianOf(hass, "cover.driveway_gate", "gate", "script.gate_walk")), { entity: "script.gate_walk" });
+  assert.equal(cc.pedestrianOf(hass, "cover.driveway_gate", "gate"), null);
+  assert.equal(cc.pedestrianOf(hass, "cover.garage_door", "garage"), null);
+
+  // The button asks first, then presses the gate's pedestrian button.
+  const card = newCard(cc.CoverCard, { entity: "cover.swing_gate" }, hass);
+  assert.match(html(card), /data-action="pedestrian"/);
+  click(card, { action: "pedestrian", entity: "cover.swing_gate" });
+  assert.match(html(card), /Open Swing gate for a pedestrian\?/);
+  click(card, { action: "confirm_ok" });
+  assert.deepEqual(plain(hass.calls), [["button", "press", { entity_id: "button.swing_gate_pedestrian" }]]);
+
+  // A position: the gate goes there, and the button is lit once it stands at it.
+  const h2 = makeHass({ "cover.driveway_gate": { current_position: 30, supported_features: 15 } });
+  const gate = newCard(cc.CoverCard, { entity: "cover.driveway_gate", pedestrian: 30, confirm: false }, h2);
+  assert.match(html(gate), /class="btn pedestrian on"/);
+  click(gate, { action: "pedestrian", entity: "cover.driveway_gate" });
+  assert.deepEqual(plain(h2.calls), [["cover", "set_cover_position", { entity_id: "cover.driveway_gate", position: 30 }]]);
 });

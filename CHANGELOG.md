@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.0 - 2026-11-18
+
+### Features
+- **Swing gate**: a new picture with two leaves swinging open on their hinges between two pillars (in the card, the illustrated header and the mini card), dragged sideways along the rail under it, warning lamp blinking while it moves. A gate cover whose name says it swings (*Swing gate*, *Portail battant*, *Flügeltor*… in every language of the card) is drawn so, or set `device_class: swing`.
+- **Pedestrian opening** of a gate: a *Pedestrian* button next to Open, asking first like the other buttons. It presses the gate's own pedestrian button or switch, found on its device by its name, or follows `pedestrian`: a position in % (lit while the gate stands there), a button, script or switch to press, or `false` for none; per cover or for the card, and in the visual editor.
+
 ## 1.6.1 - 2026-11-18
 
 ### Fixes

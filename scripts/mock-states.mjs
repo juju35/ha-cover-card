@@ -39,6 +39,10 @@ cover("cover.kitchen_shade", "kitchen", "Kitchen shade", "shade", "open", { curr
 cover("cover.terrace_awning", "terrace", "Terrace awning", "awning", "open", { current_position: 80 });
 cover("cover.garage_door", "garage", "Garage door", "garage", "closed", { supported_features: 1 | 2 | 8 });
 cover("cover.driveway_gate", "garden", "Driveway gate", "gate", "open", { supported_features: 1 | 2 | 8 });
+cover("cover.swing_gate", "garden", "Swing gate", "gate", "open", { current_position: 55 });
+// The swing gate's pedestrian button, on the gate's own device (the card finds it there by its name).
+entities["button.swing_gate_pedestrian"] = { entity_id: "button.swing_gate_pedestrian", device_id: "dev_swing_gate", area_id: null, platform: "template", hidden: false, entity_category: null };
+states["button.swing_gate_pedestrian"] = { entity_id: "button.swing_gate_pedestrian", state: "unknown", attributes: { friendly_name: "Swing gate Pedestrian opening" } };
 cover("cover.front_door", "hall", "Front door", "door", "closed", { supported_features: 1 | 2 });
 cover("cover.attic_window", "attic", "Attic window", "window", "open", { current_position: 30 });
 cover("cover.utility_damper", "utility", "Air damper", "damper", "open", { current_position: 70, supported_features: 1 | 2 | 4 });
