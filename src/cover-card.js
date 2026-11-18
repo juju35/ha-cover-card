@@ -2609,17 +2609,6 @@ const FULL_STYLE = `
   .section-title { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; text-transform: uppercase;
                    letter-spacing: .04em; color: var(--secondary-text-color); margin-bottom: 6px; }
   .section-title .icon { width: 16px; height: 16px; }
-  .single { display: flex; align-items: center; gap: 12px; }
-  .sinfo { flex: 1; min-width: 0; cursor: pointer; }
-  .sval { font-size: 28px; line-height: 1.15; color: var(--ink); white-space: nowrap; }
-  .sstate { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--secondary-text-color); }
-  .sbtns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-  .sbtns .btn.round { width: 42px; height: 42px; }
-  @container (max-width: 280px) {
-    .single { flex-direction: column; align-items: stretch; gap: 8px; }
-    .sbtns { justify-content: space-between; }
-    .sbtns .btn.round { width: 36px; height: 36px; }
-  }
   .group { display: flex; flex-wrap: wrap; gap: 6px; }
   .group .btn { flex: 1 1 auto; }
   .items { display: flex; flex-direction: column; gap: 8px; }
@@ -2695,6 +2684,18 @@ const MINI_STYLE = `
   .thumb .visual .scene { filter: drop-shadow(0 2px 4px rgba(0,0,0,.18)); }
   .thumb .tname { font-size: 11px; color: var(--secondary-text-color); max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .thumb .tval { font-size: 12px; font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .single { display: flex; align-items: center; gap: 12px; }
+  .sinfo { flex: 1; min-width: 0; cursor: pointer; }
+  .sval { font-size: 28px; line-height: 1.15; color: var(--ink); white-space: nowrap; }
+  .sstate { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--secondary-text-color); }
+  .sbtns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .sbtns .btn.round { width: 42px; height: 42px; }
+  .sbtns .btn.round .icon { width: 20px; height: 20px; }
+  @container (max-width: 280px) {
+    .single { flex-direction: column; align-items: stretch; gap: 8px; }
+    .sbtns { justify-content: space-between; }
+    .sbtns .btn.round { width: 36px; height: 36px; }
+  }
   .group { display: flex; flex-wrap: wrap; gap: 6px; }
   .group .btn { flex: 1 1 auto; }
   @container (max-width: 280px) {
