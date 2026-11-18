@@ -20,7 +20,11 @@
   <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/motion_blinds.png" alt="Motion Blinds" width="64">&nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/matter.png" alt="Matter" width="64">&nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/tuya.png" alt="Tuya" width="64">&nbsp;&nbsp;
-  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/switchbot.png" alt="SwitchBot" width="64">
+  <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/switchbot.png" alt="SwitchBot" width="64">&nbsp;&nbsp;
+  <a href="https://www.niceforyou.com/"><img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/nice_go.png" alt="Nice G.O." width="64"></a>&nbsp;&nbsp;
+  <a href="https://www.somfy.com/"><img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/somfy_mylink.png" alt="Somfy MyLink" width="64"></a>&nbsp;&nbsp;
+  <a href="https://www.renson.net/"><img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/renson.png" alt="Renson" width="64"></a>&nbsp;&nbsp;
+  <a href="https://www.hunterdouglas.com/"><img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/hunterdouglas_powerview.png" alt="Hunter Douglas PowerView" width="64"></a>
 </p>
 
 Lovelace cards for Home Assistant to control **covers of any integration**: roller shutters, hinged shutters, venetian blinds, roller shades, curtains, awnings, pergolas, garage doors, sliding and swing gates, barriers, doors, roof windows and dampers. Each cover is drawn as a little animated scene that follows its device class and position, and the picture itself is the position slider: drag it the way the cover opens (up for a shutter, down for an awning, sideways for curtains and a sliding gate).
