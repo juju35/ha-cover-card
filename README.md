@@ -23,7 +23,7 @@
   <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/images/switchbot.png" alt="SwitchBot" width="64">
 </p>
 
-Lovelace cards for Home Assistant to control **covers of any integration**: roller shutters, venetian blinds, roller shades, curtains, awnings, garage doors, sliding and swing gates, doors, roof windows and dampers. Each cover is drawn as a little animated scene that follows its device class and position, and the picture itself is the position slider: drag it the way the cover opens (up for a shutter, down for an awning, sideways for curtains and a sliding gate).
+Lovelace cards for Home Assistant to control **covers of any integration**: roller shutters, hinged shutters, venetian blinds, roller shades, curtains, awnings, pergolas, garage doors, sliding and swing gates, barriers, doors, roof windows and dampers. Each cover is drawn as a little animated scene that follows its device class and position, and the picture itself is the position slider: drag it the way the cover opens (up for a shutter, down for an awning, sideways for curtains and a sliding gate).
 
 The cards read the `cover` domain only, so they work with every integration that provides covers (Somfy, Shelly, Z-Wave, Zigbee, KNX, template covers…). What they show follows the features each cover reports: no position slider for a cover that cannot be set to a position, a tilt slider only for slats that tilt, no Stop button for a cover that cannot stop.
 
@@ -38,7 +38,7 @@ The cards read the `cover` domain only, so they work with every integration that
 
 - Two cards: a full **Cover Card** (`custom:cover-card`) and a compact **Cover Mini Card** (`custom:cover-mini-card`)
 - One cover, a list of covers, or **every cover of an area** (`area`), mixed freely
-- A drawn scene per device class: roller shutter, venetian blind, roller shade, curtains, awning, garage door, sliding gate, swing gate, door, roof window and damper (a cover without a device class is a roller shutter; a gate whose name says it swings — *Swing gate*, *Portail battant*, *Flügeltor*… — is a swing gate; `device_class` draws another one)
+- A drawn scene per device class: roller shutter, hinged shutters, venetian blind, roller shade, curtains, awning, pergola, garage door, sliding gate, swing gate, barrier, door, roof window and damper (a cover without a device class is a roller shutter; a gate whose name says it swings — *Swing gate*, *Portail battant*, *Flügeltor*… — is a swing gate; `device_class` draws another one)
 - **The picture is the position slider**: drag it (mouse, touch or pen) the way the cover moves (up for what rises, down for an awning that unrolls, sideways for curtains and a sliding gate, whose rail lies under the picture and leaves vertical swipes to the page) or use the arrow keys, Page Up / Down, Home and End; the position is sent once you let go, and the picture holds it until the cover reports its new state
 - While a cover moves, its scene **animates its own way** (rolling slats, swaying folds, blinking warning lamp, flowing air…) and a mark on the rail shows where it is going
 - **Tilt** slider and buttons for slats that tilt (venetian blinds, some shutters and awnings), shown only when the cover supports it
@@ -46,6 +46,9 @@ The cards read the `cover` domain only, so they work with every integration that
 - **Favorite positions**: one-tap buttons for a position, a tilt or both (`favorites`), per cover or for the whole group; the favorite reached is lit
 - Several covers: **Open all / Stop / Close all** buttons for the covers that support them, and one foldable row per cover (folded rows unfold to the full detail, a click elsewhere folds them back), or a **grid of unfolded tiles** on 2 or 3 columns (`columns`), each with its picture slider and full-size buttons
 - **Pedestrian opening** of a gate (sliding or swing): a *Pedestrian* button next to Open, which presses the gate's own pedestrian button (found on its device by its name, as Nice, BFT or CAME controllers and many relay boards expose it) or moves the gate to a position (`pedestrian: 30`), or runs a script or a switch (`pedestrian: script.gate_walk`); lit while the gate stands at its pedestrian position, asking first like the other buttons
+- **Barrier** (a gate, or a cover without a device class, named *Barrier*, *Barrière*, *Schranke*, *Barrera*, *Sbarra*, *Slagboom*…): its striped arm lifts on its pivot with the position, its red lamp blinks while it moves and glows at night in the header; it asks before moving, like a gate
+- **Hinged shutters** (a shutter, or a cover without a device class, named *Hinged*, *Volets battants*, *Klappläden*, *Contraventanas*, *Luiken*, *Okiennice*…): both leaves fold out on their hinges with the position, dragged sideways, and the window glows warm behind them at night in the header
+- **Pergola** (a cover named *Pergola*, *Louvre*, *Bioclimatic*, *Lamellendach*…, whatever its device class but a door, gate, garage or damper): its louvres turn with the tilt (with the position for a pergola that reports the louvres' angle as one), the sun shines between them by day; a pergola that only tilts shows the louvres' angle as its value and its tilt buttons on the mini card too; the LED strip under its frame lights the terrace while its `light` is on
 - Confirmation before opening, closing or moving a garage door, a gate or a door, by its buttons, the group buttons, a favorite or its slider, in a popup at the top of the card; `confirm: true` asks for every cover, `confirm: false` never
 - **Illustrated header** (full and mini card, 90 px): the title on a facade wall at the left, the covers drawn big at the right with their own pictures (shutter, blind, shade, curtains, awning, garage door, gate, door, roof window, damper — up to three, fewer on a narrow card), at their position and animated while they move, standing on a pavement strip edge to edge. The round icon of the kind of cover takes the state color (blue while moving, green open, orange for an open garage door, gate, door or window, grey closed, red unavailable), and the line under the title gives the state and a summary ("2 open · 3 covers · average 53%"). Night picture with a dark Home Assistant theme, forced with `illustration_theme`; `illustration: false` brings back the classic header with its status chip
 - Unavailable covers are greyed, their buttons and sliders disabled; a missing entity is reported in its row
@@ -183,8 +186,9 @@ zoom: true
 | `illustration_theme` | both | `auto` | Day or night picture of the illustrated header: `auto` (follows the Home Assistant theme: night with a dark theme, day with a light theme), `day` or `night` forces it |
 | `show_title` | both | `true` | Show the title in the header |
 | `show_subtitle` | both | `true` | Show the subtitle (kind of cover and area, or the number of covers and their average position) |
-| `device_class` | both | Device class of each cover | Picture to draw for every cover: `shutter`, `blind`, `shade`, `curtain`, `awning`, `garage`, `gate`, `swing` (a swing gate), `door`, `window` or `damper` |
+| `device_class` | both | Device class of each cover | Picture to draw for every cover: `shutter`, `hinged` (hinged shutters), `blind`, `shade`, `curtain`, `awning`, `pergola`, `garage`, `gate`, `swing` (a swing gate), `barrier`, `door`, `window` or `damper` |
 | `pedestrian` | both | The gate's own pedestrian button | Pedestrian opening of a gate: a position in % (`30`), or a `button`, `script` or `switch` to press; `false` removes the button. Unset, the card looks for a pedestrian button or switch on the gate's device |
+| `light` | both | — | Light (or switch) of a pergola, its LED strip: drawn lit under the louvres while it is on |
 | `invert` | both | `false` | Reverse the position axis for covers whose integration reports it the wrong way round (often awnings): the picture, the slider and the percentage use `100 − current_position`, and `set_cover_position` is sent reversed. Set per cover (in its `entities` object) or for the whole card. The Open / Stop / Close buttons are unchanged |
 | `no_feedback` | both | `false` | For a cover that never reports its real state (a radio **RTS** motor and the like): at rest it is drawn and badged **closed**, since its open/closed state is only assumed. While it moves it still animates, and the Open / Stop / Close buttons stay enabled. Set per cover (in its `entities` object) or for the whole card. Covers that report a position are unaffected |
 | `favorites` | both | — | Favorite positions: numbers (a position in %) or objects with `name`, `position` and/or `tilt`. With one cover they are its favorites; with several, they move every cover that can take them |
@@ -209,6 +213,7 @@ Per-cover options, in an object of `entities`:
 | `device_class` | Picture of this cover (same values as above) |
 | `no_feedback` | Draw this cover closed at rest when it reports no real state (a radio RTS motor); same as the card option above |
 | `pedestrian` | Pedestrian opening of this gate (same values as above) |
+| `light` | Light of this pergola (same as above) |
 | `favorites` | Favorite positions of this cover (same form as above), shown in its detail |
 
 ## Screenshots
@@ -257,6 +262,24 @@ A swing gate: its two leaves narrow as they swing open on their hinges, dragged 
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-swing.png" alt="swing gate with its pedestrian button" width="420"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-swing-dark.png" alt="swing gate with its pedestrian button dark" width="420"> |
 
+A barrier: its striped arm lifts on its pivot; it has no position, so the header pill tells its state:
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-barrier.png" alt="barrier" width="420"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-barrier-dark.png" alt="barrier dark" width="420"> |
+
+Hinged shutters: both leaves fold out on their hinges, dragged sideways along the rail under the picture:
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-hinged.png" alt="hinged shutters" width="420"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-hinged-dark.png" alt="hinged shutters dark" width="420"> |
+
+A bioclimatic pergola that only tilts: its louvres turn with the tilt slider, the louvres' angle as its value, the LED strip of its `light` lit under the frame:
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-pergola.png" alt="pergola" width="420"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-pergola-dark.png" alt="pergola dark" width="420"> |
+
 An unavailable cover: red chip, greyed picture, disabled buttons and slider:
 
 | Light | Dark |
@@ -276,6 +299,20 @@ A single cover: its position and state, and its own buttons as round ones (here 
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-swing.png" alt="mini card of a swing gate" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-swing-dark.png" alt="mini card of a swing gate dark" width="400"> |
+
+A barrier, hinged shutters and a pergola on their own (the pergola's tilt buttons on the mini card):
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-barrier.png" alt="mini card of a barrier" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-barrier-dark.png" alt="mini card of a barrier dark" width="400"> |
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-hinged.png" alt="mini card of hinged shutters" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-hinged-dark.png" alt="mini card of hinged shutters dark" width="400"> |
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-pergola.png" alt="mini card of a pergola" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-pergola-dark.png" alt="mini card of a pergola dark" width="400"> |
 
 Every kind of cover, each drawn with its own scene:
 
@@ -346,6 +383,24 @@ A swing gate opens both leaves on their hinges, warning lamp blinking.
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/swing-opening.gif" alt="Swing gate opening" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/swing-opening-dark.gif" alt="Swing gate opening dark" width="400"> |
+
+A barrier lifts its arm, its red lamp blinking.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/barrier-opening.gif" alt="Barrier opening" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/barrier-opening-dark.gif" alt="Barrier opening dark" width="400"> |
+
+Hinged shutters fold their two leaves out on their hinges.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/hinged-opening.gif" alt="Hinged shutters opening" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/hinged-opening-dark.gif" alt="Hinged shutters opening dark" width="400"> |
+
+A pergola turns its louvres open, the sun coming in between them.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/pergola-opening.gif" alt="Pergola tilting open" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/pergola-opening-dark.gif" alt="Pergola tilting open dark" width="400"> |
 
 A motorized door swings in, under its blinking lamp.
 

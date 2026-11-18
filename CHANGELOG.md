@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.8.0 - 2026-11-18
+
+### Features
+- **Barrier**: a new picture, a yellow cabinet whose striped arm lifts on its pivot with the position (in the card, the illustrated header and the mini card), red lamp blinking while it moves and glowing at night in the header. A gate (or a cover without a device class) named *Barrier*, *Barrière*, *Schranke*, *Barrera*… in every language of the card is drawn so, or set `device_class: barrier`; it asks before moving, like a gate.
+- **Hinged shutters**: two louvred leaves folding out on their hinges with the position, dragged sideways; the window glows warm behind them at night in the header. A shutter named *Hinged shutters*, *Volets battants*, *Klappläden*, *Contraventanas*… is drawn so, or set `device_class: hinged`.
+- **Pergola**: posts and a frame whose louvres turn with the tilt (or with the position, for a pergola reporting the louvres' angle as one), the sun shining between them by day. A cover named *Pergola*, *Louvre*, *Bioclimatic*, *Lamellendach*… is drawn so, or set `device_class: pergola`. A pergola that only tilts shows the louvres' angle as its value, and its tilt buttons on the mini card. New option `light` (per cover or for the card, in the visual editor): its LED strip, drawn lit under the frame while it is on.
+
 ## 1.7.0 - 2026-11-18
 
 ### Features

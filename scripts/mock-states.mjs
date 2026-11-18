@@ -43,6 +43,13 @@ cover("cover.swing_gate", "garden", "Swing gate", "gate", "open", { current_posi
 // The swing gate's pedestrian button, on the gate's own device (the card finds it there by its name).
 entities["button.swing_gate_pedestrian"] = { entity_id: "button.swing_gate_pedestrian", device_id: "dev_swing_gate", area_id: null, platform: "template", hidden: false, entity_category: null };
 states["button.swing_gate_pedestrian"] = { entity_id: "button.swing_gate_pedestrian", state: "unknown", attributes: { friendly_name: "Swing gate Pedestrian opening" } };
+// A barrier (found by its name), hinged shutters (found by their name) and a bioclimatic pergola whose louvres only
+// tilt, with the LED strip under its frame.
+cover("cover.car_park_barrier", "garden", "Car park barrier", "gate", "open", { supported_features: 1 | 2 | 8 });
+cover("cover.hinged_shutters", "bedroom", "Hinged shutters", "shutter", "open", { current_position: 80 });
+cover("cover.terrace_pergola", "terrace", "Terrace pergola", "awning", "open", { current_tilt_position: 55, supported_features: TILT });
+entities["light.terrace_pergola_led"] = { entity_id: "light.terrace_pergola_led", device_id: "dev_terrace_pergola", area_id: null, platform: "template", hidden: false, entity_category: null };
+states["light.terrace_pergola_led"] = { entity_id: "light.terrace_pergola_led", state: "on", attributes: { friendly_name: "Terrace pergola LED" } };
 cover("cover.front_door", "hall", "Front door", "door", "closed", { supported_features: 1 | 2 });
 cover("cover.attic_window", "attic", "Attic window", "window", "open", { current_position: 30 });
 cover("cover.utility_damper", "utility", "Air damper", "damper", "open", { current_position: 70, supported_features: 1 | 2 | 4 });

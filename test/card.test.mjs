@@ -708,3 +708,49 @@ test("a gate's pedestrian opening: its own button found on its device, a positio
   click(gate, { action: "pedestrian", entity: "cover.driveway_gate" });
   assert.deepEqual(plain(h2.calls), [["cover", "set_cover_position", { entity_id: "cover.driveway_gate", position: 30 }]]);
 });
+
+test("a barrier, hinged shutters and a pergola are found by their name, in any language", () => {
+  const c = (dc, name) => ({ entity_id: "cover.x", attributes: { device_class: dc, friendly_name: name } });
+  assert.equal(cc.classOf(c("gate", "Car park barrier")), "barrier");
+  assert.equal(cc.classOf(c(undefined, "Barrière parking")), "barrier");
+  assert.equal(cc.classOf(c("gate", "Schranke Einfahrt")), "barrier");
+  assert.equal(cc.classOf(c("shutter", "Volets battants")), "hinged");
+  assert.equal(cc.classOf(c(undefined, "Klappläden Küche")), "hinged");
+  assert.equal(cc.classOf(c("shutter", "Living room shutter")), "shutter");
+  assert.equal(cc.classOf(c("awning", "Terrace pergola")), "pergola");
+  assert.equal(cc.classOf(c(undefined, "Pergola bioclimatique")), "pergola");
+  // A gate named as swinging stays a swing gate, a garage door named after a pergola stays a garage door.
+  assert.equal(cc.classOf(c("gate", "Portail battant")), "swing");
+  assert.equal(cc.classOf(c("garage", "Pergola garage")), "garage");
+  for (const p of ["barrier", "hinged", "pergola"]) assert.equal(cc.classOf(c("shutter", "Kitchen"), p), p);
+  // A barrier is guarded like a gate.
+  assert.equal(cc.stateClass({ state: "open" }, "barrier"), "warn");
+});
+
+test("a barrier's arm, hinged shutters' leaves and a pergola's louvres are drawn and dragged their own way", () => {
+  const barrier = html(newCard(cc.CoverCard, { entity: "cover.car_park_barrier" }));
+  assert.match(barrier, /class="scene barrier"/);
+  assert.match(barrier, /class="arm"/);
+  const hinged = html(newCard(cc.CoverCard, { entity: "cover.hinged_shutters" }));
+  assert.match(hinged, /class="scene hinged"/);
+  assert.match(hinged, /data-axis="across"/);
+  assert.match(hinged, /--p:80/);
+  // A pergola whose louvres only tilt: the louvres' angle drawn and shown as its value, the tilt buttons on the mini
+  // card too, the LED strip lit while its light is on.
+  const pergola = html(newCard(cc.CoverCard, { entity: "cover.terrace_pergola", light: "light.terrace_pergola_led" }));
+  assert.match(pergola, /class="scene pergola"/);
+  assert.match(pergola, /--t:55/);
+  assert.match(pergola, /class="pos clickable"[^>]*>55\s?%</);
+  assert.match(pergola, /class="visual [^"]*\blit\b/);
+  assert.doesNotMatch(html(newCard(cc.CoverCard, { entity: "cover.terrace_pergola" })), /class="visual [^"]*\blit\b/);
+  const mini = html(newCard(cc.CoverMiniCard, { entity: "cover.terrace_pergola" }));
+  assert.match(mini, /data-action="tilt_open"/);
+  assert.match(mini, /class="sval">55\s?%</);
+  // In a mini card of several covers too, its thumbnail tells the louvres' angle.
+  assert.match(html(newCard(cc.CoverMiniCard, { entities: ["cover.terrace_pergola", BAY] })), /class="tval">55\s?%</);
+});
+
+test("a pergola without tilt turns its louvres with its position", () => {
+  const hass = makeHass({ "cover.terrace_pergola": { current_position: 40, current_tilt_position: undefined, supported_features: 15 } });
+  assert.match(html(newCard(cc.CoverCard, { entity: "cover.terrace_pergola" }, hass)), /--p:40;--t:40/);
+});
