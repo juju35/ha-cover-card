@@ -53,6 +53,7 @@ The cards read the `cover` domain only, so they work with every integration that
 - **Barrier** (a gate, or a cover without a device class, named *Barrier*, *Barrière*, *Schranke*, *Barrera*, *Sbarra*, *Slagboom*…): its striped arm lifts on its pivot with the position, its red lamp blinks while it moves and glows at night in the header; it asks before moving, like a gate
 - **Hinged shutters** (a shutter, or a cover without a device class, named *Hinged*, *Volets battants*, *Klappläden*, *Contraventanas*, *Luiken*, *Okiennice*…): both leaves fold out on their hinges with the position, dragged sideways, and the window glows warm behind them at night in the header
 - **Pergola** (a cover named *Pergola*, *Louvre*, *Bioclimatic*, *Lamellendach*…, whatever its device class but a door, gate, garage or damper): its louvres turn with the tilt (with the position for a pergola that reports the louvres' angle as one), the sun shines between them by day; a pergola that only tilts shows the louvres' angle as its value and its tilt buttons on the mini card too; the LED strip under its frame lights the terrace while its `light` is on
+- **Automatic schedule**: the time of the next automatic opening and closing (`open_time`, `close_time`), read from a sensor (a template giving `HH:MM`, a timestamp sensor) or an `input_datetime`, as two tiles under the picture; the next one in the accent color with its countdown, one already gone by dimmed, and one turned off by its condition (`open_condition`, `close_condition`: an `input_boolean`, a `binary_sensor` or a `schedule` at off) struck through as *skipped*
 - Confirmation before opening, closing or moving a garage door, a gate or a door, by its buttons, the group buttons, a favorite or its slider, in a popup at the top of the card; `confirm: true` asks for every cover, `confirm: false` never
 - **Illustrated header** (full and mini card, 90 px): the title on a facade wall at the left, the covers drawn big at the right with their own pictures (shutter, blind, shade, curtains, awning, garage door, gate, door, roof window, damper — up to three, fewer on a narrow card), at their position and animated while they move, standing on a pavement strip edge to edge. The round icon of the kind of cover takes the state color (blue while moving, green open, orange for an open garage door, gate, door or window, grey closed, red unavailable), and the line under the title gives the state and a summary ("2 open · 3 covers · average 53%"). Night picture with a dark Home Assistant theme, forced with `illustration_theme`; `illustration: false` brings back the classic header with its status chip
 - Unavailable covers are greyed, their buttons and sliders disabled; a missing entity is reported in its row
@@ -161,6 +162,10 @@ show_controls: true
 show_group_controls: true
 show_tilt: true
 show_favorites: true
+open_time: sensor.covers_next_opening
+close_time: sensor.covers_next_closing
+open_condition: input_boolean.covers_auto_open
+show_schedule: true
 expanded: false
 columns: 1
 confirm: true
@@ -200,6 +205,11 @@ zoom: true
 | `show_group_controls` | both | `true` | Open all / Stop / Close all buttons above the rows of several covers (on the mini card, in its detailed view) |
 | `show_tilt` | both | `true` | Tilt slider and buttons, for the covers that support tilt |
 | `show_favorites` | both | `true` | Favorite position buttons |
+| `open_time` | both | — | Time of the next automatic opening: an entity whose state is a time (`07:42`, a template sensor or a time-only `input_datetime`: its next occurrence, today or tomorrow) or a date and time (a timestamp sensor, an `input_datetime` with a date), or a fixed time written as is (`"07:30"`). Shown as a tile with the closing one (see below); set per cover (in its `entities` object) or for the whole card — on a card of several covers, the card's schedule is shown once, above them |
+| `close_time` | both | — | Time of the next automatic closing, same forms as `open_time` |
+| `open_condition` | both | — | An on/off entity (`input_boolean`, `binary_sensor`, `schedule`…) telling whether the automatic opening will happen: while it is `off`, the opening is shown struck through as *skipped* (and is never the next one) |
+| `close_condition` | both | — | Same as `open_condition`, for the automatic closing |
+| `show_schedule` | both | `true` | Automatic schedule tiles (when `open_time` or `close_time` is set): the next action in the accent color with its countdown, one gone by dimmed, one skipped struck through |
 | `center_value` | both | `false` | Centre the opening percentage (and its state line) under the picture instead of left-aligning it |
 | `show_state` | both | `true` | Show the coloured dot and state text next to the opening percentage. `false` hides it (the folded row keeps showing the state) |
 | `expanded` | both | `false` | Unfold every row of a card of several covers (otherwise click a row to unfold it; a click elsewhere folds it back) |
@@ -219,6 +229,7 @@ Per-cover options, in an object of `entities`:
 | `pedestrian` | Pedestrian opening of this gate (same values as above) |
 | `light` | Light of this pergola (same as above) |
 | `favorites` | Favorite positions of this cover (same form as above), shown in its detail |
+| `open_time`, `close_time`, `open_condition`, `close_condition` | Automatic schedule of this cover (same forms as above), shown in its detail; when it sets a time, it replaces the card's for this cover |
 
 ## Screenshots
 
@@ -284,6 +295,19 @@ A bioclimatic pergola that only tilts: its louvres turn with the tilt slider, th
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-pergola.png" alt="pergola" width="420"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-pergola-dark.png" alt="pergola dark" width="420"> |
 
+The automatic schedule (`open_time`, `close_time`): the opening of the day done and dimmed, the closing to come in the accent color with its countdown. Times follow Home Assistant's time format (12 or 24 hours):
+
+```yaml
+type: custom:cover-card
+entity: cover.living_room_bay_window
+open_time: sensor.bay_window_opening   # a timestamp sensor
+close_time: sensor.bay_window_closing  # a template sensor giving "18:05"
+```
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-schedule.png" alt="automatic schedule" width="420"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/card-schedule-dark.png" alt="automatic schedule dark" width="420"> |
+
 An unavailable cover: red chip, greyed picture, disabled buttons and slider:
 
 | Light | Dark |
@@ -317,6 +341,20 @@ A barrier, hinged shutters and a pergola on their own (the pergola's tilt button
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-pergola.png" alt="mini card of a pergola" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-pergola-dark.png" alt="mini card of a pergola dark" width="400"> |
+
+The automatic schedule on the mini card, with an opening turned off by its condition (`open_condition` at off, here a day off at home) shown as skipped:
+
+```yaml
+type: custom:cover-mini-card
+entity: cover.living_room_bay_window
+open_time: sensor.bay_window_next_opening
+close_time: sensor.bay_window_closing
+open_condition: input_boolean.covers_auto_open
+```
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-schedule.png" alt="mini card with its automatic schedule" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-schedule-dark.png" alt="mini card with its automatic schedule dark" width="400"> |
 
 Every kind of cover, each drawn with its own scene:
 

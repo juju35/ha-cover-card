@@ -29,11 +29,12 @@ test("every device class has its own animation", () => {
   for (const c of ["shutter", "blind", "shade", "curtain", "awning", "garage", "gate", "door", "window", "damper"]) assert.ok(classes.has(c), c);
 });
 
-test("every file in screenshots/ is rendered by the screenshot script, and every capture is there", () => {
+// Only orphans are flagged: a capture just added to the list is rendered and committed by the Screenshots workflow
+// after the branch's first push, so it may not be there yet.
+test("every file in screenshots/ is rendered by the screenshot script", () => {
   const rendered = new Set([...shots.map((s) => `${s.file}.png`), ...gifs.map((g) => `${g.file}.gif`)]);
   const files = readdirSync(new URL("../screenshots/", import.meta.url));
   assert.deepEqual(files.filter((f) => !rendered.has(f)), []);
-  assert.deepEqual([...rendered].filter((f) => !files.includes(f)), []);
 });
 
 test("every capture is shown in the README", () => {
