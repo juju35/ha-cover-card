@@ -6,6 +6,7 @@
 - **Automatic schedule** (#33): the time of the next automatic opening and closing, as two tiles under the picture (small ones on the mini card; on a card of several covers, the card's schedule once above them). New options `open_time` and `close_time`, per cover or for the card: a sensor or an `input_datetime` giving a time (`HH:MM`, its next occurrence) or a date and time (a timestamp sensor), or a fixed time. The next action is in the accent colour with its countdown, one gone by is dimmed. `open_condition` / `close_condition` (an on/off entity: `input_boolean`, `binary_sensor`, `schedule`…) strike an action through as *skipped* while off. `show_schedule: false` hides it; all of them are in the visual editors, times follow Home Assistant's 12/24 h format, translated in every language of the card.
 
 ### Maintenance
+- The commitlint config is loaded as an ES module: the `commit-msg` hook failed on every commit, the package being `"type": "module"`.
 - The screenshot test only flags orphan captures, so that a capture just added does not fail the branch's first push before the Screenshots workflow renders it.
 
 ## 1.8.0 - 2026-11-18
