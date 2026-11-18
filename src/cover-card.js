@@ -2456,8 +2456,8 @@ const SCENE_STYLE = `
   .closing .shift { animation: cc-fall 1.6s ease-in-out infinite; }
   .gate.scene .shift { animation: none; }
   /* A swing gate on the move: its leaves swing a step further on their hinges, the way it goes. */
-  .swing.opening .leaf-l, .swing.opening .leaf-r { animation: cc-swing-open 1.6s ease-in-out infinite; }
-  .swing.closing .leaf-l, .swing.closing .leaf-r { animation: cc-swing-close 1.6s ease-in-out infinite; }
+  .opening .swing .leaf-l, .opening .swing .leaf-r { animation: cc-swing-open 1.6s ease-in-out infinite; }
+  .closing .swing .leaf-l, .closing .swing .leaf-r { animation: cc-swing-close 1.6s ease-in-out infinite; }
   .moving .bob { animation: cc-bob .5s ease-in-out infinite alternate; }
   .moving .sway { animation: cc-sway .8s ease-in-out infinite alternate; }
   .moving .flutter { animation: cc-sway .4s ease-in-out infinite alternate; }
