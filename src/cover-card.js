@@ -3627,7 +3627,14 @@ class CoverBase extends HTMLElement {
   // The position of a cover as a percentage, or its state when it reports none.
   _valueText(item) {
     const p = this._pos(item);
+    const louvres = this._louvres(item);
+    if (louvres !== null) return this._pct(louvres);
     return p !== null && !isOffline(item.s) ? this._pct(p) : this._stateText(item.s);
+  }
+
+  // The louvres' angle of a pergola that only tilts (no position), shown as its value; else null.
+  _louvres(item) {
+    return item.cls === "pergola" && this._pos(item) === null && !isOffline(item.s) ? tiltOf(item.s) : null;
   }
 
   // Overall state of the card's covers: { text, cls, open }.
@@ -3931,7 +3938,7 @@ class CoverCard extends CoverBase {
     const stateLine =
       c.show_state === false ? "" : `<div class="line state ${cls}${echo}"><span class="dot"></span><span>${esc(stateText)}</span></div>`;
     // A pergola whose louvres only tilt: the louvres' angle in place of a position.
-    const louvres = word && !isOffline(s) && item.cls === "pergola" ? tiltOf(s) : null;
+    const louvres = this._louvres(item);
     const value = louvres !== null
       ? `<div class="pos clickable" role="button" tabindex="0" data-entity="${esc(item.id)}">${esc(this._pct(louvres))}</div><div class="line state ${cls}"><span class="dot"></span><span>${esc(this._t("tilt"))}</span></div>`
       : word
@@ -4093,7 +4100,7 @@ class CoverMiniCard extends CoverCard {
     const cls = stateClass(s, item.cls);
     const p = this._pos(item);
     const partly = s?.state === "open" && p > 0 && p < 100;
-    const louvres = p === null && !isOffline(s) && item.cls === "pergola" ? tiltOf(s) : null;
+    const louvres = this._louvres(item);
     const value = louvres !== null ? this._pct(louvres) : p !== null && !isOffline(s) ? this._pct(p) : this._stateText(s);
     const state = louvres !== null ? this._t("tilt") : partly ? this._t("partly_open") : this._stateText(s);
     const stateLine = (p !== null || louvres !== null) && !isOffline(s) && c.show_state !== false ? `<div class="sstate ${cls}"><span class="dot"></span><span>${esc(state)}</span></div>` : "";

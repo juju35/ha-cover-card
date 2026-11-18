@@ -746,6 +746,8 @@ test("a barrier's arm, hinged shutters' leaves and a pergola's louvres are drawn
   const mini = html(newCard(cc.CoverMiniCard, { entity: "cover.terrace_pergola" }));
   assert.match(mini, /data-action="tilt_open"/);
   assert.match(mini, /class="sval">55\s?%</);
+  // In a mini card of several covers too, its thumbnail tells the louvres' angle.
+  assert.match(html(newCard(cc.CoverMiniCard, { entities: ["cover.terrace_pergola", BAY] })), /class="tval">55\s?%</);
 });
 
 test("a pergola without tilt turns its louvres with its position", () => {
