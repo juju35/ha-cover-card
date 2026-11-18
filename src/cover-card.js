@@ -17,13 +17,15 @@ const TILT_FEATURES = F.OPEN_TILT | F.CLOSE_TILT | F.STOP_TILT | F.SET_TILT_POSI
 // Device classes of the cover domain; a cover without one is drawn as a roller shutter.
 const CLASSES = ["shutter", "blind", "shade", "curtain", "awning", "garage", "gate", "door", "window", "damper"];
 // Open is worth a warning for these (an open garage door, gate, door or window), not for a shutter or a blind.
-// The pictures the card draws: the device classes, and a swing gate (a gate cover whose name says it swings, or
-// `device_class: swing`), whose two leaves open on their hinges where a sliding gate's leaf slides.
-const PICTURES = [...CLASSES.slice(0, 7), "swing", ...CLASSES.slice(7)];
-const GUARDED = new Set(["garage", "gate", "swing", "door", "window"]);
+// The pictures the card draws: the device classes, and pictures found by the cover's name (or forced by
+// `device_class`): hinged shutters, whose two leaves fold out on their hinges where a roller shutter rolls up; a
+// pergola, whose louvres turn; a swing gate, whose two leaves open on their hinges where a sliding gate's leaf slides;
+// a barrier, whose arm lifts.
+const PICTURES = ["shutter", "hinged", ...CLASSES.slice(1, 5), "pergola", ...CLASSES.slice(5, 7), "swing", "barrier", ...CLASSES.slice(7)];
+const GUARDED = new Set(["garage", "gate", "swing", "barrier", "door", "window"]);
 // Moving these lets someone in or closes on someone: unless `confirm` says otherwise, opening, closing or setting
 // their position asks first.
-const SECURED = new Set(["garage", "gate", "swing", "door"]);
+const SECURED = new Set(["garage", "gate", "swing", "barrier", "door"]);
 // Gates whose pedestrian opening the card looks for on their device.
 const GATES = new Set(["gate", "swing"]);
 
@@ -84,8 +86,21 @@ const ICONS = {
   collapse: "M19.5,3.09L15,7.59V4H13V11H20V9H16.41L20.91,4.5L19.5,3.09M4,13V15H7.59L3.09,19.5L4.5,20.91L9,16.41V20H11V13H4Z",
   alert: "M13 14H11V9H13M13 18H11V16H13M1 21H23L12 2L1 21Z",
 };
-// A swing gate shows the gate icons.
+// A swing gate shows the gate icons; mdi:boom-gate / boom-gate-up for a barrier, mdi:window-closed-variant /
+// window-open-variant for hinged shutters, and a pergola drawn the same way (roof closed / louvres open).
 ICONS.swing = ICONS.gate;
+ICONS.barrier = [
+  "M20,9H8.22C7.11,7.77 5.21,7.68 4,8.8C3.36,9.36 3,10.16 3,11V20A1,1 0 0,0 2,21V22H10V21A1,1 0 0,0 9,20V13H20A2,2 0 0,0 22,11A2,2 0 0,0 20,9M6,12.5A1.5,1.5 0 0,1 4.5,11A1.5,1.5 0 0,1 6,9.5A1.5,1.5 0 0,1 7.5,11A1.5,1.5 0 0,1 6,12.5M10.5,12L9,10H10.5L12,12H10.5M14.5,12L13,10H14.5L16,12H14.5M18.5,12L17,10H18.5L20,12H18.5Z",
+  "M19.9 3C19.3 2 18.1 1.7 17.2 2.3L6.9 8.2C6.6 8.1 6.3 8 6 8C4.3 8 3 9.3 3 11V20C2.4 20 2 20.4 2 21V22H10V21C10 20.4 9.6 20 9 20V11.6L19.1 5.8C20.1 5.2 20.4 4 19.9 3M6 12.5C5.2 12.5 4.5 11.8 4.5 11S5.2 9.5 6 9.5 7.5 10.2 7.5 11 6.8 12.5 6 12.5M10.4 9.6L8.1 8.6L9.4 7.8L11.7 8.8L10.4 9.6M13.9 7.6L11.6 6.6L12.9 5.8L15.2 6.8L13.9 7.6M17.3 5.6L15 4.6L16.3 3.8L18.6 4.8L17.3 5.6",
+];
+ICONS.hinged = [
+  "M21 20V2H3V20H1V23H23V20M19 4V11H13V4M5 4H11V11H5M5 20V13H11V20M13 20V13H19V20Z",
+  "M21 20V2H3V20H1V23H23V20M19 4V11H17V4M5 4H7V11H5M5 20V13H7V20M9 20V4H15V20M17 20V13H19V20Z",
+];
+ICONS.pergola = [
+  "M2 3H22V5H20V21H18V5H6V21H4V5H2V3M6 6H18V8.5H6V6Z",
+  "M2 3H22V5H20V21H18V5H6V21H4V5H2V3M7 6.2L8.2 5.5L9.6 7.8L8.4 8.5L7 6.2M10.4 6.2L11.6 5.5L13 7.8L11.8 8.5L10.4 6.2M13.8 6.2L15 5.5L16.4 7.8L15.2 8.5L13.8 6.2Z",
+];
 const STRINGS = {
   en: {
     covers: "Covers",
@@ -124,6 +139,9 @@ const STRINGS = {
     c_garage: "Garage door",
     c_gate: "Gate",
     c_swing: "Swing gate",
+    c_barrier: "Barrier",
+    c_hinged: "Hinged shutters",
+    c_pergola: "Pergola",
     c_door: "Door",
     c_window: "Window",
     c_damper: "Damper",
@@ -157,6 +175,7 @@ const STRINGS = {
     e_expanded: "Unfold every cover",
     e_confirm: "Ask before opening or closing",
     e_pedestrian: "Pedestrian opening",
+    e_light: "Pergola light",
     e_columns: "Columns",
     e_zoom: "Detail button",
     e_language: "Language",
@@ -164,6 +183,7 @@ const STRINGS = {
     h_favorites: "Pick or type positions; each becomes a button",
     h_device_class: "Drawn picture, when the device class of the covers does not match",
     h_pedestrian: "A position in % (e.g. 30), or a button, script or switch to press; else the gate's own pedestrian button, when its device has one",
+    h_light: "The pergola's light (LED strip), drawn lit under its louvres while on",
     h_columns: "With several covers: 1 shows foldable rows, 2 or 3 a grid of unfolded tiles",
     h_zoom: "Button at the top right that switches the mini card to the full card and back",
     confirm_auto: "Garage doors, gates and doors",
@@ -216,6 +236,9 @@ const STRINGS = {
     c_garage: "Porte de garage",
     c_gate: "Portail",
     c_swing: "Portail battant",
+    c_barrier: "Barrière levante",
+    c_hinged: "Volets battants",
+    c_pergola: "Pergola",
     c_door: "Porte",
     c_window: "Fenêtre",
     c_damper: "Clapet",
@@ -249,6 +272,7 @@ const STRINGS = {
     e_expanded: "Déplier chaque ouvrant",
     e_confirm: "Demander avant d'ouvrir ou de fermer",
     e_pedestrian: "Ouverture piéton",
+    e_light: "Éclairage de la pergola",
     e_columns: "Colonnes",
     e_zoom: "Bouton détail",
     e_language: "Langue",
@@ -256,6 +280,7 @@ const STRINGS = {
     h_favorites: "Choisissez ou saisissez des positions ; chacune devient un bouton",
     h_device_class: "Illustration dessinée, quand la classe d'appareil des ouvrants ne convient pas",
     h_pedestrian: "Une position en % (ex. 30), ou un bouton, script ou interrupteur à actionner ; sinon le bouton piéton du portail, si son appareil en a un",
+    h_light: "L'éclairage de la pergola (ruban LED), dessiné allumé sous ses lames quand il est allumé",
     h_columns: "Avec plusieurs ouvrants : 1 affiche des lignes repliables, 2 ou 3 une grille de vignettes dépliées",
     h_zoom: "Bouton en haut à droite qui passe la mini-carte en carte complète et inversement",
     confirm_auto: "Portes de garage, portails et portes",
@@ -308,6 +333,9 @@ const STRINGS = {
     c_garage: "Garagentor",
     c_gate: "Tor",
     c_swing: "Flügeltor",
+    c_barrier: "Schranke",
+    c_hinged: "Klappläden",
+    c_pergola: "Pergola",
     c_door: "Tür",
     c_window: "Fenster",
     c_damper: "Klappe",
@@ -341,6 +369,7 @@ const STRINGS = {
     e_expanded: "Jede Abdeckung aufklappen",
     e_confirm: "Vor dem Öffnen oder Schließen nachfragen",
     e_pedestrian: "Fußgängeröffnung",
+    e_light: "Pergola-Beleuchtung",
     e_columns: "Spalten",
     e_zoom: "Detail-Schaltfläche",
     e_language: "Sprache",
@@ -348,6 +377,7 @@ const STRINGS = {
     h_favorites: "Positionen wählen oder eingeben; jede wird zu einer Schaltfläche",
     h_device_class: "Gezeichnetes Bild, wenn die Geräteklasse der Abdeckungen nicht passt",
     h_pedestrian: "Eine Position in % (z. B. 30) oder eine Taste, ein Skript oder ein Schalter; sonst die Fußgängertaste des Tors, wenn sein Gerät eine hat",
+    h_light: "Die Beleuchtung der Pergola (LED-Streifen), unter den Lamellen leuchtend gezeichnet, solange sie an ist",
     h_columns: "Bei mehreren Abdeckungen: 1 zeigt einklappbare Zeilen, 2 oder 3 ein Raster aufgeklappter Kacheln",
     h_zoom: "Schaltfläche oben rechts, um zwischen kompakter und vollständiger Kartenansicht zu wechseln",
     confirm_auto: "Garagentore, Tore und Türen",
@@ -400,6 +430,9 @@ const STRINGS = {
     c_garage: "Puerta de garaje",
     c_gate: "Portón",
     c_swing: "Puerta batiente",
+    c_barrier: "Barrera",
+    c_hinged: "Contraventanas",
+    c_pergola: "Pérgola",
     c_door: "Puerta",
     c_window: "Ventana",
     c_damper: "Compuerta",
@@ -433,6 +466,7 @@ const STRINGS = {
     e_expanded: "Desplegar cada cerramiento",
     e_confirm: "Preguntar antes de abrir o cerrar",
     e_pedestrian: "Apertura peatonal",
+    e_light: "Luz de la pérgola",
     e_columns: "Columnas",
     e_zoom: "Botón de detalle",
     e_language: "Idioma",
@@ -440,6 +474,7 @@ const STRINGS = {
     h_favorites: "Elige o escribe posiciones; cada una se convierte en un botón",
     h_device_class: "Ilustración dibujada, cuando la clase de dispositivo no corresponde",
     h_pedestrian: "Una posición en % (p. ej. 30), o un botón, script o interruptor; si no, el botón peatonal de la puerta, si su dispositivo tiene uno",
+    h_light: "La luz de la pérgola (tira LED), dibujada encendida bajo sus lamas mientras está encendida",
     h_columns: "Con varios cerramientos: 1 muestra filas plegables, 2 o 3 una cuadrícula de mosaicos desplegados",
     h_zoom: "Botón arriba a la derecha que cambia la minitarjeta a la tarjeta completa y viceversa",
     confirm_auto: "Puertas de garaje, portones y puertas",
@@ -492,6 +527,9 @@ const STRINGS = {
     c_garage: "Гаражна врата",
     c_gate: "Капија",
     c_swing: "Крилна капија",
+    c_barrier: "Рампа",
+    c_hinged: "Капци",
+    c_pergola: "Пергола",
     c_door: "Врата",
     c_window: "Прозор",
     c_damper: "Клапна",
@@ -525,6 +563,7 @@ const STRINGS = {
     e_expanded: "Прошири сваки затварач",
     e_confirm: "Питај пре отварања или затварања",
     e_pedestrian: "Пешачко отварање",
+    e_light: "Светло перголе",
     e_columns: "Колоне",
     e_zoom: "Дугме за детаље",
     e_language: "Језик",
@@ -532,6 +571,7 @@ const STRINGS = {
     h_favorites: "Изаберите или унесите положаје; сваки постаје дугме",
     h_device_class: "Нацртана илустрација, када класа уређаја не одговара",
     h_pedestrian: "Положај у % (нпр. 30) или дугме, скрипта или прекидач; иначе пешачко дугме капије, ако га уређај има",
+    h_light: "Светло перголе (LED трака), нацртано упаљено испод ламела док је укључено",
     h_columns: "Са више затварача: 1 приказује редове који се скупљају, 2 или 3 мрежу проширених плочица",
     h_zoom: "Дугме горе десно које пребацује мини картицу на пуну картицу и назад",
     confirm_auto: "Гаражна врата, капије и врата",
@@ -584,6 +624,9 @@ const STRINGS = {
     c_garage: "Garažna vrata",
     c_gate: "Kapija",
     c_swing: "Krilna kapija",
+    c_barrier: "Rampa",
+    c_hinged: "Kapci",
+    c_pergola: "Pergola",
     c_door: "Vrata",
     c_window: "Prozor",
     c_damper: "Klapna",
@@ -617,6 +660,7 @@ const STRINGS = {
     e_expanded: "Proširi svaki zatvarač",
     e_confirm: "Pitaj pre otvaranja ili zatvaranja",
     e_pedestrian: "Pešačko otvaranje",
+    e_light: "Svetlo pergole",
     e_columns: "Kolone",
     e_zoom: "Dugme za detalje",
     e_language: "Jezik",
@@ -624,6 +668,7 @@ const STRINGS = {
     h_favorites: "Izaberite ili unesite položaje; svaki postaje dugme",
     h_device_class: "Nacrtana ilustracija, kada klasa uređaja ne odgovara",
     h_pedestrian: "Položaj u % (npr. 30) ili dugme, skripta ili prekidač; inače pešačko dugme kapije, ako ga uređaj ima",
+    h_light: "Svetlo pergole (LED traka), nacrtano upaljeno ispod lamela dok je uključeno",
     h_columns: "Sa više zatvarača: 1 prikazuje redove koji se skupljaju, 2 ili 3 mrežu proširenih pločica",
     h_zoom: "Dugme gore desno koje prebacuje mini karticu na punu karticu i nazad",
     confirm_auto: "Garažna vrata, kapije i vrata",
@@ -676,6 +721,9 @@ const STRINGS = {
     c_garage: "Porta del garage",
     c_gate: "Cancello",
     c_swing: "Cancello a battente",
+    c_barrier: "Sbarra",
+    c_hinged: "Persiane a battente",
+    c_pergola: "Pergola",
     c_door: "Porta",
     c_window: "Finestra",
     c_damper: "Serranda",
@@ -709,6 +757,7 @@ const STRINGS = {
     e_expanded: "Espandi ogni copertura",
     e_confirm: "Chiedi prima di aprire o chiudere",
     e_pedestrian: "Apertura pedonale",
+    e_light: "Luce della pergola",
     e_columns: "Colonne",
     e_zoom: "Pulsante dettagli",
     e_language: "Lingua",
@@ -716,6 +765,7 @@ const STRINGS = {
     h_favorites: "Scegli o scrivi posizioni; ognuna diventa un pulsante",
     h_device_class: "Illustrazione disegnata, quando la classe del dispositivo non corrisponde",
     h_pedestrian: "Una posizione in % (es. 30), oppure un pulsante, script o interruttore; altrimenti il pulsante pedonale del cancello, se il dispositivo ne ha uno",
+    h_light: "La luce della pergola (striscia LED), disegnata accesa sotto le lamelle quando è accesa",
     h_columns: "Con più coperture: 1 mostra righe richiudibili, 2 o 3 una griglia di riquadri espansi",
     h_zoom: "Pulsante in alto a destra che passa dalla mini scheda alla scheda completa e viceversa",
     confirm_auto: "Porte del garage, cancelli e porte",
@@ -768,6 +818,9 @@ const STRINGS = {
     c_garage: "Garagedeur",
     c_gate: "Poort",
     c_swing: "Draaipoort",
+    c_barrier: "Slagboom",
+    c_hinged: "Luiken",
+    c_pergola: "Pergola",
     c_door: "Deur",
     c_window: "Raam",
     c_damper: "Klep",
@@ -801,6 +854,7 @@ const STRINGS = {
     e_expanded: "Elke afdekking uitklappen",
     e_confirm: "Vragen voor openen of sluiten",
     e_pedestrian: "Voetgangersopening",
+    e_light: "Pergolaverlichting",
     e_columns: "Kolommen",
     e_zoom: "Detailknop",
     e_language: "Taal",
@@ -808,6 +862,7 @@ const STRINGS = {
     h_favorites: "Kies of typ posities; elke positie wordt een knop",
     h_device_class: "Getekende afbeelding, als de apparaatklasse niet past",
     h_pedestrian: "Een positie in % (bijv. 30), of een knop, script of schakelaar; anders de voetgangersknop van de poort, als het apparaat er een heeft",
+    h_light: "De verlichting van de pergola (ledstrip), aan getekend onder de lamellen zolang ze aan is",
     h_columns: "Bij meerdere afdekkingen: 1 toont inklapbare rijen, 2 of 3 een raster van uitgeklapte tegels",
     h_zoom: "Knop rechtsboven die de minikaart naar de volledige kaart schakelt en terug",
     confirm_auto: "Garagedeuren, poorten en deuren",
@@ -860,6 +915,9 @@ const STRINGS = {
     c_garage: "Porta de garagem",
     c_gate: "Portão",
     c_swing: "Portão de batente",
+    c_barrier: "Cancela",
+    c_hinged: "Portadas",
+    c_pergola: "Pérgola",
     c_door: "Porta",
     c_window: "Janela",
     c_damper: "Registo",
@@ -893,6 +951,7 @@ const STRINGS = {
     e_expanded: "Expandir cada estore",
     e_confirm: "Perguntar antes de abrir ou fechar",
     e_pedestrian: "Abertura pedonal",
+    e_light: "Luz da pérgola",
     e_columns: "Colunas",
     e_zoom: "Botão de detalhe",
     e_language: "Idioma",
@@ -900,6 +959,7 @@ const STRINGS = {
     h_favorites: "Escolha ou escreva posições; cada uma torna-se um botão",
     h_device_class: "Ilustração desenhada, quando a classe do dispositivo não corresponde",
     h_pedestrian: "Uma posição em % (ex. 30), ou um botão, script ou interruptor; caso contrário o botão pedonal do portão, se o dispositivo tiver um",
+    h_light: "A luz da pérgola (fita LED), desenhada acesa sob as lâminas enquanto está ligada",
     h_columns: "Com vários estores: 1 mostra linhas recolhíveis, 2 ou 3 uma grelha de mosaicos expandidos",
     h_zoom: "Botão no canto superior direito que alterna o mini cartão para o cartão completo e vice-versa",
     confirm_auto: "Portas de garagem, portões e portas",
@@ -952,6 +1012,9 @@ const STRINGS = {
     c_garage: "Brama garażowa",
     c_gate: "Brama",
     c_swing: "Brama skrzydłowa",
+    c_barrier: "Szlaban",
+    c_hinged: "Okiennice",
+    c_pergola: "Pergola",
     c_door: "Drzwi",
     c_window: "Okno",
     c_damper: "Przepustnica",
@@ -985,6 +1048,7 @@ const STRINGS = {
     e_expanded: "Rozwiń każdą osłonę",
     e_confirm: "Pytaj przed otwarciem lub zamknięciem",
     e_pedestrian: "Otwarcie dla pieszych",
+    e_light: "Oświetlenie pergoli",
     e_columns: "Kolumny",
     e_zoom: "Przycisk szczegółów",
     e_language: "Język",
@@ -992,6 +1056,7 @@ const STRINGS = {
     h_favorites: "Wybierz lub wpisz pozycje; każda staje się przyciskiem",
     h_device_class: "Rysowana ilustracja, gdy klasa urządzenia nie pasuje",
     h_pedestrian: "Pozycja w % (np. 30) albo przycisk, skrypt lub przełącznik; w przeciwnym razie przycisk dla pieszych bramy, jeśli urządzenie go ma",
+    h_light: "Oświetlenie pergoli (taśma LED), rysowane jako włączone pod lamelami, gdy jest włączone",
     h_columns: "Przy kilku osłonach: 1 pokazuje zwijane wiersze, 2 lub 3 siatkę rozwiniętych kafelków",
     h_zoom: "Przycisk w prawym górnym rogu, który przełącza mini kartę na pełną kartę i z powrotem",
     confirm_auto: "Bramy garażowe, bramy i drzwi",
@@ -1044,6 +1109,9 @@ const STRINGS = {
     c_garage: "Ușă de garaj",
     c_gate: "Poartă",
     c_swing: "Poartă batantă",
+    c_barrier: "Barieră",
+    c_hinged: "Obloane",
+    c_pergola: "Pergolă",
     c_door: "Ușă",
     c_window: "Fereastră",
     c_damper: "Clapetă",
@@ -1077,6 +1145,7 @@ const STRINGS = {
     e_expanded: "Extinde fiecare jaluzea",
     e_confirm: "Întreabă înainte de deschidere sau închidere",
     e_pedestrian: "Deschidere pietonală",
+    e_light: "Iluminatul pergolei",
     e_columns: "Coloane",
     e_zoom: "Buton de detalii",
     e_language: "Limbă",
@@ -1084,6 +1153,7 @@ const STRINGS = {
     h_favorites: "Alege sau scrie poziții; fiecare devine un buton",
     h_device_class: "Ilustrație desenată, când clasa dispozitivului nu se potrivește",
     h_pedestrian: "O poziție în % (ex. 30) sau un buton, script ori comutator; altfel butonul pietonal al porții, dacă dispozitivul are unul",
+    h_light: "Iluminatul pergolei (bandă LED), desenat aprins sub lamele cât timp este pornit",
     h_columns: "Cu mai multe jaluzele: 1 afișează rânduri pliabile, 2 sau 3 o grilă de plăci extinse",
     h_zoom: "Buton în dreapta sus care comută mini cardul la cardul complet și înapoi",
     confirm_auto: "Uși de garaj, porți și uși",
@@ -1136,6 +1206,9 @@ const STRINGS = {
     c_garage: "Garageport",
     c_gate: "Låge",
     c_swing: "Fløjlåge",
+    c_barrier: "Bom",
+    c_hinged: "Skodder",
+    c_pergola: "Pergola",
     c_door: "Dør",
     c_window: "Vindue",
     c_damper: "Spjæld",
@@ -1169,6 +1242,7 @@ const STRINGS = {
     e_expanded: "Fold hver afskærmning ud",
     e_confirm: "Spørg før åbning eller lukning",
     e_pedestrian: "Fodgængeråbning",
+    e_light: "Pergolalys",
     e_columns: "Kolonner",
     e_zoom: "Detaljeknap",
     e_language: "Sprog",
@@ -1176,6 +1250,7 @@ const STRINGS = {
     h_favorites: "Vælg eller skriv positioner; hver bliver en knap",
     h_device_class: "Tegnet illustration, når enhedsklassen ikke passer",
     h_pedestrian: "En position i % (f.eks. 30) eller en knap, et script eller en kontakt; ellers lågens fodgængerknap, hvis enheden har en",
+    h_light: "Pergolaens lys (LED-strip), tegnet tændt under lamellerne, mens det er tændt",
     h_columns: "Med flere afskærmninger: 1 viser sammenfoldelige rækker, 2 eller 3 et gitter af udfoldede felter",
     h_zoom: "Knap øverst til højre, der skifter minikortet til hele kortet og tilbage",
     confirm_auto: "Garageporte, låger og døre",
@@ -1228,6 +1303,9 @@ const STRINGS = {
     c_garage: "Garageport",
     c_gate: "Grind",
     c_swing: "Slagrind",
+    c_barrier: "Bom",
+    c_hinged: "Fönsterluckor",
+    c_pergola: "Pergola",
     c_door: "Dörr",
     c_window: "Fönster",
     c_damper: "Spjäll",
@@ -1261,6 +1339,7 @@ const STRINGS = {
     e_expanded: "Fäll ut varje skydd",
     e_confirm: "Fråga innan öppning eller stängning",
     e_pedestrian: "Gångöppning",
+    e_light: "Pergolabelysning",
     e_columns: "Kolumner",
     e_zoom: "Detaljknapp",
     e_language: "Språk",
@@ -1268,6 +1347,7 @@ const STRINGS = {
     h_favorites: "Välj eller skriv positioner; var och en blir en knapp",
     h_device_class: "Ritad illustration, när enhetsklassen inte stämmer",
     h_pedestrian: "En position i % (t.ex. 30) eller en knapp, ett skript eller en brytare; annars grindens gångknapp, om enheten har en",
+    h_light: "Pergolans belysning (LED-list), ritad tänd under lamellerna när den är på",
     h_columns: "Med flera skydd: 1 visar hopfällbara rader, 2 eller 3 ett rutnät av utfällda rutor",
     h_zoom: "Knapp uppe till höger som växlar minikortet till hela kortet och tillbaka",
     confirm_auto: "Garageportar, grindar och dörrar",
@@ -1320,6 +1400,9 @@ const STRINGS = {
     c_garage: "Гаражна врата",
     c_gate: "Порта",
     c_swing: "Двукрила порта",
+    c_barrier: "Бариера",
+    c_hinged: "Капаци",
+    c_pergola: "Пергола",
     c_door: "Врата",
     c_window: "Прозорец",
     c_damper: "Клапа",
@@ -1353,6 +1436,7 @@ const STRINGS = {
     e_expanded: "Разгъни всяка щора",
     e_confirm: "Питай преди отваряне или затваряне",
     e_pedestrian: "Пешеходно отваряне",
+    e_light: "Осветление на перголата",
     e_columns: "Колони",
     e_zoom: "Бутон за подробности",
     e_language: "Език",
@@ -1360,6 +1444,7 @@ const STRINGS = {
     h_favorites: "Изберете или въведете позиции; всяка става бутон",
     h_device_class: "Нарисувана илюстрация, когато класът на устройството не съвпада",
     h_pedestrian: "Позиция в % (напр. 30) или бутон, скрипт или превключвател; иначе пешеходният бутон на портата, ако устройството има такъв",
+    h_light: "Осветлението на перголата (LED лента), нарисувано светнало под ламелите, докато е включено",
     h_columns: "При няколко щори: 1 показва сгъваеми редове, 2 или 3 мрежа от разгънати плочки",
     h_zoom: "Бутон горе вдясно, който превключва мини картата към пълната карта и обратно",
     confirm_auto: "Гаражни врати, порти и врати",
@@ -1412,6 +1497,9 @@ const STRINGS = {
     c_garage: "Гаражные ворота",
     c_gate: "Ворота",
     c_swing: "Распашные ворота",
+    c_barrier: "Шлагбаум",
+    c_hinged: "Ставни",
+    c_pergola: "Пергола",
     c_door: "Дверь",
     c_window: "Окно",
     c_damper: "Заслонка",
@@ -1445,6 +1533,7 @@ const STRINGS = {
     e_expanded: "Разворачивать каждую штору",
     e_confirm: "Спрашивать перед открытием или закрытием",
     e_pedestrian: "Открытие для пешехода",
+    e_light: "Подсветка перголы",
     e_columns: "Столбцы",
     e_zoom: "Кнопка подробностей",
     e_language: "Язык",
@@ -1452,6 +1541,7 @@ const STRINGS = {
     h_favorites: "Выберите или введите положения; каждое станет кнопкой",
     h_device_class: "Нарисованная иллюстрация, если класс устройства не подходит",
     h_pedestrian: "Положение в % (например, 30) или кнопка, скрипт или выключатель; иначе пешеходная кнопка ворот, если она есть у устройства",
+    h_light: "Подсветка перголы (LED-лента), нарисованная включённой под ламелями, пока она горит",
     h_columns: "Для нескольких штор: 1 — сворачиваемые строки, 2 или 3 — сетка развёрнутых плиток",
     h_zoom: "Кнопка в правом верхнем углу, переключающая мини-карточку на полную и обратно",
     confirm_auto: "Гаражные ворота, ворота и двери",
@@ -1504,6 +1594,9 @@ const STRINGS = {
     c_garage: "Гаражні ворота",
     c_gate: "Ворота",
     c_swing: "Розпашні ворота",
+    c_barrier: "Шлагбаум",
+    c_hinged: "Віконниці",
+    c_pergola: "Пергола",
     c_door: "Двері",
     c_window: "Вікно",
     c_damper: "Заслінка",
@@ -1537,6 +1630,7 @@ const STRINGS = {
     e_expanded: "Розгортати кожну штору",
     e_confirm: "Питати перед відкриттям або закриттям",
     e_pedestrian: "Відчинення для пішохода",
+    e_light: "Підсвітка перголи",
     e_columns: "Стовпці",
     e_zoom: "Кнопка подробиць",
     e_language: "Мова",
@@ -1544,6 +1638,7 @@ const STRINGS = {
     h_favorites: "Виберіть або введіть положення; кожне стане кнопкою",
     h_device_class: "Намальована ілюстрація, якщо клас пристрою не підходить",
     h_pedestrian: "Положення у % (наприклад, 30) або кнопка, скрипт чи вимикач; інакше пішохідна кнопка воріт, якщо вона є в пристрою",
+    h_light: "Підсвітка перголи (LED-стрічка), намальована увімкненою під ламелями, поки вона світить",
     h_columns: "Для кількох штор: 1 — згортані рядки, 2 або 3 — сітка розгорнутих плиток",
     h_zoom: "Кнопка у правому верхньому куті, що перемикає міні-картку на повну і назад",
     confirm_auto: "Гаражні ворота, ворота та двері",
@@ -1596,6 +1691,9 @@ const STRINGS = {
     c_garage: "Garázskapu",
     c_gate: "Kapu",
     c_swing: "Nyíló kapu",
+    c_barrier: "Sorompó",
+    c_hinged: "Zsalugáterek",
+    c_pergola: "Pergola",
     c_door: "Ajtó",
     c_window: "Ablak",
     c_damper: "Csappantyú",
@@ -1629,6 +1727,7 @@ const STRINGS = {
     e_expanded: "Minden árnyékoló kibontása",
     e_confirm: "Kérdezzen nyitás vagy zárás előtt",
     e_pedestrian: "Gyalogos nyitás",
+    e_light: "Pergola világítása",
     e_columns: "Oszlopok",
     e_zoom: "Részletek gomb",
     e_language: "Nyelv",
@@ -1636,6 +1735,7 @@ const STRINGS = {
     h_favorites: "Válassz vagy írj be pozíciókat; mindegyik gomb lesz",
     h_device_class: "Rajzolt illusztráció, ha az eszközosztály nem megfelelő",
     h_pedestrian: "Pozíció %-ban (pl. 30), vagy egy gomb, szkript vagy kapcsoló; különben a kapu gyalogos gombja, ha az eszköznek van",
+    h_light: "A pergola világítása (LED-szalag), a lamellák alatt égve rajzolva, amíg be van kapcsolva",
     h_columns: "Több árnyékolónál: 1 összecsukható sorokat mutat, 2 vagy 3 kibontott csempék rácsát",
     h_zoom: "Jobb felső gomb, amely a mini kártyát teljes kártyára váltja és vissza",
     confirm_auto: "Garázskapuk, kapuk és ajtók",
@@ -1688,6 +1788,9 @@ const STRINGS = {
     c_garage: "Garážová brána",
     c_gate: "Brána",
     c_swing: "Krídlová brána",
+    c_barrier: "Závora",
+    c_hinged: "Okenice",
+    c_pergola: "Pergola",
     c_door: "Dvere",
     c_window: "Okno",
     c_damper: "Klapka",
@@ -1721,6 +1824,7 @@ const STRINGS = {
     e_expanded: "Rozbaliť každú clonu",
     e_confirm: "Pýtať sa pred otvorením alebo zatvorením",
     e_pedestrian: "Otvorenie pre chodcov",
+    e_light: "Osvetlenie pergoly",
     e_columns: "Stĺpce",
     e_zoom: "Tlačidlo podrobností",
     e_language: "Jazyk",
@@ -1728,6 +1832,7 @@ const STRINGS = {
     h_favorites: "Vyberte alebo zadajte polohy; každá sa stane tlačidlom",
     h_device_class: "Kreslená ilustrácia, keď trieda zariadenia nesedí",
     h_pedestrian: "Poloha v % (napr. 30) alebo tlačidlo, skript či vypínač; inak tlačidlo pre chodcov brány, ak ho zariadenie má",
+    h_light: "Osvetlenie pergoly (LED pás), nakreslené rozsvietené pod lamelami, kým svieti",
     h_columns: "Pri viacerých clonách: 1 zobrazí zbaliteľné riadky, 2 alebo 3 mriežku rozbalených dlaždíc",
     h_zoom: "Tlačidlo vpravo hore, ktoré prepína mini kartu na celú kartu a späť",
     confirm_auto: "Garážové brány, brány a dvere",
@@ -1780,6 +1885,9 @@ const STRINGS = {
     c_garage: "Garážová vrata",
     c_gate: "Brána",
     c_swing: "Křídlová brána",
+    c_barrier: "Závora",
+    c_hinged: "Okenice",
+    c_pergola: "Pergola",
     c_door: "Dveře",
     c_window: "Okno",
     c_damper: "Klapka",
@@ -1813,6 +1921,7 @@ const STRINGS = {
     e_expanded: "Rozbalit každou clonu",
     e_confirm: "Ptát se před otevřením nebo zavřením",
     e_pedestrian: "Otevření pro pěší",
+    e_light: "Osvětlení pergoly",
     e_columns: "Sloupce",
     e_zoom: "Tlačítko podrobností",
     e_language: "Jazyk",
@@ -1820,6 +1929,7 @@ const STRINGS = {
     h_favorites: "Vyberte nebo zadejte polohy; každá se stane tlačítkem",
     h_device_class: "Kreslená ilustrace, když třída zařízení neodpovídá",
     h_pedestrian: "Poloha v % (např. 30) nebo tlačítko, skript či vypínač; jinak tlačítko pro pěší brány, pokud ho zařízení má",
+    h_light: "Osvětlení pergoly (LED pásek), nakreslené rozsvícené pod lamelami, dokud svítí",
     h_columns: "U více clon: 1 zobrazí sbalitelné řádky, 2 nebo 3 mřížku rozbalených dlaždic",
     h_zoom: "Tlačítko vpravo nahoře, které přepíná mini kartu na celou kartu a zpět",
     confirm_auto: "Garážová vrata, brány a dveře",
@@ -1872,6 +1982,9 @@ const STRINGS = {
     c_garage: "Garažna vrata",
     c_gate: "Vrata dvorišča",
     c_swing: "Krilna vrata",
+    c_barrier: "Zapornica",
+    c_hinged: "Polkna",
+    c_pergola: "Pergola",
     c_door: "Vrata",
     c_window: "Okno",
     c_damper: "Loputa",
@@ -1905,6 +2018,7 @@ const STRINGS = {
     e_expanded: "Razširi vsako senčilo",
     e_confirm: "Vprašaj pred odpiranjem ali zapiranjem",
     e_pedestrian: "Odpiranje za pešce",
+    e_light: "Osvetlitev pergole",
     e_columns: "Stolpci",
     e_zoom: "Gumb za podrobnosti",
     e_language: "Jezik",
@@ -1912,6 +2026,7 @@ const STRINGS = {
     h_favorites: "Izberite ali vpišite položaje; vsak postane gumb",
     h_device_class: "Narisana ilustracija, ko razred naprave ne ustreza",
     h_pedestrian: "Položaj v % (npr. 30) ali gumb, skript ali stikalo; sicer gumb za pešce na vratih, če ga naprava ima",
+    h_light: "Osvetlitev pergole (LED trak), narisana prižgana pod lamelami, dokler sveti",
     h_columns: "Pri več senčilih: 1 prikaže zložljive vrstice, 2 ali 3 mrežo razširjenih ploščic",
     h_zoom: "Gumb zgoraj desno, ki preklopi mini kartico na celotno kartico in nazaj",
     confirm_auto: "Garažna vrata, dvoriščna vrata in vrata",
@@ -1964,6 +2079,9 @@ const STRINGS = {
     c_garage: "Garāžas vārti",
     c_gate: "Vārti",
     c_swing: "Vērtņu vārti",
+    c_barrier: "Barjera",
+    c_hinged: "Slēģi",
+    c_pergola: "Pergola",
     c_door: "Durvis",
     c_window: "Logs",
     c_damper: "Vārsts",
@@ -1997,6 +2115,7 @@ const STRINGS = {
     e_expanded: "Izvērst katru aizsegu",
     e_confirm: "Jautāt pirms atvēršanas vai aizvēršanas",
     e_pedestrian: "Atvēršana gājējiem",
+    e_light: "Pergolas apgaismojums",
     e_columns: "Kolonnas",
     e_zoom: "Detaļu poga",
     e_language: "Valoda",
@@ -2004,6 +2123,7 @@ const STRINGS = {
     h_favorites: "Izvēlieties vai ierakstiet pozīcijas; katra kļūst par pogu",
     h_device_class: "Zīmēta ilustrācija, ja ierīces klase neatbilst",
     h_pedestrian: "Pozīcija % (piem., 30) vai poga, skripts vai slēdzis; citādi vārtu gājēju poga, ja ierīcei tāda ir",
+    h_light: "Pergolas apgaismojums (LED lente), attēlots iedegts zem lamelēm, kamēr tas ir ieslēgts",
     h_columns: "Ar vairākiem aizsegiem: 1 rāda sakļaujamas rindas, 2 vai 3 izvērstu flīžu režģi",
     h_zoom: "Poga augšējā labajā stūrī, kas pārslēdz mini karti uz pilno karti un atpakaļ",
     confirm_auto: "Garāžas vārti, vārti un durvis",
@@ -2056,6 +2176,9 @@ const STRINGS = {
     c_garage: "Γκαραζόπορτα",
     c_gate: "Αυλόπορτα",
     c_swing: "Ανοιγόμενη αυλόπορτα",
+    c_barrier: "Μπάρα",
+    c_hinged: "Παντζούρια",
+    c_pergola: "Πέργκολα",
     c_door: "Πόρτα",
     c_window: "Παράθυρο",
     c_damper: "Διάφραγμα",
@@ -2089,6 +2212,7 @@ const STRINGS = {
     e_expanded: "Ανάπτυξη κάθε σκιάστρου",
     e_confirm: "Ερώτηση πριν από άνοιγμα ή κλείσιμο",
     e_pedestrian: "Άνοιγμα για πεζούς",
+    e_light: "Φωτισμός πέργκολας",
     e_columns: "Στήλες",
     e_zoom: "Κουμπί λεπτομερειών",
     e_language: "Γλώσσα",
@@ -2096,6 +2220,7 @@ const STRINGS = {
     h_favorites: "Επιλέξτε ή πληκτρολογήστε θέσεις· η καθεμία γίνεται κουμπί",
     h_device_class: "Σχεδιασμένη εικόνα, όταν η κλάση συσκευής δεν ταιριάζει",
     h_pedestrian: "Θέση σε % (π.χ. 30) ή κουμπί, σενάριο ή διακόπτης· αλλιώς το κουμπί πεζών της αυλόπορτας, αν η συσκευή έχει",
+    h_light: "Ο φωτισμός της πέργκολας (ταινία LED), σχεδιασμένος αναμμένος κάτω από τις περσίδες όσο είναι ανοιχτός",
     h_columns: "Με πολλά σκίαστρα: 1 δείχνει πτυσσόμενες γραμμές, 2 ή 3 πλέγμα αναπτυγμένων πλακιδίων",
     h_zoom: "Κουμπί πάνω δεξιά που αλλάζει τη μίνι κάρτα σε πλήρη κάρτα και πίσω",
     confirm_auto: "Γκαραζόπορτες, αυλόπορτες και πόρτες",
@@ -2180,10 +2305,20 @@ const isMoving = (s) => s?.state === "opening" || s?.state === "closing";
 
 // A gate whose name says it swings (two leaves on hinges) in any of the card's languages.
 const SWING_RE = /swing|battant|batant|fl[uü]gel|drehtor|batiente|battente|draai|batente|skrzyd|kr[ií]dl|k[rř][ií]dl|krilna|крил|распаш|розпаш|ny[ií]l[oó]|двукрил|slagrind|fløj|vērtņ|ανοιγ/i;
+// A barrier (a gate, or a cover without a device class, whose name says so: a lifting arm), a pergola (louvres
+// turning on a frame, whatever its device class but a door, gate or damper) and hinged shutters (a shutter, or a
+// cover without a device class, whose two leaves fold out), in any of the card's languages.
+const BARRIER_RE = /barri[eè]r|barier|barrera|barjera|schranke|sbarra|slagboom|cancela|szlaban|z[aá]vor|zapornic|sorompó|shlagbaum|шлагбаум|бариер|рампа|\brampa\b|μπάρα|\bbom\b|boom gate/i;
+const PERGOLA_RE = /pergol|πέργκολ|περγκολ|пергол|louvre|louver|bioclim|lamellendach/i;
+const HINGED_RE = /hinged|battant|klappl|fensterl[aä]d|contravent|postigo|battente|\bscur|luik|portada|okiennic|oblon|skodde|fönsterluck|kapci|капци|капаци|ставн|віконниц|zsalug|okenic|polkn|slēģ|παντζ/i;
 const classOf = (s, override) => {
   if (PICTURES.includes(override)) return override;
   const dc = s?.attributes?.device_class;
-  if (dc === "gate" && SWING_RE.test(s?.attributes?.friendly_name || s?.entity_id || "")) return "swing";
+  const name = s?.attributes?.friendly_name || s?.entity_id || "";
+  if ((dc === "gate" || !dc) && BARRIER_RE.test(name)) return "barrier";
+  if (dc === "gate" && SWING_RE.test(name)) return "swing";
+  if (!["door", "gate", "garage", "damper"].includes(dc) && PERGOLA_RE.test(name)) return "pergola";
+  if ((dc === "shutter" || !dc) && HINGED_RE.test(name)) return "hinged";
   return CLASSES.includes(dc) ? dc : "shutter";
 };
 
@@ -2363,6 +2498,43 @@ const SCENES = {
       <path d="M50 82H85" stroke="#3d4147" stroke-width="2"/></g></g>
     <rect x="5" y="44" width="10" height="68" rx="1.5" fill="#a9a59c" stroke="#8f8b82"/><rect x="85" y="44" width="10" height="68" rx="1.5" fill="#a9a59c" stroke="#8f8b82"/>
     <rect x="4" y="41" width="12" height="4" rx="1" fill="#8f8b82"/><rect x="84" y="41" width="12" height="4" rx="1" fill="#8f8b82"/>${lamp(10, 35)}`,
+  // Barrier: a yellow cabinet on the drive, its striped arm lifting on its pivot, a fork post at its far end; red
+  // lamp on the cabinet, which blinks while it moves (and glows at night in the banner).
+  barrier: (u) => `<defs><linearGradient id="${u}y" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#f2b705"/></linearGradient></defs>
+    <path d="M2 112H98" stroke="#b9bfc6" stroke-width="2"/>
+    <rect x="84" y="88" width="4" height="24" fill="#868e96"/><path d="M80 86.5H92" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
+    <g class="arm"><rect x="17" y="76.5" width="72" height="7" rx="3.5" fill="url(#${u}f)" stroke="#c4c5c2" stroke-width=".6"/>
+      ${range(4, (i) => `<rect x="${32 + i * 14}" y="76.5" width="7" height="7" fill="#e03131"/>`)}<circle cx="86" cy="80" r="2" fill="#ffd43b"/></g>
+    <rect x="8" y="70" width="24" height="42" rx="3.5" fill="url(#${u}y)" stroke="#d99a00"/>
+    <rect x="13" y="94" width="14" height="3" rx="1.5" fill="#343a40"/><rect x="13" y="100" width="14" height="8" rx="2" fill="#000" opacity=".08"/>
+    <circle cx="20" cy="80" r="5" fill="#495057"/><circle cx="20" cy="80" r="2" fill="#adb5bd"/>
+    <rect x="18.5" y="64" width="3" height="6" fill="#495057"/>${lamp(20, 61)}`,
+  // Hinged shutters: two louvred leaves on the outer edges of the window, folding out against the wall as they open;
+  // the window glows warm at night in the banner.
+  hinged: (u) => `<defs><linearGradient id="${u}h" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#52b788"/><stop offset="1" stop-color="#2d6a4f"/></linearGradient></defs>
+    <rect x="26" y="16" width="48" height="92" rx="2" fill="url(#${u}f)" stroke="#c4c5c2"/>
+    <rect x="30" y="20" width="40" height="84" fill="url(#${u}g)"/><rect class="warm" x="30" y="20" width="40" height="84"/>
+    <path d="M50 20V104M30 62H70" stroke="#d9dad7" stroke-width="2.5"/>
+    <path d="M34 32l10-8M34 46l16-14" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+    <rect x="22" y="107" width="56" height="5" rx="1.5" fill="url(#${u}f)" stroke="#c4c5c2"/>
+    <g class="hl"><g class="bob"><rect x="26" y="16" width="24" height="92" rx="1.5" fill="url(#${u}h)" stroke="#1b4332" stroke-width=".8"/>
+      <path d="${range(16, (i) => `M28.5 ${21 + i * 5.4}H47.5`)}" stroke="#1b4332" stroke-width="1.3" opacity=".55"/><rect x="28" y="61" width="20" height="2.5" fill="#2d6a4f"/></g></g>
+    <g class="hr"><g class="bob"><rect x="50" y="16" width="24" height="92" rx="1.5" fill="url(#${u}h)" stroke="#1b4332" stroke-width=".8"/>
+      <path d="${range(16, (i) => `M52.5 ${21 + i * 5.4}H71.5`)}" stroke="#1b4332" stroke-width="1.3" opacity=".55"/><rect x="52" y="61" width="20" height="2.5" fill="#2d6a4f"/></g></g>
+    <path d="M24 30V34M24 90V94M76 30V34M76 90V94" stroke="#495057" stroke-width="3" stroke-linecap="round"/>`,
+  // Pergola: posts and a frame, its louvres turning with the tilt (the position for a pergola without one), the sun
+  // passing between them by day; the LED strip under the frame lights the terrace while its light is on.
+  pergola: (u) => `<defs><linearGradient id="${u}p" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5c636e"/><stop offset="1" stop-color="#343a40"/></linearGradient></defs>
+    <path d="M2 112H98" stroke="#b9bfc6" stroke-width="2"/>
+    <g class="rays">${range(8, (i) => `<path d="M${17 + i * 9.6} 31l-6 79" stroke="#ffd43b" stroke-width="4"/>`)}</g>
+    <g class="led"><path d="M13 31H87L80 110H20Z" fill="#ffd57a" opacity=".28"/><rect x="11" y="29.5" width="78" height="2" rx="1" fill="#ffe8a3"/></g>
+    <ellipse cx="50" cy="89" rx="17" ry="2.8" fill="#a47148"/><rect x="48.5" y="91" width="3" height="21" fill="#7f5539"/>
+    <path d="M24 82c0-4 8-4 8 0v11h-8zM68 82c0-4 8-4 8 0v11h-8z" fill="#e9ecef" stroke="#adb5bd" stroke-width=".6"/>
+    <path d="M25 93v19M31 93v19M69 93v19M75 93v19" stroke="#868e96" stroke-width="1.5"/>
+    <path d="M55 87c2-6 6-6 8-4" stroke="#2f9e44" stroke-width="2" fill="none"/><rect x="54" y="84" width="6" height="4" rx="1" fill="#fff"/>
+    <rect x="7" y="22" width="6" height="90" fill="url(#${u}p)"/><rect x="87" y="22" width="6" height="90" fill="url(#${u}p)"/>
+    <rect x="4" y="18" width="92" height="3" rx="1" fill="url(#${u}p)"/><rect x="4" y="27" width="92" height="3" rx="1" fill="url(#${u}p)"/>
+    ${range(9, (i) => `<rect class="louvre" x="${11.5 + i * 8.6}" y="22.7" width="9.2" height="3.6" rx="1" fill="url(#${u}s)" stroke="#9aa0a6" stroke-width=".4"/>`)}`,
   // Door: wooden leaf swinging inward (narrower as it opens), lamp above it.
   door: (u) => `<rect x="20" y="14" width="60" height="98" rx="2" fill="url(#${u}f)" stroke="#c4c5c2"/>
     <rect x="25" y="19" width="50" height="93" fill="#2b2f36"/><path d="M25 112l10-8h30l10 8" fill="#3b4048"/>
@@ -2395,7 +2567,8 @@ const AXES = {
   down: { from: 20, len: 54, open: 1 },
   across: { from: 14, len: 72, open: 1 },
 };
-const axisOf = (cls) => (cls === "curtain" || cls === "gate" || cls === "swing" ? "across" : cls === "awning" ? "down" : "up");
+const ACROSS = new Set(["curtain", "gate", "swing", "hinged", "pergola"]);
+const axisOf = (cls) => (ACROSS.has(cls) ? "across" : cls === "awning" ? "down" : "up");
 // Where position `p` lies along the rail of `axis`, in viewBox units.
 const railAt = (axis, p) => {
   const a = AXES[axis];
@@ -2438,6 +2611,16 @@ const SCENE_STYLE = `
   .leaf { transform-origin: left center; transform: scaleX(calc(1 - var(--p) * 0.0072)); }
   .leaf-l { transform-origin: left center; transform: scaleX(calc(1 - var(--p) * 0.0076)); }
   .leaf-r { transform-origin: right center; transform: scaleX(calc(1 - var(--p) * 0.0076)); }
+  /* Hinged shutters fold out on the outer edges of the window: closed over the glass, open flat against the wall. */
+  .hl { transform-origin: left center; transform: scaleX(calc(1 - var(--p) * 0.0194)); }
+  .hr { transform-origin: right center; transform: scaleX(calc(1 - var(--p) * 0.0194)); }
+  .warm { fill: #ffc65c; opacity: 0; }
+  .barrier .arm { transform-box: view-box; transform-origin: 20px 80px; transform: rotate(calc(var(--p) * -0.84deg)); }
+  .barrier .lamp-glow { fill: #ff4d4d; }
+  .louvre { transform-origin: center; transform: rotate(calc(var(--t) * 0.8deg)); }
+  .pergola .rays { opacity: calc(var(--t) * .0032); }
+  .led { opacity: 0; }
+  .lit .pergola .led { opacity: 1; }
   .sash { transform-origin: top center; transform: scaleY(calc(1 - var(--p) * 0.0042)); }
   .blade { transform-origin: center; transform: scaleY(calc(1 - var(--p) * 0.0094)); }
   .air { opacity: calc(var(--p) / 100); }
@@ -2446,7 +2629,7 @@ const SCENE_STYLE = `
   .target { fill: var(--cc-accent); }
   .knob { transform-box: view-box; transform: translateY(calc((100 - var(--p)) * 0.88px)); }
   .awning .knob { transform: translateY(calc(var(--p) * 0.54px)); }
-  .curtain .knob, .gate .knob, .swing .knob { transform: translateX(calc(var(--p) * 0.72px)); }
+  .curtain .knob, .gate .knob, .swing .knob, .hinged .knob, .pergola .knob { transform: translateX(calc(var(--p) * 0.72px)); }
   .handle { fill: var(--card-background-color, #fff); stroke: var(--c, var(--cc-accent)); stroke-width: 2.4; }
   /* Moving: the slats roll and the edge steps toward where the cover goes, the bottom bar, folds and valance sway,
      the warning lamps blink, the air flows and the knob pulses. */
@@ -2458,6 +2641,14 @@ const SCENE_STYLE = `
   /* A swing gate on the move: its leaves swing a step further on their hinges, the way it goes. */
   .opening .swing .leaf-l, .opening .swing .leaf-r { animation: cc-swing-open 1.6s ease-in-out infinite; }
   .closing .swing .leaf-l, .closing .swing .leaf-r { animation: cc-swing-close 1.6s ease-in-out infinite; }
+  /* Hinged shutters, a barrier's arm and a pergola's louvres on the move: a step further the way they go. */
+  .opening .hinged .hl, .opening .hinged .hr { animation: cc-hinge-open 1.6s ease-in-out infinite; }
+  .closing .hinged .hl, .closing .hinged .hr { animation: cc-hinge-close 1.6s ease-in-out infinite; }
+  .opening .barrier .arm { animation: cc-arm-up 1.6s ease-in-out infinite; }
+  .closing .barrier .arm { animation: cc-arm-down 1.6s ease-in-out infinite; }
+  .opening .pergola .louvre { animation: cc-louvre-open 1.6s ease-in-out infinite; }
+  .closing .pergola .louvre { animation: cc-louvre-close 1.6s ease-in-out infinite; }
+  .moving .barrier .lamp { fill: #ff3b30; }
   .moving .bob { animation: cc-bob .5s ease-in-out infinite alternate; }
   .moving .sway { animation: cc-sway .8s ease-in-out infinite alternate; }
   .moving .flutter { animation: cc-sway .4s ease-in-out infinite alternate; }
@@ -2469,6 +2660,12 @@ const SCENE_STYLE = `
   @keyframes cc-rise { 0%, 15% { transform: translateY(calc(var(--p) * var(--k) * 1px)); } 85%, 100% { transform: translateY(calc(var(--p) * var(--k) * 1px - 8px)); } }
   @keyframes cc-swing-open { 0%, 15% { transform: scaleX(calc(1 - var(--p) * 0.0076)); } 85%, 100% { transform: scaleX(calc(1 - min(100, var(--p) + 14) * 0.0076)); } }
   @keyframes cc-swing-close { 0%, 15% { transform: scaleX(calc(1 - var(--p) * 0.0076)); } 85%, 100% { transform: scaleX(calc(1 - max(0, var(--p) - 14) * 0.0076)); } }
+  @keyframes cc-hinge-open { 0%, 15% { transform: scaleX(calc(1 - var(--p) * 0.0194)); } 85%, 100% { transform: scaleX(calc(1 - min(100, var(--p) + 16) * 0.0194)); } }
+  @keyframes cc-hinge-close { 0%, 15% { transform: scaleX(calc(1 - var(--p) * 0.0194)); } 85%, 100% { transform: scaleX(calc(1 - max(0, var(--p) - 16) * 0.0194)); } }
+  @keyframes cc-arm-up { 0%, 15% { transform: rotate(calc(var(--p) * -0.84deg)); } 85%, 100% { transform: rotate(calc(min(100, var(--p) + 18) * -0.84deg)); } }
+  @keyframes cc-arm-down { 0%, 15% { transform: rotate(calc(var(--p) * -0.84deg)); } 85%, 100% { transform: rotate(calc(max(0, var(--p) - 18) * -0.84deg)); } }
+  @keyframes cc-louvre-open { 0%, 15% { transform: rotate(calc(var(--t) * 0.8deg)); } 85%, 100% { transform: rotate(calc(min(100, var(--t) + 20) * 0.8deg)); } }
+  @keyframes cc-louvre-close { 0%, 15% { transform: rotate(calc(var(--t) * 0.8deg)); } 85%, 100% { transform: rotate(calc(max(0, var(--t) - 20) * 0.8deg)); } }
   @keyframes cc-fall { 0%, 15% { transform: translateY(calc(var(--p) * var(--k) * 1px)); } 85%, 100% { transform: translateY(calc(var(--p) * var(--k) * 1px + 8px)); } }
   @keyframes cc-bob { from { transform: translateY(0); } to { transform: translateY(-1.2px); } }
   @keyframes cc-sway { from { transform: skewX(-2deg); } to { transform: skewX(2deg); } }
@@ -2844,6 +3041,10 @@ const BANNER_STYLE = `
   .bv .scene { filter: drop-shadow(0 2px 3px rgba(0,0,0,.2)); }
   .night .bv .scene { filter: drop-shadow(0 2px 3px rgba(0,0,0,.45)) brightness(.86); }
   .bv.off .scene { filter: grayscale(1); opacity: .5; }
+  /* At night the window behind hinged shutters glows warm, a barrier's lamp shines red and a pergola lets no sun in. */
+  .night .bv .hinged .warm { opacity: .8; }
+  .night .bv .barrier .lamp { fill: #ff3b30; } .night .bv:not(.moving) .barrier .lamp-glow { opacity: .45; transform: scale(1.2); }
+  .night .bv .pergola .rays { display: none; }
   .plant { width: 18px; height: 30px; flex: none; margin: 0 14px 5.6px 0; }
   .plant .leaf { fill: var(--leaf); } .plant .pot { fill: var(--pot); } .plant .rim { fill: color-mix(in srgb, var(--pot) 80%, #000); }
   .banner .zoom { position: absolute; z-index: 2; top: 5px; right: 5px; margin: 0; width: 24px; height: 24px; color: #33506b;
@@ -3018,6 +3219,8 @@ class CoverBase extends HTMLElement {
         noFeedback,
         cls: classOf(s, i.device_class || this._config.device_class),
         pedestrian: pedestrianOf(this._hass, i.entity, classOf(s, i.device_class || this._config.device_class), i.pedestrian ?? this._config.pedestrian),
+        // The light of a pergola (its LED strip), drawn lit under the louvres while it is on.
+        light: typeof (i.light ?? this._config.light) === "string" ? i.light ?? this._config.light : null,
         // Covers whose integration reports the position the wrong way round (often awnings): the card mirrors it.
         invert: Boolean(i.invert ?? this._config.invert),
         name: nameOf(this._hass, i.entity, i.name),
@@ -3552,8 +3755,10 @@ class CoverBase extends HTMLElement {
     const s = item.s;
     const off = isOffline(s);
     const p = this._posOf(item) ?? (isMoving(s) ? 50 : 100);
-    const tilt = tiltOf(s) ?? (p > 0 ? 50 : 0);
-    const cls = [base, stateClass(s, item.cls), isMoving(s) ? `moving ${s.state}` : "", off ? "off" : ""].filter(Boolean).join(" ");
+    // A pergola's louvres turn with its tilt, else with its position (many report the louvres' angle as one).
+    const tilt = tiltOf(s) ?? (item.cls === "pergola" ? p : p > 0 ? 50 : 0);
+    const lit = item.light && this._hass?.states?.[item.light]?.state === "on" ? "lit" : "";
+    const cls = [base, stateClass(s, item.cls), isMoving(s) ? `moving ${s.state}` : "", off ? "off" : "", lit].filter(Boolean).join(" ");
     return { p, off, cls, style: `--p:${p};--t:${tilt}` };
   }
 
@@ -3725,7 +3930,11 @@ class CoverCard extends CoverBase {
     const stateText = partly ? this._t("partly_open") : this._stateText(s);
     const stateLine =
       c.show_state === false ? "" : `<div class="line state ${cls}${echo}"><span class="dot"></span><span>${esc(stateText)}</span></div>`;
-    const value = word
+    // A pergola whose louvres only tilt: the louvres' angle in place of a position.
+    const louvres = word && !isOffline(s) && item.cls === "pergola" ? tiltOf(s) : null;
+    const value = louvres !== null
+      ? `<div class="pos clickable" role="button" tabindex="0" data-entity="${esc(item.id)}">${esc(this._pct(louvres))}</div><div class="line state ${cls}"><span class="dot"></span><span>${esc(this._t("tilt"))}</span></div>`
+      : word
       ? `<div class="pos word ${cls}${echo} clickable" role="button" tabindex="0" data-entity="${esc(item.id)}">${esc(this._stateText(s))}</div>`
       : `<div class="pos clickable" role="button" tabindex="0" data-entity="${esc(item.id)}" data-label="${esc(`${item.id}|pos`)}">${esc(this._pct(p))}</div>${stateLine}`;
     // In a row of several, the row itself carries the buttons.
@@ -3750,22 +3959,26 @@ class CoverCard extends CoverBase {
       ? `<div class="track" data-for="${esc(item.id)}" style="--t:${shown}" role="slider" tabindex="0" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100"
           aria-valuenow="${shown}" aria-valuetext="${esc(this._pct(shown))}" aria-label="${label}" title="${label}"${off ? ' aria-disabled="true"' : ""} data-slider="tilt" data-entity="${esc(item.id)}"><div class="fill"></div><div class="thumb"></div></div>`
       : "<div></div>";
-    const btns =
-      this._config.show_controls === false
-        ? ""
-        : ["tilt_open", "tilt_stop", "tilt_close"]
-            .filter((a) => has(s, SERVICES[a][1]))
-            .map((a) => {
-              const l = esc(this._t(a));
-              return `<button class="btn round small ${a}" data-action="${a}" data-entity="${esc(item.id)}" title="${l}" aria-label="${l}"${off ? " disabled" : ""}>${svgIcon(ICONS[a === "tilt_stop" ? "stop" : a])}</button>`;
-            })
-            .join("");
+    const btns = this._config.show_controls === false ? "" : this._tiltButtons(item);
     return `<div class="tilt-row">
         <span class="k">${svgIcon(ICONS.tilt)}<span>${esc(this._t("tilt"))}</span></span>
         ${track}
         <span class="v" data-label="${esc(`${item.id}|tilt`)}">${esc(v === null || off ? "—" : this._pct(v))}</span>
         <span class="btns">${btns}</span>
       </div>`;
+  }
+
+  // Round buttons that open, stop and close the tilt (the slats, a pergola's louvres), the ones the cover supports.
+  _tiltButtons(item) {
+    const s = item.s;
+    const off = isOffline(s);
+    return ["tilt_open", "tilt_stop", "tilt_close"]
+      .filter((a) => has(s, SERVICES[a][1]))
+      .map((a) => {
+        const l = esc(this._t(a));
+        return `<button class="btn round small ${a}" data-action="${a}" data-entity="${esc(item.id)}" title="${l}" aria-label="${l}"${off ? " disabled" : ""}>${svgIcon(ICONS[a === "tilt_stop" ? "stop" : a])}</button>`;
+      })
+      .join("");
   }
 
   // One cover of several in a grid (`columns`): a tile always unfolded, its name over the full detail.
@@ -3880,10 +4093,13 @@ class CoverMiniCard extends CoverCard {
     const cls = stateClass(s, item.cls);
     const p = this._pos(item);
     const partly = s?.state === "open" && p > 0 && p < 100;
-    const value = p !== null && !isOffline(s) ? this._pct(p) : this._stateText(s);
-    const state = partly ? this._t("partly_open") : this._stateText(s);
-    const stateLine = p !== null && !isOffline(s) && c.show_state !== false ? `<div class="sstate ${cls}"><span class="dot"></span><span>${esc(state)}</span></div>` : "";
-    const buttons = c.show_controls !== false && s ? `<div class="sbtns">${this._buttons(item, { round: true })}</div>` : "";
+    const louvres = p === null && !isOffline(s) && item.cls === "pergola" ? tiltOf(s) : null;
+    const value = louvres !== null ? this._pct(louvres) : p !== null && !isOffline(s) ? this._pct(p) : this._stateText(s);
+    const state = louvres !== null ? this._t("tilt") : partly ? this._t("partly_open") : this._stateText(s);
+    const stateLine = (p !== null || louvres !== null) && !isOffline(s) && c.show_state !== false ? `<div class="sstate ${cls}"><span class="dot"></span><span>${esc(state)}</span></div>` : "";
+    // A pergola's louvres turn from the mini card too.
+    const tilt = item.cls === "pergola" && hasTilt(s) ? this._tiltButtons(item) : "";
+    const buttons = c.show_controls !== false && s ? `<div class="sbtns">${this._buttons(item, { round: true })}${tilt}</div>` : "";
     return `<style>${BASE_STYLE}${SCENE_STYLE}${this._bannerStyle()}${MINI_STYLE}</style>
       <ha-card>
         ${this._header([item])}
@@ -4047,6 +4263,7 @@ class CoverEditorBase extends HTMLElement {
       { name: "invert", selector: { boolean: {} } },
       { name: "no_feedback", selector: { boolean: {} } },
       { name: "pedestrian", selector: { text: {} } },
+      { name: "light", selector: { entity: { domain: ["light", "switch"] } } },
       {
         name: "favorites",
         selector: { select: { multiple: true, custom_value: true, mode: "dropdown", options: FAVORITE_PRESETS.map((v) => ({ value: v, label: `${v} %` })) } },
