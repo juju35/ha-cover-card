@@ -2609,6 +2609,17 @@ const FULL_STYLE = `
   .section-title { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; text-transform: uppercase;
                    letter-spacing: .04em; color: var(--secondary-text-color); margin-bottom: 6px; }
   .section-title .icon { width: 16px; height: 16px; }
+  .single { display: flex; align-items: center; gap: 12px; }
+  .sinfo { flex: 1; min-width: 0; cursor: pointer; }
+  .sval { font-size: 28px; line-height: 1.15; color: var(--ink); white-space: nowrap; }
+  .sstate { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--secondary-text-color); }
+  .sbtns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .sbtns .btn.round { width: 42px; height: 42px; }
+  @container (max-width: 280px) {
+    .single { flex-direction: column; align-items: stretch; gap: 8px; }
+    .sbtns { justify-content: space-between; }
+    .sbtns .btn.round { width: 36px; height: 36px; }
+  }
   .group { display: flex; flex-wrap: wrap; gap: 6px; }
   .group .btn { flex: 1 1 auto; }
   .items { display: flex; flex-direction: column; gap: 8px; }
@@ -3860,12 +3871,38 @@ class CoverMiniCard extends CoverCard {
     if (ev.detail === 0) this.shadowRoot.querySelector(".zoom")?.focus({ preventScroll: true });
   }
 
+  // A single cover: the banner already draws it, so the body is its position and state, and its buttons as round
+  // ones on the right, as in the other mini cards.
+  _single(item) {
+    const s = item.s;
+    const c = this._config;
+    const cls = stateClass(s, item.cls);
+    const p = this._pos(item);
+    const partly = s?.state === "open" && p > 0 && p < 100;
+    const value = p !== null && !isOffline(s) ? this._pct(p) : this._stateText(s);
+    const state = partly ? this._t("partly_open") : this._stateText(s);
+    const stateLine = p !== null && !isOffline(s) && c.show_state !== false ? `<div class="sstate ${cls}"><span class="dot"></span><span>${esc(state)}</span></div>` : "";
+    const buttons = c.show_controls !== false && s ? `<div class="sbtns">${this._buttons(item, { round: true })}</div>` : "";
+    return `<style>${BASE_STYLE}${SCENE_STYLE}${this._bannerStyle()}${MINI_STYLE}</style>
+      <ha-card>
+        ${this._header([item])}
+        <div class="content">
+          <div class="single">
+            <div class="sinfo clickable" role="button" tabindex="0" data-entity="${esc(item.id)}"><div class="sval">${esc(value)}</div>${stateLine}</div>
+            ${buttons}
+          </div>
+          ${this._favorites([item], item.favorites, item.id)}
+        </div>
+      </ha-card>`;
+  }
+
   _render() {
     if (this._zoomed) return super._render();
     const items = this._items();
     const err = this._configError(items);
     if (err) return this._errorCard(...err);
     const c = this._config;
+    if (items.length === 1) return this._single(items[0]);
     const thumbs = items
       .map((i) => {
         const label = esc(`${i.name}: ${this._valueText(i)}`);

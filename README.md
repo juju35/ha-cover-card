@@ -271,6 +271,12 @@ A group at a glance: a thumbnail per cover with its position or state, and the b
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card.png" alt="cover mini card" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-dark.png" alt="cover mini card dark" width="400"> |
 
+A single cover: its position and state, and its own buttons as round ones (here a swing gate, with its pedestrian opening):
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-swing.png" alt="mini card of a swing gate" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-cover-card/main/screenshots/mini-card-swing-dark.png" alt="mini card of a swing gate dark" width="400"> |
+
 Every kind of cover, each drawn with its own scene:
 
 | Light | Dark |

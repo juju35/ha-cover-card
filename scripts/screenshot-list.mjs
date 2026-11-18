@@ -31,6 +31,7 @@ export const shots = twins([
   { file: "card-swing", type: "cover-card", width: 420, config: { entity: "cover.swing_gate", favorites: [100] } },
   { file: "card-unavailable", type: "cover-card", width: 420, config: { entity: "cover.guest_room_shutter" } },
   { file: "mini-card", type: "cover-mini-card", width: 400, config: { area: "living_room" } },
+  { file: "mini-card-swing", type: "cover-mini-card", width: 400, config: { entity: "cover.swing_gate" } },
   { file: "mini-card-all", type: "cover-mini-card", width: 460, config: { title: "Every kind of cover", entities: ALL } },
   { file: "mini-card-zoomed", type: "cover-mini-card", width: 420, config: { entities: LIVING, title: "Living room" }, clicks: ['[data-action="zoom"]', '[data-action="toggle"][data-entity="cover.living_room_patio_door"]'] },
 ]);

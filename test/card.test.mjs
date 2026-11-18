@@ -365,10 +365,14 @@ test("mini card: a picture per cover, group buttons, detail button switching to 
   assert.deepEqual(plain(card.getGridOptions()), { columns: 6, min_columns: 6, rows: "auto" });
 });
 
-test("a mini card of one cover labels its buttons Open / Close", () => {
+test("a mini card of one cover: its position and state, its own round buttons, no thumbnail", () => {
   const h = html(newCard(cc.CoverMiniCard, { entity: BAY }));
-  assert.match(h, /<span>Open<\/span>/);
-  assert.doesNotMatch(h, /Open all/);
+  assert.match(h, /<div class="single">/);
+  assert.match(h, /class="sval">60\s?%</);
+  assert.match(h, /class="btn round small open" data-action="open"[^>]*aria-label="Open"/);
+  assert.doesNotMatch(h, /Open all|class="thumb /);
+  // A swing gate with a pedestrian opening keeps its pedestrian button.
+  assert.match(html(newCard(cc.CoverMiniCard, { entity: "cover.swing_gate" })), /data-action="pedestrian"/);
 });
 
 test("configuration errors are shown in the card", () => {

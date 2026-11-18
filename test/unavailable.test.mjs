@@ -16,7 +16,8 @@ for (const [name, Card] of [
     const card = newCard(Card, { entity: GUEST, favorites: [50] }, hass);
     const html = card.shadowRoot.innerHTML;
     assert.match(html, /class="badge crit[^"]*"[^>]*aria-label="Unavailable"[\s\S]*<span class="t">Unavailable<\/span>/);
-    assert.match(html, /class="visual crit off"/);
+    // The picture is greyed: the one in the body, or the banner's for a mini card of one cover.
+    assert.match(html, /class="(?:visual|bv) crit off"/);
     const buttons = html.match(/<button [^>]*data-action="(?:open|close|stop|open_all|close_all|stop_all)[^"]*"[^>]*>/g) || [];
     assert.ok(buttons.length >= 3, "the buttons are still drawn");
     for (const b of buttons) assert.match(b, /\bdisabled\b/, b);
