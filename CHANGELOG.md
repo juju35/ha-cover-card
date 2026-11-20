@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.10.0 - 2026-11-20
+
+### Features
+- `show_state` and `center_value` are in the visual editor of both cards (they were YAML only).
+
+### Performance
+- A card set on an `area` finds its covers from the entity registry once per registry change, instead of walking every state of Home Assistant on each state change.
+
 ## 1.9.0 - 2026-11-18
 
 ### Features

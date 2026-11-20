@@ -174,6 +174,8 @@ const STRINGS = {
     e_show_controls: "Show open / stop / close buttons",
     e_show_group_controls: "Show the buttons for all covers",
     e_show_tilt: "Show tilt",
+    e_show_state: "Show the state",
+    e_center_value: "Centre the opening percentage",
     e_show_favorites: "Show favorite positions",
     e_expanded: "Unfold every cover",
     e_confirm: "Ask before opening or closing",
@@ -291,6 +293,8 @@ const STRINGS = {
     e_show_controls: "Afficher les boutons ouvrir / stop / fermer",
     e_show_group_controls: "Afficher les boutons pour tous les ouvrants",
     e_show_tilt: "Afficher l'inclinaison",
+    e_show_state: "Afficher l'état",
+    e_center_value: "Centrer le pourcentage d'ouverture",
     e_show_favorites: "Afficher les positions favorites",
     e_expanded: "Déplier chaque ouvrant",
     e_confirm: "Demander avant d'ouvrir ou de fermer",
@@ -408,6 +412,8 @@ const STRINGS = {
     e_show_controls: "Schaltflächen Öffnen / Stopp / Schließen anzeigen",
     e_show_group_controls: "Schaltflächen für alle Abdeckungen anzeigen",
     e_show_tilt: "Neigung anzeigen",
+    e_show_state: "Zustand anzeigen",
+    e_center_value: "Öffnungsgrad zentrieren",
     e_show_favorites: "Lieblingspositionen anzeigen",
     e_expanded: "Jede Abdeckung aufklappen",
     e_confirm: "Vor dem Öffnen oder Schließen nachfragen",
@@ -525,6 +531,8 @@ const STRINGS = {
     e_show_controls: "Mostrar los botones abrir / detener / cerrar",
     e_show_group_controls: "Mostrar los botones para todos los cerramientos",
     e_show_tilt: "Mostrar la inclinación",
+    e_show_state: "Mostrar el estado",
+    e_center_value: "Centrar el porcentaje de apertura",
     e_show_favorites: "Mostrar las posiciones favoritas",
     e_expanded: "Desplegar cada cerramiento",
     e_confirm: "Preguntar antes de abrir o cerrar",
@@ -642,6 +650,8 @@ const STRINGS = {
     e_show_controls: "Прикажи дугмад отвори / стоп / затвори",
     e_show_group_controls: "Прикажи дугмад за све затвараче",
     e_show_tilt: "Прикажи нагиб",
+    e_show_state: "Прикажи стање",
+    e_center_value: "Центрирај проценат отварања",
     e_show_favorites: "Прикажи омиљене положаје",
     e_expanded: "Прошири сваки затварач",
     e_confirm: "Питај пре отварања или затварања",
@@ -759,6 +769,8 @@ const STRINGS = {
     e_show_controls: "Prikaži dugmad otvori / stop / zatvori",
     e_show_group_controls: "Prikaži dugmad za sve zatvarače",
     e_show_tilt: "Prikaži nagib",
+    e_show_state: "Prikaži stanje",
+    e_center_value: "Centriraj procenat otvaranja",
     e_show_favorites: "Prikaži omiljene položaje",
     e_expanded: "Proširi svaki zatvarač",
     e_confirm: "Pitaj pre otvaranja ili zatvaranja",
@@ -876,6 +888,8 @@ const STRINGS = {
     e_show_controls: "Mostra i pulsanti apri / stop / chiudi",
     e_show_group_controls: "Mostra i pulsanti per tutte le coperture",
     e_show_tilt: "Mostra l'inclinazione",
+    e_show_state: "Mostra lo stato",
+    e_center_value: "Centra la percentuale di apertura",
     e_show_favorites: "Mostra le posizioni preferite",
     e_expanded: "Espandi ogni copertura",
     e_confirm: "Chiedi prima di aprire o chiudere",
@@ -993,6 +1007,8 @@ const STRINGS = {
     e_show_controls: "Knoppen openen / stop / sluiten tonen",
     e_show_group_controls: "Knoppen voor alle afdekkingen tonen",
     e_show_tilt: "Kanteling tonen",
+    e_show_state: "Status tonen",
+    e_center_value: "Openingspercentage centreren",
     e_show_favorites: "Favoriete posities tonen",
     e_expanded: "Elke afdekking uitklappen",
     e_confirm: "Vragen voor openen of sluiten",
@@ -1110,6 +1126,8 @@ const STRINGS = {
     e_show_controls: "Mostrar os botões abrir / parar / fechar",
     e_show_group_controls: "Mostrar os botões para todos os estores",
     e_show_tilt: "Mostrar a inclinação",
+    e_show_state: "Mostrar o estado",
+    e_center_value: "Centrar a percentagem de abertura",
     e_show_favorites: "Mostrar as posições favoritas",
     e_expanded: "Expandir cada estore",
     e_confirm: "Perguntar antes de abrir ou fechar",
@@ -1227,6 +1245,8 @@ const STRINGS = {
     e_show_controls: "Pokaż przyciski otwórz / stop / zamknij",
     e_show_group_controls: "Pokaż przyciski dla wszystkich osłon",
     e_show_tilt: "Pokaż nachylenie",
+    e_show_state: "Pokaż stan",
+    e_center_value: "Wyśrodkuj procent otwarcia",
     e_show_favorites: "Pokaż ulubione pozycje",
     e_expanded: "Rozwiń każdą osłonę",
     e_confirm: "Pytaj przed otwarciem lub zamknięciem",
@@ -1344,6 +1364,8 @@ const STRINGS = {
     e_show_controls: "Afișează butoanele deschide / stop / închide",
     e_show_group_controls: "Afișează butoanele pentru toate jaluzelele",
     e_show_tilt: "Afișează înclinarea",
+    e_show_state: "Afișează starea",
+    e_center_value: "Centrează procentul de deschidere",
     e_show_favorites: "Afișează pozițiile favorite",
     e_expanded: "Extinde fiecare jaluzea",
     e_confirm: "Întreabă înainte de deschidere sau închidere",
@@ -1461,6 +1483,8 @@ const STRINGS = {
     e_show_controls: "Vis knapperne åbn / stop / luk",
     e_show_group_controls: "Vis knapperne for alle afskærmninger",
     e_show_tilt: "Vis vipning",
+    e_show_state: "Vis tilstand",
+    e_center_value: "Centrér åbningsprocenten",
     e_show_favorites: "Vis favoritpositioner",
     e_expanded: "Fold hver afskærmning ud",
     e_confirm: "Spørg før åbning eller lukning",
@@ -1578,6 +1602,8 @@ const STRINGS = {
     e_show_controls: "Visa knapparna öppna / stopp / stäng",
     e_show_group_controls: "Visa knapparna för alla skydd",
     e_show_tilt: "Visa lutning",
+    e_show_state: "Visa status",
+    e_center_value: "Centrera öppningsprocenten",
     e_show_favorites: "Visa favoritpositioner",
     e_expanded: "Fäll ut varje skydd",
     e_confirm: "Fråga innan öppning eller stängning",
@@ -1695,6 +1721,8 @@ const STRINGS = {
     e_show_controls: "Покажи бутоните отвори / стоп / затвори",
     e_show_group_controls: "Покажи бутоните за всички щори",
     e_show_tilt: "Покажи наклона",
+    e_show_state: "Покажи състоянието",
+    e_center_value: "Центрирай процента на отваряне",
     e_show_favorites: "Покажи любимите позиции",
     e_expanded: "Разгъни всяка щора",
     e_confirm: "Питай преди отваряне или затваряне",
@@ -1812,6 +1840,8 @@ const STRINGS = {
     e_show_controls: "Показывать кнопки открыть / стоп / закрыть",
     e_show_group_controls: "Показывать кнопки для всех штор",
     e_show_tilt: "Показывать наклон",
+    e_show_state: "Показывать состояние",
+    e_center_value: "Центрировать процент открытия",
     e_show_favorites: "Показывать избранные положения",
     e_expanded: "Разворачивать каждую штору",
     e_confirm: "Спрашивать перед открытием или закрытием",
@@ -1929,6 +1959,8 @@ const STRINGS = {
     e_show_controls: "Показувати кнопки відкрити / стоп / закрити",
     e_show_group_controls: "Показувати кнопки для всіх штор",
     e_show_tilt: "Показувати нахил",
+    e_show_state: "Показувати стан",
+    e_center_value: "Центрувати відсоток відкриття",
     e_show_favorites: "Показувати улюблені положення",
     e_expanded: "Розгортати кожну штору",
     e_confirm: "Питати перед відкриттям або закриттям",
@@ -2046,6 +2078,8 @@ const STRINGS = {
     e_show_controls: "Nyitás / állj / zárás gombok megjelenítése",
     e_show_group_controls: "Gombok megjelenítése az összes árnyékolóhoz",
     e_show_tilt: "Dőlésszög megjelenítése",
+    e_show_state: "Állapot megjelenítése",
+    e_center_value: "Nyitási százalék középre igazítása",
     e_show_favorites: "Kedvenc pozíciók megjelenítése",
     e_expanded: "Minden árnyékoló kibontása",
     e_confirm: "Kérdezzen nyitás vagy zárás előtt",
@@ -2163,6 +2197,8 @@ const STRINGS = {
     e_show_controls: "Zobraziť tlačidlá otvoriť / stop / zatvoriť",
     e_show_group_controls: "Zobraziť tlačidlá pre všetky clony",
     e_show_tilt: "Zobraziť naklonenie",
+    e_show_state: "Zobraziť stav",
+    e_center_value: "Vycentrovať percento otvorenia",
     e_show_favorites: "Zobraziť obľúbené polohy",
     e_expanded: "Rozbaliť každú clonu",
     e_confirm: "Pýtať sa pred otvorením alebo zatvorením",
@@ -2280,6 +2316,8 @@ const STRINGS = {
     e_show_controls: "Zobrazit tlačítka otevřít / stop / zavřít",
     e_show_group_controls: "Zobrazit tlačítka pro všechny clony",
     e_show_tilt: "Zobrazit náklon",
+    e_show_state: "Zobrazit stav",
+    e_center_value: "Vycentrovat procento otevření",
     e_show_favorites: "Zobrazit oblíbené polohy",
     e_expanded: "Rozbalit každou clonu",
     e_confirm: "Ptát se před otevřením nebo zavřením",
@@ -2397,6 +2435,8 @@ const STRINGS = {
     e_show_controls: "Prikaži gumbe odpri / ustavi / zapri",
     e_show_group_controls: "Prikaži gumbe za vsa senčila",
     e_show_tilt: "Prikaži nagib",
+    e_show_state: "Prikaži stanje",
+    e_center_value: "Sredinsko poravnaj odstotek odprtja",
     e_show_favorites: "Prikaži priljubljene položaje",
     e_expanded: "Razširi vsako senčilo",
     e_confirm: "Vprašaj pred odpiranjem ali zapiranjem",
@@ -2514,6 +2554,8 @@ const STRINGS = {
     e_show_controls: "Rādīt pogas atvērt / apturēt / aizvērt",
     e_show_group_controls: "Rādīt pogas visiem aizsegiem",
     e_show_tilt: "Rādīt slīpumu",
+    e_show_state: "Rādīt stāvokli",
+    e_center_value: "Centrēt atvēršanas procentu",
     e_show_favorites: "Rādīt iecienītās pozīcijas",
     e_expanded: "Izvērst katru aizsegu",
     e_confirm: "Jautāt pirms atvēršanas vai aizvēršanas",
@@ -2631,6 +2673,8 @@ const STRINGS = {
     e_show_controls: "Εμφάνιση κουμπιών άνοιγμα / διακοπή / κλείσιμο",
     e_show_group_controls: "Εμφάνιση κουμπιών για όλα τα σκιάστρα",
     e_show_tilt: "Εμφάνιση κλίσης",
+    e_show_state: "Εμφάνιση κατάστασης",
+    e_center_value: "Κεντράρισμα ποσοστού ανοίγματος",
     e_show_favorites: "Εμφάνιση αγαπημένων θέσεων",
     e_expanded: "Ανάπτυξη κάθε σκιάστρου",
     e_confirm: "Ερώτηση πριν από άνοιγμα ή κλείσιμο",
@@ -2860,10 +2904,23 @@ const findArea = (hass, ref) => {
   const low = String(ref).toLowerCase();
   return Object.values(hass.areas).find((a) => String(a.name || "").toLowerCase() === low) || null;
 };
-const coversOfArea = (hass, areaId) =>
-  Object.keys(hass?.states || {})
-    .filter((id) => id.startsWith("cover.") && areaOf(hass, id) === areaId && !hass.entities[id]?.hidden && !hass.entities[id]?.entity_category)
-    .sort((a, b) => nameOf(hass, a).localeCompare(nameOf(hass, b)));
+// The covers of an area come from the registries (a cover outside the entity registry has no area): their scan is kept
+// per registry objects, so that the card, which looks them up on every state change, does not walk every state.
+const _areaCovers = new WeakMap();
+const coversOfArea = (hass, areaId) => {
+  const reg = hass?.entities;
+  if (!reg) return [];
+  let byArea = _areaCovers.get(reg);
+  if (!byArea || byArea.devices !== hass.devices) _areaCovers.set(reg, (byArea = { devices: hass.devices, ids: new Map() }));
+  let ids = byArea.ids.get(areaId);
+  if (!ids) {
+    ids = Object.values(reg)
+      .filter((e) => e?.entity_id?.startsWith("cover.") && !e.hidden && !e.entity_category && areaOf(hass, e.entity_id) === areaId)
+      .map((e) => e.entity_id);
+    byArea.ids.set(areaId, ids);
+  }
+  return ids.filter((id) => hass.states?.[id]).sort((a, b) => nameOf(hass, a).localeCompare(nameOf(hass, b)));
+};
 
 const nameOf = (hass, id, own) => own || hass?.states?.[id]?.attributes?.friendly_name || id;
 
@@ -4919,6 +4976,8 @@ const CARD_TOGGLES = [
   ["show_controls", true],
   ["show_group_controls", true],
   ["show_tilt", true],
+  ["show_state", true],
+  ["center_value", false],
   ["show_favorites", true],
   ["show_schedule", true],
   ["expanded", false],
