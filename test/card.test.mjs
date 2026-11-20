@@ -69,6 +69,24 @@ test("covers come from entity, entities (ids or objects) and area, without dupli
   );
 });
 
+test("area covers: kept per registry, the states read again, a moved device followed", () => {
+  const hass = makeHass();
+  const ids = () => plain(cc.itemsOf(hass, { area: "living_room" }).items.map((i) => i.entity));
+  const all = ids();
+  assert.ok(all.length > 1);
+  // A cover gone from the states (same registry): no longer listed.
+  const gone = all[0];
+  const { [gone]: _gone, ...rest } = hass.states;
+  assert.ok(!plain(cc.itemsOf({ ...hass, states: rest }, { area: "living_room" }).items.map((i) => i.entity)).includes(gone));
+  // A device moved to another area (new device registry): its covers leave the area.
+  const dev = hass.entities[all[1]]?.device_id;
+  if (dev && !hass.entities[all[1]].area_id) {
+    const devices = { ...hass.devices, [dev]: { ...hass.devices[dev], area_id: "elsewhere" } };
+    assert.ok(!plain(cc.itemsOf({ ...hass, devices }, { area: "living_room" }).items.map((i) => i.entity)).includes(all[1]));
+  }
+  assert.deepEqual(ids(), all);
+});
+
 test("favorites: numbers or objects, invalid ones dropped", () => {
   assert.deepEqual(JSON.parse(JSON.stringify(cc.favoritesOf([25, "50", { name: "Shade", position: 30, tilt: 120 }, { name: "x" }, "a", null]))), [
     { name: "", position: 25, tilt: null },

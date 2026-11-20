@@ -2860,10 +2860,23 @@ const findArea = (hass, ref) => {
   const low = String(ref).toLowerCase();
   return Object.values(hass.areas).find((a) => String(a.name || "").toLowerCase() === low) || null;
 };
-const coversOfArea = (hass, areaId) =>
-  Object.keys(hass?.states || {})
-    .filter((id) => id.startsWith("cover.") && areaOf(hass, id) === areaId && !hass.entities[id]?.hidden && !hass.entities[id]?.entity_category)
-    .sort((a, b) => nameOf(hass, a).localeCompare(nameOf(hass, b)));
+// The covers of an area come from the registries (a cover outside the entity registry has no area): their scan is kept
+// per registry objects, so that the card, which looks them up on every state change, does not walk every state.
+const _areaCovers = new WeakMap();
+const coversOfArea = (hass, areaId) => {
+  const reg = hass?.entities;
+  if (!reg) return [];
+  let byArea = _areaCovers.get(reg);
+  if (!byArea || byArea.devices !== hass.devices) _areaCovers.set(reg, (byArea = { devices: hass.devices, ids: new Map() }));
+  let ids = byArea.ids.get(areaId);
+  if (!ids) {
+    ids = Object.values(reg)
+      .filter((e) => e?.entity_id?.startsWith("cover.") && !e.hidden && !e.entity_category && areaOf(hass, e.entity_id) === areaId)
+      .map((e) => e.entity_id);
+    byArea.ids.set(areaId, ids);
+  }
+  return ids.filter((id) => hass.states?.[id]).sort((a, b) => nameOf(hass, a).localeCompare(nameOf(hass, b)));
+};
 
 const nameOf = (hass, id, own) => own || hass?.states?.[id]?.attributes?.friendly_name || id;
 
