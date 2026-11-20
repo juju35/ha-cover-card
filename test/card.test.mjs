@@ -527,6 +527,14 @@ test("editor: labels and helpers in the card's language", () => {
   assert.ok(form.schema.some((s) => s.name === "device_class"));
 });
 
+test("editor: show_state and center_value, left out of the YAML at their defaults", () => {
+  const toggles = cc.CoverCardEditor.toggles;
+  const names = toggles.map(([name]) => name);
+  assert.ok(names.includes("show_state") && names.includes("center_value"));
+  assert.deepEqual(plain(cc.fromForm({ entities: [BAY], show_state: true, center_value: false }, {}, toggles)), { entity: BAY });
+  assert.deepEqual(plain(cc.fromForm({ entities: [BAY], show_state: false, center_value: true }, {}, toggles)), { entity: BAY, show_state: false, center_value: true });
+});
+
 test("mini editor: every option of the full card used by the detailed view, plus zoom", () => {
   const full = cc.CoverCardEditor.toggles.map(([name]) => name);
   const mini = cc.CoverMiniCardEditor.toggles.map(([name]) => name);
