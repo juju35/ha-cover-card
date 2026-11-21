@@ -2858,6 +2858,9 @@ const classOf = (s, override) => {
   if (dc === "gate" && SWING_RE.test(name)) return "swing";
   if (!["door", "gate", "garage", "damper"].includes(dc) && PERGOLA_RE.test(name)) return "pergola";
   if ((dc === "shutter" || !dc) && HINGED_RE.test(name)) return "hinged";
+  // A blind whose slats do not tilt (a zip screen, a roller blind reported as `blind`) is drawn as a roller shade,
+  // as Home Assistant's more-info dialog tells them apart by their features.
+  if (dc === "blind" && Number.isFinite(s?.attributes?.supported_features) && !(s.attributes.supported_features & TILT_FEATURES)) return "shade";
   return CLASSES.includes(dc) ? dc : "shutter";
 };
 

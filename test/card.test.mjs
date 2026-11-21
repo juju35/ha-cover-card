@@ -38,6 +38,12 @@ test("device class picks the scene, a cover without one is a shutter, an overrid
   assert.equal(cc.classOf({ attributes: { device_class: "garage" } }), "garage");
   assert.equal(cc.classOf({ attributes: {} }), "shutter");
   assert.equal(cc.classOf({ attributes: { device_class: "garage" } }, "gate"), "gate");
+  // A blind without tilt (a zip screen) is drawn as a roller shade; with tilt, or features unknown, a venetian blind.
+  assert.equal(cc.classOf({ attributes: { device_class: "blind", supported_features: 15 } }), "shade");
+  assert.equal(cc.classOf({ attributes: { device_class: "blind", supported_features: 255 } }), "blind");
+  assert.equal(cc.classOf({ attributes: { device_class: "blind", supported_features: 15 | 128 } }), "blind");
+  assert.equal(cc.classOf({ attributes: { device_class: "blind" } }), "blind");
+  assert.equal(cc.classOf({ attributes: { device_class: "blind", supported_features: 15 } }, "blind"), "blind");
   for (const c of cc.PICTURES) {
     assert.ok(cc.SCENES[c], c);
     assert.equal(cc.ICONS[c].length, 2, c);

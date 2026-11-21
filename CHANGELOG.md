@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.11.0 - 2026-11-21
+
+### Features
+- A cover of device class `blind` whose slats do not tilt (no tilt feature: a zip screen, a roller blind reported as `blind`, such as Somfy's ExteriorScreen on Overkiz) is drawn as a roller shade instead of a venetian blind, as Home Assistant's more-info dialog tells them apart (#38). A `device_class` set on the card or the cover still draws the picture asked for.
+
 ## 1.10.0 - 2026-11-20
 
 ### Features
