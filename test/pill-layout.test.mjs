@@ -4,11 +4,10 @@
 // banner. In English, French, German, Hungarian, Greek and Russian, from 245 to 500 px.
 // Rendered in Chromium when Playwright and its browser are installed (or CHROMIUM_PATH); skipped otherwise.
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { areas, devices, entities, states } from "../scripts/mock-states.mjs";
+import { source } from "./source.mjs";
 
-const source = readFileSync(new URL("../src/cover-card.js", import.meta.url), "utf8");
 let chromium;
 try {
   ({ chromium } = await import("playwright"));

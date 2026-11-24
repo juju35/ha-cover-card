@@ -3,11 +3,10 @@
 // Rendered in Chromium when Playwright and its browser are installed (`npx playwright install chromium`, or
 // CHROMIUM_PATH); skipped otherwise.
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { areas, devices, entities, states } from "../scripts/mock-states.mjs";
+import { source } from "./source.mjs";
 
-const source = readFileSync(new URL("../src/cover-card.js", import.meta.url), "utf8");
 
 let chromium;
 try {
