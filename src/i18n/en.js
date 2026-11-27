@@ -92,6 +92,8 @@ export default {
   h_invert: "For a cover whose integration reports the position the wrong way round (often an awning)",
   e_no_feedback: "No state feedback",
   h_no_feedback: "For a cover that never reports its state back (a radio RTS motor): draw it closed at rest",
+  e_travel_time: "Course time (s)",
+  h_travel_time: "Seconds for a full course, closed to open: while the cover moves, the picture follows the position estimated from it (motors that report the position only once stopped, like Somfy)",
   e_illustration: "Animated illustration",
   e_illustration_theme: "Illustration theme",
   theme_auto: "Automatic: night with a dark theme, day with a light theme",

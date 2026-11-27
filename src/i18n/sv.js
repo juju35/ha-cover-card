@@ -92,6 +92,8 @@ export default {
   h_invert: "För en täckning vars integration rapporterar positionen omvänt (ofta en markis)",
   e_no_feedback: "Ingen statusåterkoppling",
   h_no_feedback: "För en täckning som aldrig rapporterar sitt tillstånd (en RTS-radiomotor): ritas stängd i viloläge",
+  e_travel_time: "Gångtid (s)",
+  h_travel_time: "Sekunder för en hel gång från stängd till öppen: medan den rör sig följer bilden den uppskattade positionen (motorer som rapporterar positionen först när de stannat, som Somfy)",
   e_illustration: "Animerad illustration",
   e_illustration_theme: "Illustrationens tema",
   theme_auto: "Automatiskt: natt med ett mörkt tema, dag med ett ljust tema",

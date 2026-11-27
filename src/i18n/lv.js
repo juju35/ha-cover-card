@@ -92,6 +92,8 @@ export default {
   h_invert: "Pārsegam, kura integrācija ziņo pozīciju otrādi (bieži markīze)",
   e_no_feedback: "Nav stāvokļa atgriezeniskās saites",
   h_no_feedback: "Pārsegam, kas nekad nepaziņo savu stāvokli (RTS radio motors): miera stāvoklī zīmēts aizvērts",
+  e_travel_time: "Gājiena laiks (s)",
+  h_travel_time: "Sekundes pilnam gājienam no aizvērta līdz atvērtam: kustības laikā attēls seko aprēķinātajai pozīcijai (motori, kas pozīciju ziņo tikai pēc apstāšanās, kā Somfy)",
   e_illustration: "Animēta ilustrācija",
   e_illustration_theme: "Ilustrācijas motīvs",
   theme_auto: "Automātiski: nakts ar tumšu tēmu, diena ar gaišu tēmu",

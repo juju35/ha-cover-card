@@ -92,6 +92,8 @@ export default {
   h_invert: "Für eine Abdeckung, deren Integration die Position umgekehrt meldet (oft eine Markise)",
   e_no_feedback: "Keine Statusrückmeldung",
   h_no_feedback: "Für eine Abdeckung, die ihren Zustand nie zurückmeldet (ein RTS-Funkmotor): im Ruhezustand geschlossen gezeichnet",
+  e_travel_time: "Laufzeit (s)",
+  h_travel_time: "Sekunden für einen vollen Lauf von geschlossen bis offen: während der Bewegung folgt das Bild der daraus geschätzten Position (Motoren, die die Position erst im Stillstand melden, wie Somfy)",
   e_illustration: "Animierte Illustration",
   e_illustration_theme: "Thema der Illustration",
   theme_auto: "Automatisch: Nacht bei dunklem Thema, Tag bei hellem Thema",

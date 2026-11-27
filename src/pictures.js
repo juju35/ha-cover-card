@@ -239,6 +239,10 @@ export const SCENE_STYLE = `
   .closing .barrier .arm { animation: cc-arm-down 1.6s ease-in-out infinite; }
   .opening .pergola .louvre { animation: cc-louvre-open 1.6s ease-in-out infinite; }
   .closing .pergola .louvre { animation: cc-louvre-close 1.6s ease-in-out infinite; }
+  /* Moving on its course time (travel_time): the picture follows the estimated position, smoothly, instead of the
+     step toward where the cover goes. */
+  .timed .shift, .timed .swing .leaf-l, .timed .swing .leaf-r, .timed .hinged .hl, .timed .hinged .hr, .timed .barrier .arm,
+  .timed .pergola .louvre, .timed .leaf, .timed .valance, .timed .sash, .timed .blade, .timed .knob { animation: none; transition: transform .3s linear; }
   .moving .barrier .lamp { fill: #ff3b30; }
   .moving .bob { animation: cc-bob .5s ease-in-out infinite alternate; }
   .moving .sway { animation: cc-sway .8s ease-in-out infinite alternate; }

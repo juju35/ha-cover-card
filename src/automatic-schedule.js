@@ -82,6 +82,18 @@ export const has = (s, feature) => (featuresOf(s) & feature) !== 0;
 export const hasTilt = (s) => (featuresOf(s) & TILT_FEATURES) !== 0;
 
 export const isOffline = (s) => !s || s.state === "unavailable";
+// Course time option (seconds for a full course, closed ↔ open), or null when unset or invalid.
+export const travelTimeOf = (v) => {
+  const n = Number(v);
+  return v !== undefined && v !== null && v !== "" && Number.isFinite(n) && n > 0 ? n : null;
+};
+// Position estimated on a course started at `t0` from `p0`, `travel` seconds for 0 → 100, bounded to 0…100.
+export const estimate = (move, travel, now) => {
+  const step = ((now - move.t0) / 1000 / travel) * 100;
+  return Math.min(100, Math.max(0, move.state === "opening" ? move.p0 + step : move.p0 - step));
+};
+// A render this often while a cover moves on its course time.
+export const TRAVEL_TICK_MS = 250;
 export const isMoving = (s) => s?.state === "opening" || s?.state === "closing";
 
 // A gate whose name says it swings (two leaves on hinges) in any of the card's languages.

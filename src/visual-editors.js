@@ -123,6 +123,7 @@ export class CoverEditorBase extends HTMLElement {
       },
       { name: "invert", selector: { boolean: {} } },
       { name: "no_feedback", selector: { boolean: {} } },
+      { name: "travel_time", selector: { number: { min: 1, max: 300, step: 1, mode: "box", unit_of_measurement: "s" } } },
       { name: "pedestrian", selector: { text: {} } },
       { name: "light", selector: { entity: { domain: ["light", "switch"] } } },
       { name: "open_time", selector: { entity: { domain: ["sensor", "input_datetime"] } } },

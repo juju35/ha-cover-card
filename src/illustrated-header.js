@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------------------
 import { F, GUARDED, ICONS, SECURED } from "./core.js";
 import { clamp, esc, fmtPct, intlLocale, t } from "./helpers.js";
-import { SCHEDULE_KEYS, SCHEDULE_WORDS, TIME_RE, areaOf, classOf, dayDiff, favoritesOf, fmtTime, has, hasTilt, isMoving, isOffline, itemsOf, nameOf, numAttr, pedestrianOf, positionOf, scheduleOf, stateClass, svgIcon, tiltOf, whenOf } from "./automatic-schedule.js";
+import { SCHEDULE_KEYS, SCHEDULE_WORDS, TIME_RE, TRAVEL_TICK_MS, areaOf, classOf, dayDiff, estimate, favoritesOf, fmtTime, has, hasTilt, isMoving, isOffline, itemsOf, nameOf, numAttr, pedestrianOf, positionOf, scheduleOf, stateClass, svgIcon, tiltOf, travelTimeOf, whenOf } from "./automatic-schedule.js";
 import { AXES, SCENE_STYLE, axisOf, coverSvg } from "./pictures.js";
 import { BASE_STYLE, CONFIRM_GUARD_MS, DIALOG_STYLE, FOCUS_SELECTOR, FULL_STYLE, GROUP_ACTIONS, HOLD_MS, KEY_COMMIT_MS, MINI_STYLE, SERVICES, TARGET_MS, focusKey, isOutside, watchOutside } from "./styles.js";
 import { STRINGS } from "./i18n/strings.js";
@@ -202,6 +202,7 @@ export class CoverBase extends HTMLElement {
     clearTimeout(this._holdTimer);
     this._connected = false;
     this._syncClock();
+    this._syncTravel();
     clearTimeout(this._kbd?.timer);
     this._kbd = null;
     this._drag = null;
@@ -248,9 +249,14 @@ export class CoverBase extends HTMLElement {
       if (noFeedback && s && !isMoving(s) && s.state !== "closed" && s.state !== "unavailable" && numAttr(s, "current_position") === null) {
         s = { ...s, state: "closed" };
       }
+      // A full course time: while the cover moves, its position is estimated from the time since it started, for a
+      // motor (Somfy…) that only reports the position once stopped.
+      const travel = travelTimeOf(i.travel_time ?? this._config.travel_time);
+      if (travel) s = this._travelling(i.entity, s, travel);
       return {
         id: i.entity,
         s,
+        timed: Boolean(travel && isMoving(s)),
         noFeedback,
         cls: classOf(s, i.device_class || this._config.device_class),
         pedestrian: pedestrianOf(this._hass, i.entity, classOf(s, i.device_class || this._config.device_class), i.pedestrian ?? this._config.pedestrian),
@@ -318,6 +324,7 @@ export class CoverBase extends HTMLElement {
       this._hold = null;
     }
     let html = this._render();
+    this._syncTravel();
     if (this._confirm) {
       html = html.replace(/<ha-card>([\s\S]*)<\/ha-card>\s*$/, (_, inner) => `<ha-card class="dialog-open">${inner}${this._confirmHtml()}</ha-card>`);
     }
@@ -352,6 +359,46 @@ export class CoverBase extends HTMLElement {
 
   _restoreFocus({ key, index }) {
     this._focusables(key)[index]?.focus({ preventScroll: true });
+  }
+
+  // The state of a moving cover with its position estimated from its course time: from the position it started at
+  // (the one it reports, else where an earlier estimate left it, else fully closed / open by the way it goes), a full
+  // course in `travel` seconds. A new position reported on the way starts the estimate again from it. Still: the
+  // real state, and the course forgotten.
+  _travelling(id, s, travel) {
+    this._moves ??= new Map();
+    const rec = this._moves.get(id);
+    if (!s || !isMoving(s)) {
+      if (rec) this._moves.delete(id);
+      return s;
+    }
+    const reported = numAttr(s, "current_position");
+    const now = Date.now();
+    let move = rec;
+    if (!move || move.state !== s.state || (reported !== null && reported !== move.reported)) {
+      const from = reported ?? (move ? estimate(move, travel, now) : s.state === "opening" ? 0 : 100);
+      move = { state: s.state, t0: now, p0: from, reported };
+      this._moves.set(id, move);
+    }
+    return { ...s, attributes: { ...s.attributes, current_position: Math.round(estimate(move, travel, now)) } };
+  }
+
+  // Whether a cover moving on its course time has not reached its end yet: the card is drawn again a few times a
+  // second meanwhile.
+  _travelPending() {
+    if (!this._moves?.size || !this._hass || !this._config) return false;
+    return this._items().some((i) => i.timed && (i.s.state === "opening" ? numAttr(i.s, "current_position") < 100 : numAttr(i.s, "current_position") > 0));
+  }
+
+  _syncTravel() {
+    const want = Boolean(this._connected && this._travelPending());
+    if (want && !this._travelTimer) {
+      this._travelTimer = setInterval(() => this._update(), TRAVEL_TICK_MS);
+      this._travelTimer.unref?.();
+    } else if (!want && this._travelTimer) {
+      clearInterval(this._travelTimer);
+      this._travelTimer = null;
+    }
   }
 
   _item(id) {
@@ -869,7 +916,7 @@ export class CoverBase extends HTMLElement {
     // A pergola's louvres turn with its tilt, else with its position (many report the louvres' angle as one).
     const tilt = tiltOf(s) ?? (item.cls === "pergola" ? p : p > 0 ? 50 : 0);
     const lit = item.light && this._hass?.states?.[item.light]?.state === "on" ? "lit" : "";
-    const cls = [base, stateClass(s, item.cls), isMoving(s) ? `moving ${s.state}` : "", off ? "off" : "", lit].filter(Boolean).join(" ");
+    const cls = [base, stateClass(s, item.cls), isMoving(s) ? `moving ${s.state}` : "", item.timed ? "timed" : "", off ? "off" : "", lit].filter(Boolean).join(" ");
     return { p, off, cls, style: `--p:${p};--t:${tilt}` };
   }
 

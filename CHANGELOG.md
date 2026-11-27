@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.12.0 - 2026-11-27
+
+### Features
+- `travel_time` option (card or cover, also in the visual editor): the seconds of a full course, closed to open. While the cover moves, the picture, the slider and the percentage follow the position estimated from the time since it started, for motors that report the position only once stopped (Somfy…) or never — a half-open shutter closing with `travel_time: 10` slides down in 5 s (#49).
+
 ## 1.11.5 - 2026-11-27
 
 ### Fixes

@@ -92,6 +92,8 @@ export default {
   h_invert: "Voor een afdekking waarvan de integratie de positie omgekeerd doorgeeft (vaak een zonnescherm)",
   e_no_feedback: "Geen statusterugkoppeling",
   h_no_feedback: "Voor een afdekking die haar status nooit terugmeldt (een RTS-radiomotor): in rust gesloten getekend",
+  e_travel_time: "Looptijd (s)",
+  h_travel_time: "Seconden voor een volledige slag, van dicht naar open: tijdens het bewegen volgt de afbeelding de daaruit geschatte positie (motoren die de positie pas bij stilstand melden, zoals Somfy)",
   e_illustration: "Geanimeerde illustratie",
   e_illustration_theme: "Thema van de illustratie",
   theme_auto: "Automatisch: nacht met een donker thema, dag met een licht thema",
