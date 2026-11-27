@@ -92,6 +92,8 @@ export default {
   h_invert: "For en afskærmning, hvis integration melder positionen omvendt (ofte en markise)",
   e_no_feedback: "Ingen tilstandsrespons",
   h_no_feedback: "For en afskærmning, der aldrig melder sin tilstand tilbage (en RTS-radiomotor): tegnet lukket i hvile",
+  e_travel_time: "Køretid (s)",
+  h_travel_time: "Sekunder for en fuld kørsel fra lukket til åben: mens den bevæger sig, følger billedet den anslåede position (motorer, der først melder positionen ved stop, som Somfy)",
   e_illustration: "Animeret illustration",
   e_illustration_theme: "Illustrationens tema",
   theme_auto: "Automatisk: nat med et mørkt tema, dag med et lyst tema",

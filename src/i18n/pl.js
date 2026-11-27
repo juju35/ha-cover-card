@@ -92,6 +92,8 @@ export default {
   h_invert: "Dla osłony, której integracja podaje pozycję odwrotnie (często markiza)",
   e_no_feedback: "Brak informacji o stanie",
   h_no_feedback: "Dla osłony, która nigdy nie zgłasza swojego stanu (radiowy silnik RTS): rysowana jako zamknięta w spoczynku",
+  e_travel_time: "Czas przejazdu (s)",
+  h_travel_time: "Sekundy na pełny przejazd od zamkniętego do otwartego: w trakcie ruchu obraz podąża za szacowaną pozycją (silniki, które podają pozycję dopiero po zatrzymaniu, jak Somfy)",
   e_illustration: "Animowana ilustracja",
   e_illustration_theme: "Motyw ilustracji",
   theme_auto: "Automatycznie: noc przy ciemnym motywie, dzień przy jasnym motywie",

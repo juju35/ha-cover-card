@@ -92,6 +92,8 @@ export default {
   h_invert: "Za zastor čija integracija prijavljuje položaj obrnuto (često tenda)",
   e_no_feedback: "Bez povratne informacije o stanju",
   h_no_feedback: "Za zastor koji nikada ne prijavljuje svoje stanje (radio RTS motor): nacrtan zatvoreno u mirovanju",
+  e_travel_time: "Vreme hoda (s)",
+  h_travel_time: "Sekunde za pun hod, od zatvorenog do otvorenog: dok se kreće, slika prati procenjeni položaj (motori koji položaj javljaju tek kad stanu, kao Somfy)",
   e_illustration: "Animirana ilustracija",
   e_illustration_theme: "Tema ilustracije",
   theme_auto: "Automatski: noć uz tamnu temu, dan uz svetlu temu",

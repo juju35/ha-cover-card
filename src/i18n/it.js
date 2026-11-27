@@ -92,6 +92,8 @@ export default {
   h_invert: "Per una copertura la cui integrazione segnala la posizione al contrario (spesso una tenda da sole)",
   e_no_feedback: "Nessun ritorno di stato",
   h_no_feedback: "Per una copertura che non segnala mai il suo stato (un motore radio RTS): disegnata chiusa a riposo",
+  e_travel_time: "Tempo di corsa (s)",
+  h_travel_time: "Secondi per una corsa completa, da chiuso ad aperto: durante il movimento l'immagine segue la posizione stimata (motori che riportano la posizione solo da fermi, come Somfy)",
   e_illustration: "Illustrazione animata",
   e_illustration_theme: "Tema dell’illustrazione",
   theme_auto: "Automatico: notte con un tema scuro, giorno con un tema chiaro",

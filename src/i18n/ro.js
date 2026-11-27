@@ -92,6 +92,8 @@ export default {
   h_invert: "Pentru un element a cărui integrare raportează poziția invers (adesea o copertină)",
   e_no_feedback: "Fără feedback de stare",
   h_no_feedback: "Pentru un element care nu își raportează niciodată starea (un motor radio RTS): desenat închis în repaus",
+  e_travel_time: "Timp de cursă (s)",
+  h_travel_time: "Secunde pentru o cursă completă, de la închis la deschis: în timpul mișcării, imaginea urmează poziția estimată (motoare care raportează poziția doar la oprire, ca Somfy)",
   e_illustration: "Ilustrație animată",
   e_illustration_theme: "Tema ilustrației",
   theme_auto: "Automat: noapte cu o temă întunecată, zi cu o temă luminoasă",

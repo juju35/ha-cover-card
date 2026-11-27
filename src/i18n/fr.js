@@ -92,6 +92,8 @@ export default {
   h_invert: "Pour un ouvrant dont l'intégration remonte la position à l'envers (souvent un store banne)",
   e_no_feedback: "Aucun retour d'état",
   h_no_feedback: "Pour un ouvrant qui ne remonte jamais son état (un moteur radio RTS) : dessiné fermé au repos",
+  e_travel_time: "Durée de course (s)",
+  h_travel_time: "Secondes pour une course complète, de fermé à ouvert : pendant le mouvement, l'image suit la position estimée (moteurs qui ne remontent la position qu'à l'arrêt, comme Somfy)",
   e_illustration: "Illustration animée",
   e_illustration_theme: "Thème de l’illustration",
   theme_auto: "Automatique : nuit avec un thème sombre, jour avec un thème clair",

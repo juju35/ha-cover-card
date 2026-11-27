@@ -748,6 +748,50 @@ test("no_feedback still animates while the cover moves", () => {
   assert.match(out, /moving opening/);
 });
 
+test("travel_time estimates the position of a moving cover from the time since it started", () => {
+  // The bay window reports 60 % and starts closing; a full course takes 10 s.
+  const hass = makeHass({ [BAY]: { state: "closing", current_position: 60 } });
+  const card = newCard(cc.CoverCard, { entity: BAY, travel_time: 10 }, hass);
+  assert.match(html(card), /style="--p:60;/);
+  assert.match(html(card), /moving closing timed/);
+  const back = (ms) => {
+    card._moves.get(BAY).t0 -= ms;
+    card._update();
+  };
+  back(3000);
+  assert.match(html(card), /style="--p:30;/);
+  back(5000); // bounded at the end of the course
+  assert.match(html(card), /style="--p:0;/);
+  // Reversed on the way: the opening starts from where the estimate left the cover.
+  card.hass = makeHass({ [BAY]: { state: "opening", current_position: 60 } });
+  card._moves.get(BAY).t0 -= 2000;
+  card._update();
+  assert.match(html(card), /style="--p:80;/);
+  // A new position reported on the way restarts the estimate from it.
+  card.hass = makeHass({ [BAY]: { state: "opening", current_position: 20 } });
+  assert.match(html(card), /style="--p:20;/);
+  // Stopped: the real position, the course forgotten.
+  card.hass = makeHass({ [BAY]: { state: "open", current_position: 55 } });
+  assert.match(html(card), /style="--p:55;/);
+  assert.doesNotMatch(html(card), /timed/);
+  assert.equal(card._moves.size, 0);
+});
+
+test("travel_time works without any reported position, per cover, and is left out when unset", () => {
+  // A gate reporting no position, opening from closed: half-way after half its 20 s course.
+  const hass = makeHass({ [GATE]: { state: "opening" } });
+  const card = newCard(cc.CoverCard, { entities: [{ entity: GATE, travel_time: 20, no_feedback: true }] }, hass);
+  card._moves.get(GATE).t0 -= 10000;
+  card._update();
+  assert.match(html(card), /style="--p:50;/);
+  const plainMove = html(newCard(cc.CoverCard, { entity: GATE }, makeHass({ [GATE]: { state: "opening" } })));
+  assert.doesNotMatch(plainMove, /timed/);
+  assert.match(plainMove, /style="--p:50;/); // half-way while it moves, as before
+  const toggles = cc.CoverCardEditor.toggles;
+  assert.equal(cc.fromForm({ entities: [GATE], travel_time: 12 }, {}, toggles).travel_time, 12);
+  assert.equal(cc.fromForm({ entities: [GATE], travel_time: "" }, {}, toggles).travel_time, undefined);
+});
+
 test("no_feedback can be set for the whole card and stays out of the YAML when off", () => {
   const all = html(newCard(cc.CoverCard, { entities: ["cover.driveway_gate"], no_feedback: true }));
   assert.match(all, /style="--p:0;/);

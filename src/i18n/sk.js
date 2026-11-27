@@ -92,6 +92,8 @@ export default {
   h_invert: "Pre kryt, ktorého integrácia hlási polohu opačne (často markíza)",
   e_no_feedback: "Žiadna spätná väzba o stave",
   h_no_feedback: "Pre kryt, ktorý nikdy nehlási svoj stav (rádiový motor RTS): v pokoji vykreslený zatvorený",
+  e_travel_time: "Čas chodu (s)",
+  h_travel_time: "Sekundy na celý chod od zatvoreného po otvorený: počas pohybu obrázok sleduje odhadovanú polohu (motory, ktoré hlásia polohu až po zastavení, ako Somfy)",
   e_illustration: "Animovaná ilustrácia",
   e_illustration_theme: "Téma ilustrácie",
   theme_auto: "Automaticky: noc s tmavou témou, deň so svetlou témou",

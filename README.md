@@ -200,6 +200,7 @@ zoom: true
 | `light` | both | — | Light (or switch) of a pergola, its LED strip: drawn lit under the louvres while it is on |
 | `invert` | both | `false` | Reverse the position axis for covers whose integration reports it the wrong way round (often awnings): the picture, the slider and the percentage use `100 − current_position`, and `set_cover_position` is sent reversed. Set per cover (in its `entities` object) or for the whole card. The Open / Stop / Close buttons are unchanged |
 | `no_feedback` | both | `false` | For a cover that never reports its real state (a radio **RTS** motor and the like): at rest it is drawn and badged **closed**, since its open/closed state is only assumed. While it moves it still animates, and the Open / Stop / Close buttons stay enabled. Set per cover (in its `entities` object) or for the whole card. Covers that report a position are unaffected |
+| `travel_time` | both | — | Seconds for a full course, closed to open (`20`): while the cover moves, the picture, the slider and the percentage follow the position estimated from the time since it started — for motors that report the position only once stopped (Somfy…) or never (`no_feedback`). A half-open cover closing with `travel_time: 10` slides down in 5 s; a position reported on the way restarts the estimate from it, the real position is shown again once it stops. Set per cover (in its `entities` object) or for the whole card |
 | `favorites` | both | — | Favorite positions: numbers (a position in %) or objects with `name`, `position` and/or `tilt`. With one cover they are its favorites; with several, they move every cover that can take them |
 | `show_controls` | both | `true` | Open / Stop / Close buttons (and the tilt buttons) |
 | `show_group_controls` | both | `true` | Open all / Stop / Close all buttons above the rows of several covers (on the mini card, in its detailed view) |
@@ -226,6 +227,7 @@ Per-cover options, in an object of `entities`:
 | `name` | Name shown instead of the friendly name |
 | `device_class` | Picture of this cover (same values as above) |
 | `no_feedback` | Draw this cover closed at rest when it reports no real state (a radio RTS motor); same as the card option above |
+| `travel_time` | Seconds for a full course of this cover, to animate it while it moves (same as above) |
 | `pedestrian` | Pedestrian opening of this gate (same values as above) |
 | `light` | Light of this pergola (same as above) |
 | `favorites` | Favorite positions of this cover (same form as above), shown in its detail |

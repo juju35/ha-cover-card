@@ -92,6 +92,8 @@ export default {
   h_invert: "Olyan árnyékolóhoz, amelynek integrációja fordítva jelzi a pozíciót (gyakran napellenző)",
   e_no_feedback: "Nincs állapot-visszajelzés",
   h_no_feedback: "Olyan árnyékolóhoz, amely soha nem jelzi vissza az állapotát (RTS rádiómotor): nyugalmi helyzetben zárva rajzolva",
+  e_travel_time: "Futási idő (s)",
+  h_travel_time: "Másodperc egy teljes úthoz zárttól nyitottig: mozgás közben a kép a becsült pozíciót követi (olyan motoroknál, amelyek csak megálláskor jelentik a pozíciót, mint a Somfy)",
   e_illustration: "Animált illusztráció",
   e_illustration_theme: "Az illusztráció témája",
   theme_auto: "Automatikus: éjszaka sötét témával, nappal világos témával",

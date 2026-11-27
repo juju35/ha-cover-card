@@ -92,6 +92,8 @@ export default {
   h_invert: "Za senčilo, katerega integracija sporoča položaj obratno (pogosto tenda)",
   e_no_feedback: "Brez povratne informacije o stanju",
   h_no_feedback: "Za senčilo, ki nikoli ne sporoči svojega stanja (radijski motor RTS): v mirovanju narisano zaprto",
+  e_travel_time: "Čas hoda (s)",
+  h_travel_time: "Sekunde za celoten hod od zaprtega do odprtega: med premikanjem slika sledi ocenjenemu položaju (motorji, ki položaj sporočijo šele ob ustavitvi, kot Somfy)",
   e_illustration: "Animirana ilustracija",
   e_illustration_theme: "Tema ilustracije",
   theme_auto: "Samodejno: noč s temno temo, dan s svetlo temo",

@@ -92,6 +92,8 @@ export default {
   h_invert: "Para una cubierta cuya integración informa la posición al revés (a menudo un toldo)",
   e_no_feedback: "Sin información de estado",
   h_no_feedback: "Para una cubierta que nunca informa su estado (un motor de radio RTS): dibujada cerrada en reposo",
+  e_travel_time: "Tiempo de recorrido (s)",
+  h_travel_time: "Segundos para un recorrido completo, de cerrado a abierto: mientras se mueve, la imagen sigue la posición estimada (motores que solo informan la posición al detenerse, como Somfy)",
   e_illustration: "Ilustración animada",
   e_illustration_theme: "Tema de la ilustración",
   theme_auto: "Automático: noche con un tema oscuro, día con un tema claro",

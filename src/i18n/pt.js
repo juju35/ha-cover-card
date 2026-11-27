@@ -92,6 +92,8 @@ export default {
   h_invert: "Para um estore cuja integração indica a posição ao contrário (muitas vezes um toldo)",
   e_no_feedback: "Sem retorno de estado",
   h_no_feedback: "Para um estore que nunca comunica o seu estado (um motor de rádio RTS): desenhado fechado em repouso",
+  e_travel_time: "Tempo de curso (s)",
+  h_travel_time: "Segundos para um curso completo, de fechado a aberto: durante o movimento, a imagem segue a posição estimada (motores que só comunicam a posição quando param, como Somfy)",
   e_illustration: "Ilustração animada",
   e_illustration_theme: "Tema da ilustração",
   theme_auto: "Automático: noite com um tema escuro, dia com um tema claro",
