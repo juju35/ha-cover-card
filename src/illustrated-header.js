@@ -7,6 +7,7 @@ import { SCHEDULE_KEYS, SCHEDULE_WORDS, TIME_RE, areaOf, classOf, dayDiff, favor
 import { AXES, SCENE_STYLE, axisOf, coverSvg } from "./pictures.js";
 import { BASE_STYLE, CONFIRM_GUARD_MS, DIALOG_STYLE, FOCUS_SELECTOR, FULL_STYLE, GROUP_ACTIONS, HOLD_MS, KEY_COMMIT_MS, MINI_STYLE, SERVICES, TARGET_MS, focusKey, isOutside, watchOutside } from "./styles.js";
 import { STRINGS } from "./i18n/strings.js";
+import { rcMorph } from "./in-place-redraw.js";
 
 // Covers drawn in the banner at most (fewer on a narrow card, see BANNER_STYLE).
 export const BANNER_MAX = 3;
@@ -325,7 +326,8 @@ export class CoverBase extends HTMLElement {
     // The focus is kept across a rewrite for the keyboard only: after a mouse click, it would draw the focus ring.
     const kept = this._confirm || this._byPointer ? null : this._focusedSpot();
     this._html = html;
-    this.shadowRoot.innerHTML = html;
+    // In place (see rcMorph): the nodes stay, so the card keeps its height, its animations and its focus.
+    rcMorph(this.shadowRoot, html);
     this._fitPill();
     if (kept) this._restoreFocus(kept);
     if (this._confirm) {
