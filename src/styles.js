@@ -5,7 +5,7 @@ import { F } from "./core.js";
 
 export const BASE_STYLE = `
   :host { --cc-ok: var(--success-color, #43a047); --cc-warn: var(--warning-color, #ffa600); --cc-crit: var(--error-color, #db4437);
-          --cc-idle: var(--disabled-text-color, #9e9e9e); --cc-active: var(--info-color, #039be5); --cc-accent: var(--primary-color, #03a9f4); }
+          --cc-idle: var(--secondary-text-color, #9e9e9e); --cc-active: var(--info-color, #039be5); --cc-accent: var(--primary-color, #03a9f4); }
   /* The card is the container of its width queries (@container below). Inline-size containment drops the content
      from the card's own intrinsic width: in a parent that sizes it from its content (layout-card, a grid column auto,
      an inline-block) it would fall to a few pixels. An empty, zero-height row gives it back a preferred width, as a
@@ -171,7 +171,7 @@ export const FULL_STYLE = `
   /* columns: 2 or 3, a grid of unfolded tiles. Each tile is the container of the width queries below, so that a
      narrow tile hides the button labels and the tilt buttons the way a narrow card does. */
   .items.grid { display: grid; grid-template-columns: repeat(var(--cc-columns, 2), minmax(0, 1fr)); gap: 8px; }
-  .tile { container-type: inline-size; min-width: 0; border-radius: 12px; background: var(--secondary-background-color, rgba(127,127,127,.08));
+  .tile { container-type: inline-size; min-width: 0; border-radius: 10px; background: var(--secondary-background-color, rgba(127,127,127,.08));
           padding: 8px; display: flex; flex-direction: column; gap: 10px; }
   .tile-head { display: flex; align-items: center; gap: 8px; min-width: 0; }
   .tile-head .mbadge { width: 28px; height: 28px; border-radius: 50%; flex: none; display: grid; place-items: center;
