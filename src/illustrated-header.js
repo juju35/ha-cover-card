@@ -11,7 +11,8 @@ import { STRINGS } from "./i18n/strings.js";
 // Covers drawn in the banner at most (fewer on a narrow card, see BANNER_STYLE).
 export const BANNER_MAX = 3;
 
-// Night picture: forced by illustration_theme, else the sun below the horizon or Home Assistant's dark theme.
+// Night picture: forced by illustration_theme, else Home Assistant's dark theme alone (a light theme keeps the day
+// picture after sunset).
 // The width of an element's whole text in fractional pixels, even while it is cut with an ellipsis (0 when hidden).
 export const textWidth = (el) => {
   if (!el?.getClientRects?.().length || typeof document.createRange !== "function") return 0;
