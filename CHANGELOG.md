@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.12.1 - 2026-11-28
+
+### Fixes
+- `travel_time`: a card drawn again while a cover moves (a popup opened again, back from another view) no longer starts the course over from 0 %. The course is kept for the whole page and, when the card did not see it start, dated from the moment Home Assistant saw the cover start moving (#51).
+
 ## 1.12.0 - 2026-11-27
 
 ### Features

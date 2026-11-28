@@ -92,6 +92,8 @@ export const estimate = (move, travel, now) => {
   const step = ((now - move.t0) / 1000 / travel) * 100;
   return Math.min(100, Math.max(0, move.state === "opening" ? move.p0 + step : move.p0 - step));
 };
+// The courses of the covers moving on their course time, by entity, shared by every card of the page.
+export const TRAVEL_MOVES = new Map();
 // A render this often while a cover moves on its course time.
 export const TRAVEL_TICK_MS = 250;
 export const isMoving = (s) => s?.state === "opening" || s?.state === "closing";
