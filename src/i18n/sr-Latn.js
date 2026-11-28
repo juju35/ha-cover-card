@@ -33,6 +33,7 @@ export default {
   c_shade: "Rolo zavesa",
   c_curtain: "Zavesa",
   c_awning: "Tenda",
+  c_window_awning: "Prozorska tenda",
   c_garage: "Garažna vrata",
   c_gate: "Kapija",
   c_swing: "Krilna kapija",

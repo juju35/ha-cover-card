@@ -33,6 +33,7 @@ export default {
   c_shade: "Rulou",
   c_curtain: "Perdea",
   c_awning: "Copertină",
+  c_window_awning: "Copertină de fereastră",
   c_garage: "Ușă de garaj",
   c_gate: "Poartă",
   c_swing: "Poartă batantă",

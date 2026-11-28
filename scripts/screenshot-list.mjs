@@ -9,6 +9,7 @@ const ALL = [
   "cover.kitchen_shade",
   "cover.bedroom_curtains",
   "cover.terrace_awning",
+  "cover.kitchen_window_awning",
   "cover.garage_door",
   "cover.driveway_gate",
   "cover.swing_gate",
@@ -34,6 +35,7 @@ export const shots = twins([
   { file: "card-swing", type: "cover-card", width: 420, config: { entity: "cover.swing_gate", favorites: [100] } },
   { file: "card-barrier", type: "cover-card", width: 420, config: { entity: "cover.car_park_barrier" } },
   { file: "card-hinged", type: "cover-card", width: 420, config: { entity: "cover.hinged_shutters", favorites: [0, 50, 100] } },
+  { file: "card-window-awning", type: "cover-card", width: 420, config: { entity: "cover.kitchen_window_awning", favorites: [0, 50, 100] } },
   { file: "card-pergola", type: "cover-card", width: 420, config: { entity: "cover.terrace_pergola", light: "light.terrace_pergola_led", favorites: [{ name: "Shade", tilt: 20 }, { name: "Breeze", tilt: 90 }] } },
   // The automatic schedule, at a fixed time of day (`clock`, UTC): the opening done, the closing to come.
   {
@@ -81,6 +83,7 @@ export const gifs = twins([
   moving("shade-closing", "cover.kitchen_shade", "closing"),
   moving("curtain-opening", "cover.bedroom_curtains", "opening"),
   moving("awning-opening", "cover.terrace_awning", "opening", { current_position: 50 }),
+  moving("window-awning-opening", "cover.kitchen_window_awning", "opening", { current_position: 40 }),
   moving("garage-opening", "cover.garage_door", "opening"),
   moving("gate-closing", "cover.driveway_gate", "closing"),
   moving("swing-opening", "cover.swing_gate", "opening", { current_position: 30 }),

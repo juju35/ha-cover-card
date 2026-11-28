@@ -33,6 +33,7 @@ export default {
   c_shade: "Ролетна завеса",
   c_curtain: "Завеса",
   c_awning: "Сенник",
+  c_window_awning: "Прозоречна тента",
   c_garage: "Гаражна врата",
   c_gate: "Порта",
   c_swing: "Двукрила порта",

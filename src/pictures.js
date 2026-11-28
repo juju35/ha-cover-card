@@ -59,6 +59,23 @@ export const SCENES = {
     <g class="fabric">${range(7, (i) => `<rect x="${8 + i * 12}" y="18" width="12" height="54" fill="${i % 2 ? "#f2efe6" : "#2e7d6b"}"/>`)}</g>
     <g class="valance"><g class="flutter"><path d="M8 18${range(7, () => `h2a4 4 0 0 0 8 0h2`)}V14H8Z" fill="#2e7d6b"/></g></g>
     <rect x="5" y="10" width="90" height="9" rx="3" fill="url(#${u}m)"/>`,
+  // Window awning (drop arm): its striped fabric unrolls from the cassette above the window while its arms swing out
+  // from their pivots beside the frame, so the front bar comes down and forward (wider) as it opens; the scalloped
+  // valance flutters while it moves, and the window glows warm at night in the banner.
+  window_awning: (u) => `<defs><linearGradient id="${u}a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient></defs>
+    <rect x="18" y="30" width="64" height="76" rx="2" fill="url(#${u}f)" stroke="#c4c5c2"/>
+    <rect x="22" y="34" width="56" height="68" fill="url(#${u}g)"/><rect class="warm" x="22" y="34" width="56" height="68"/>
+    <path d="M50 34V102M22 68H78" stroke="#d9dad7" stroke-width="2.5"/>
+    <path d="M27 78l12-9M27 92l22-17" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+    <rect x="14" y="105" width="72" height="5" rx="1.5" fill="url(#${u}f)" stroke="#c4c5c2"/>
+    <g class="wa-fabric">${range(6, (i) => `<path d="M${14 + i * 12} 18H${26 + i * 12}L${22 + i * 14} 66H${8 + i * 14}Z" fill="${i % 2 ? "#f6efe3" : "#e8773a"}"/>`)}
+      <path d="M14 18H86L92 66H8Z" fill="url(#${u}a)"/></g>
+    <g class="wa-arm l"><rect x="11.5" y="24" width="3" height="56" rx="1.5" fill="#868e96"/></g>
+    <g class="wa-arm r"><rect x="85.5" y="24" width="3" height="56" rx="1.5" fill="#868e96"/></g>
+    <circle cx="13" cy="80" r="2.6" fill="#6f747a"/><circle cx="87" cy="80" r="2.6" fill="#6f747a"/>
+    <g class="wa-bar"><g class="flutter"><path d="M8 24${range(6, () => `h2a5 5 0 0 0 10 0h2`)}V22H8Z" fill="#d0602a"/></g>
+      <rect x="7" y="21" width="86" height="3.5" rx="1.5" fill="url(#${u}m)"/></g>
+    <rect x="10" y="12" width="80" height="11" rx="3" fill="url(#${u}m)"/>`,
   // Garage: sectional door rising under the roof, warning lamp blinking while it moves.
   garage: (u) => `<path d="M3 36L50 9L97 36Z" fill="#8a5a44"/><rect x="8" y="34" width="84" height="78" fill="#ece5d8" stroke="#d6cdbd"/>
     <rect x="16" y="46" width="68" height="66" fill="#2b2f36"/><path d="M28 112l6-14h32l6 14" fill="#3b4048"/>
@@ -150,7 +167,7 @@ export const SCENES = {
 
 // The position slider runs the way the moving edge of the scene runs, so that dragging the picture drags that
 // edge: up for what rises (shutter, blind, shade, garage door; door, roof window and damper by convention), down
-// for the awning, whose valance goes down as it unrolls, and across for curtains and a sliding gate, which open
+// for the awnings, whose valance goes down as they unroll, and across for curtains and a sliding gate, which open
 // sideways. `from` and `len` are the run of the rail in the viewBox (100 × 120); a horizontal rail lies under the
 // picture, a vertical one on its right.
 export const AXES = {
@@ -159,7 +176,8 @@ export const AXES = {
   across: { from: 14, len: 72, open: 1 },
 };
 export const ACROSS = new Set(["curtain", "gate", "swing", "hinged", "pergola"]);
-export const axisOf = (cls) => (ACROSS.has(cls) ? "across" : cls === "awning" ? "down" : "up");
+export const DOWN = new Set(["awning", "window_awning"]);
+export const axisOf = (cls) => (ACROSS.has(cls) ? "across" : DOWN.has(cls) ? "down" : "up");
 // Where position `p` lies along the rail of `axis`, in viewBox units.
 export const railAt = (axis, p) => {
   const a = AXES[axis];
@@ -199,6 +217,11 @@ export const SCENE_STYLE = `
   .fabric { transform-origin: top center; transform: scaleY(calc(var(--p) / 100)); }
   .valance { transform-box: view-box; transform: translateY(calc(var(--p) * 0.54px)); }
   .flutter { transform-origin: top center; }
+  /* A window awning: the fabric unrolls and widens as its arms swing out, the front bar comes down and forward. */
+  .wa-fabric { transform-box: view-box; transform-origin: 50px 18px; transform: scale(calc(0.857 + var(--p) * 0.00143), calc(0.104 + var(--p) * 0.00896)); }
+  .wa-bar { transform-box: view-box; transform-origin: 50px 23px; transform: translateY(calc(var(--p) * 0.43px)) scaleX(calc(0.857 + var(--p) * 0.00143)); }
+  .wa-arm { transform-box: view-box; transform: scaleY(calc(1 - var(--p) * 0.00768)); }
+  .wa-arm.l { transform-origin: 13px 80px; } .wa-arm.r { transform-origin: 87px 80px; }
   .leaf { transform-origin: left center; transform: scaleX(calc(1 - var(--p) * 0.0072)); }
   .leaf-l { transform-origin: left center; transform: scaleX(calc(1 - var(--p) * 0.0076)); }
   .leaf-r { transform-origin: right center; transform: scaleX(calc(1 - var(--p) * 0.0076)); }
@@ -219,7 +242,7 @@ export const SCENE_STYLE = `
   .rail { fill: color-mix(in srgb, var(--primary-text-color, #212121) 18%, transparent); }
   .target { fill: var(--cc-accent); }
   .knob { transform-box: view-box; transform: translateY(calc((100 - var(--p)) * 0.88px)); }
-  .awning .knob { transform: translateY(calc(var(--p) * 0.54px)); }
+  .awning .knob, .window_awning .knob { transform: translateY(calc(var(--p) * 0.54px)); }
   .curtain .knob, .gate .knob, .swing .knob, .hinged .knob, .pergola .knob { transform: translateX(calc(var(--p) * 0.72px)); }
   .handle { fill: var(--card-background-color, #fff); stroke: var(--c, var(--cc-accent)); stroke-width: 2.4; }
   /* Moving: the slats roll and the edge steps toward where the cover goes, the bottom bar, folds and valance sway,
@@ -242,7 +265,7 @@ export const SCENE_STYLE = `
   /* Moving on its course time (travel_time): the picture follows the estimated position, smoothly, instead of the
      step toward where the cover goes. */
   .timed .shift, .timed .swing .leaf-l, .timed .swing .leaf-r, .timed .hinged .hl, .timed .hinged .hr, .timed .barrier .arm,
-  .timed .pergola .louvre, .timed .leaf, .timed .valance, .timed .sash, .timed .blade, .timed .knob { animation: none; transition: transform .3s linear; }
+  .timed .pergola .louvre, .timed .leaf, .timed .valance, .timed .wa-fabric, .timed .wa-bar, .timed .wa-arm, .timed .sash, .timed .blade, .timed .knob { animation: none; transition: transform .3s linear; }
   .moving .barrier .lamp { fill: #ff3b30; }
   .moving .bob { animation: cc-bob .5s ease-in-out infinite alternate; }
   .moving .sway { animation: cc-sway .8s ease-in-out infinite alternate; }

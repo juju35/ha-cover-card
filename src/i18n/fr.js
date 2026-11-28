@@ -33,6 +33,7 @@ export default {
   c_shade: "Store enrouleur",
   c_curtain: "Rideau",
   c_awning: "Store banne",
+  c_window_awning: "Store de fenêtre",
   c_garage: "Porte de garage",
   c_gate: "Portail",
   c_swing: "Portail battant",

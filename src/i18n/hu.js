@@ -33,6 +33,7 @@ export default {
   c_shade: "Roló",
   c_curtain: "Függöny",
   c_awning: "Napellenző",
+  c_window_awning: "Ablakmarkíz",
   c_garage: "Garázskapu",
   c_gate: "Kapu",
   c_swing: "Nyíló kapu",

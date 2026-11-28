@@ -33,6 +33,7 @@ export default {
   c_shade: "Estor enrollable",
   c_curtain: "Cortina",
   c_awning: "Toldo",
+  c_window_awning: "Toldo de ventana",
   c_garage: "Puerta de garaje",
   c_gate: "Portón",
   c_swing: "Puerta batiente",

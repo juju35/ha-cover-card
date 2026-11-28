@@ -47,7 +47,7 @@ test("device class picks the scene, a cover without one is a shutter, an overrid
   for (const c of cc.PICTURES) {
     assert.ok(cc.SCENES[c], c);
     assert.equal(cc.ICONS[c].length, 2, c);
-    assert.match(cc.coverSvg(c, { slider: true, target: 30 }), /^<svg class="scene [a-z]+" viewBox="0 0 100 120"[\s\S]*class="target"[\s\S]*<\/svg>$/);
+    assert.match(cc.coverSvg(c, { slider: true, target: 30 }), /^<svg class="scene [a-z_]+" viewBox="0 0 100 120"[\s\S]*class="target"[\s\S]*<\/svg>$/);
   }
 });
 
@@ -895,6 +895,22 @@ test("a barrier's arm, hinged shutters' leaves and a pergola's louvres are drawn
   assert.match(mini, /class="sval">55\s?%</);
   // In a mini card of several covers too, its thumbnail tells the louvres' angle.
   assert.match(html(newCard(cc.CoverMiniCard, { entities: ["cover.terrace_pergola", BAY] })), /class="tval">55\s?%</);
+});
+
+test("a window awning is found by its name, in any language, and drawn coming down as it opens", () => {
+  const c = (dc, name) => ({ entity_id: "cover.x", attributes: { device_class: dc, friendly_name: name } });
+  for (const name of ["Kitchen window awning", "Store de fenêtre cuisine", "Store à projection", "Fenstermarkise Bad", "Markisolette", "Toldo de ventana", "Markiza okienna", "Оконная маркиза"])
+    assert.equal(cc.classOf(c("awning", name)), "window_awning", name);
+  assert.equal(cc.classOf(c(undefined, "Drop arm awning")), "window_awning");
+  // A terrace awning stays an awning, a window awning reported as a garage door stays a garage door.
+  assert.equal(cc.classOf(c("awning", "Terrace awning")), "awning");
+  assert.equal(cc.classOf(c("garage", "Window awning")), "garage");
+  assert.equal(cc.classOf(c("awning", "Terrace"), "window_awning"), "window_awning");
+  const card = html(newCard(cc.CoverCard, { entity: "cover.kitchen_window_awning" }));
+  assert.match(card, /class="scene window_awning"/);
+  assert.match(card, /class="wa-fabric"/);
+  assert.match(card, /data-axis="down"/);
+  assert.match(card, /--p:70/);
 });
 
 test("a pergola without tilt turns its louvres with its position", () => {

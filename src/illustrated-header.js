@@ -71,8 +71,8 @@ export const BANNER_STYLE = `
   .bv .scene { filter: drop-shadow(0 2px 3px rgba(0,0,0,.2)); }
   .night .bv .scene { filter: drop-shadow(0 2px 3px rgba(0,0,0,.45)) brightness(.86); }
   .bv.off .scene { filter: grayscale(1); opacity: .5; }
-  /* At night the window behind hinged shutters glows warm, a barrier's lamp shines red and a pergola lets no sun in. */
-  .night .bv .hinged .warm { opacity: .8; }
+  /* At night the window behind hinged shutters or a window awning glows warm, a barrier's lamp shines red and a pergola lets no sun in. */
+  .night .bv .hinged .warm, .night .bv .window_awning .warm { opacity: .8; }
   .night .bv .barrier .lamp { fill: #ff3b30; } .night .bv:not(.moving) .barrier .lamp-glow { opacity: .45; transform: scale(1.2); }
   .night .bv .pergola .rays { display: none; }
   .plant { width: 18px; height: 30px; flex: none; margin: 0 14px 5.6px 0; }

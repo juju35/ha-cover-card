@@ -33,6 +33,7 @@ export default {
   c_shade: "Senčilo",
   c_curtain: "Zavesa",
   c_awning: "Markiza",
+  c_window_awning: "Okenska markiza",
   c_garage: "Garažna vrata",
   c_gate: "Vrata dvorišča",
   c_swing: "Krilna vrata",

@@ -105,6 +105,9 @@ export const SWING_RE = /swing|battant|batant|fl[uü]gel|drehtor|batiente|batten
 // cover without a device class, whose two leaves fold out), in any of the card's languages.
 export const BARRIER_RE = /barri[eè]r|barier|barrera|barjera|schranke|sbarra|slagboom|cancela|szlaban|z[aá]vor|zapornic|sorompó|shlagbaum|шлагбаум|бариер|рампа|\brampa\b|μπάρα|\bbom\b|boom gate/i;
 export const PERGOLA_RE = /pergol|πέργκολ|περγκολ|пергол|louvre|louver|bioclim|lamellendach/i;
+// A window awning (an awning, or a cover without a device class, whose name says so: drop arms beside a window), in
+// any of the card's languages.
+export const WINDOW_AWNING_RE = /window awning|drop.?arm|marquisolette|markisolette|fallarm|store (de |à )?(fen[eê]tre|projection)|fenstermarkise|toldo (de )?(ventana|janela|punto recto)|tenda (da finestra|a caduta)|uitvalscherm|markiza okienn|prozorsk\S* tend|прозорск\S* тенд|copertin[aă] de fereastr|vinduesmarkis|fönstermarkis|прозоречн\S* тент|оконн\S* маркиз|віконн\S* маркіз|ablakmark[ií]z|okenn[aáií] mark|okensk\S* mark|loga mark|τέντα παραθ/i;
 export const HINGED_RE = /hinged|battant|klappl|fensterl[aä]d|contravent|postigo|battente|\bscur|luik|portada|okiennic|oblon|skodde|fönsterluck|kapci|капци|капаци|ставн|віконниц|zsalug|okenic|polkn|slēģ|παντζ/i;
 export const classOf = (s, override) => {
   if (PICTURES.includes(override)) return override;
@@ -114,6 +117,7 @@ export const classOf = (s, override) => {
   if (dc === "gate" && SWING_RE.test(name)) return "swing";
   if (!["door", "gate", "garage", "damper"].includes(dc) && PERGOLA_RE.test(name)) return "pergola";
   if ((dc === "shutter" || !dc) && HINGED_RE.test(name)) return "hinged";
+  if ((dc === "awning" || !dc) && WINDOW_AWNING_RE.test(name)) return "window_awning";
   // A blind whose slats do not tilt (a zip screen, a roller blind reported as `blind`) is drawn as a roller shade,
   // as Home Assistant's more-info dialog tells them apart by their features.
   if (dc === "blind" && Number.isFinite(s?.attributes?.supported_features) && !(s.attributes.supported_features & TILT_FEATURES)) return "shade";

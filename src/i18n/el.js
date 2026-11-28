@@ -33,6 +33,7 @@ export default {
   c_shade: "Στόρι",
   c_curtain: "Κουρτίνα",
   c_awning: "Τέντα",
+  c_window_awning: "Τέντα παραθύρου",
   c_garage: "Γκαραζόπορτα",
   c_gate: "Αυλόπορτα",
   c_swing: "Ανοιγόμενη αυλόπορτα",

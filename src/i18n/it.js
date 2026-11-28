@@ -33,6 +33,7 @@ export default {
   c_shade: "Tenda a rullo",
   c_curtain: "Tenda",
   c_awning: "Tenda da sole",
+  c_window_awning: "Tenda da finestra",
   c_garage: "Porta del garage",
   c_gate: "Cancello",
   c_swing: "Cancello a battente",

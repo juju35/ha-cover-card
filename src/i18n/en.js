@@ -33,6 +33,7 @@ export default {
   c_shade: "Shade",
   c_curtain: "Curtain",
   c_awning: "Awning",
+  c_window_awning: "Window awning",
   c_garage: "Garage door",
   c_gate: "Gate",
   c_swing: "Swing gate",

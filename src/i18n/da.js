@@ -33,6 +33,7 @@ export default {
   c_shade: "Rullegardin",
   c_curtain: "Gardin",
   c_awning: "Markise",
+  c_window_awning: "Vinduesmarkise",
   c_garage: "Garageport",
   c_gate: "Låge",
   c_swing: "Fløjlåge",

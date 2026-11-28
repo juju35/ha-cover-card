@@ -33,6 +33,7 @@ export default {
   c_shade: "Roleta",
   c_curtain: "Závěs",
   c_awning: "Markýza",
+  c_window_awning: "Okenní markýza",
   c_garage: "Garážová vrata",
   c_gate: "Brána",
   c_swing: "Křídlová brána",

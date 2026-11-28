@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.0 - 2026-11-28
+
+### Features
+- Window awning picture (`device_class: window_awning`, or an awning named *Window awning*, *Drop arm*, *Store de fenêtre*, *Fenstermarkise*, *Markisolette*… in any of the card's languages): a drop-arm awning over a window, its striped fabric unrolling from the cassette while its arms swing out, the front bar and scalloped valance coming down and forward as it opens; dragged down like an awning, animated while it moves, the window glowing warm at night in the header (#53).
+
 ## 1.12.1 - 2026-11-28
 
 ### Fixes

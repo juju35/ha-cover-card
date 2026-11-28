@@ -37,6 +37,8 @@ cover("cover.office_blind", "office", "Office blind", "blind", "open", { current
 cover("cover.bedroom_curtains", "bedroom", "Bedroom curtains", "curtain", "open", { current_position: 35 });
 cover("cover.kitchen_shade", "kitchen", "Kitchen shade", "shade", "open", { current_position: 50 });
 cover("cover.terrace_awning", "terrace", "Terrace awning", "awning", "open", { current_position: 80 });
+// A window awning (found by its name): drop arms beside the kitchen window.
+cover("cover.kitchen_window_awning", "kitchen", "Kitchen window awning", "awning", "open", { current_position: 70 });
 cover("cover.garage_door", "garage", "Garage door", "garage", "closed", { supported_features: 1 | 2 | 8 });
 cover("cover.driveway_gate", "garden", "Driveway gate", "gate", "open", { supported_features: 1 | 2 | 8 });
 cover("cover.swing_gate", "garden", "Swing gate", "gate", "open", { current_position: 55 });

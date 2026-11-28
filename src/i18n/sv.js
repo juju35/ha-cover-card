@@ -33,6 +33,7 @@ export default {
   c_shade: "Rullgardin",
   c_curtain: "Gardin",
   c_awning: "Markis",
+  c_window_awning: "Fönstermarkis",
   c_garage: "Garageport",
   c_gate: "Grind",
   c_swing: "Slagrind",

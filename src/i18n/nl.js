@@ -33,6 +33,7 @@ export default {
   c_shade: "Rolgordijn",
   c_curtain: "Gordijn",
   c_awning: "Zonnescherm",
+  c_window_awning: "Uitvalscherm",
   c_garage: "Garagedeur",
   c_gate: "Poort",
   c_swing: "Draaipoort",

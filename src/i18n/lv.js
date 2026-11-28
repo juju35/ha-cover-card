@@ -33,6 +33,7 @@ export default {
   c_shade: "Rullo žalūzijas",
   c_curtain: "Aizkars",
   c_awning: "Markīze",
+  c_window_awning: "Loga markīze",
   c_garage: "Garāžas vārti",
   c_gate: "Vārti",
   c_swing: "Vērtņu vārti",

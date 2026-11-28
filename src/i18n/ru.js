@@ -33,6 +33,7 @@ export default {
   c_shade: "Рулонная штора",
   c_curtain: "Штора",
   c_awning: "Маркиза",
+  c_window_awning: "Оконная маркиза",
   c_garage: "Гаражные ворота",
   c_gate: "Ворота",
   c_swing: "Распашные ворота",

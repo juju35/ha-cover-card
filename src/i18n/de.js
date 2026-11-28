@@ -33,6 +33,7 @@ export default {
   c_shade: "Rollo",
   c_curtain: "Vorhang",
   c_awning: "Markise",
+  c_window_awning: "Fenstermarkise",
   c_garage: "Garagentor",
   c_gate: "Tor",
   c_swing: "Flügeltor",

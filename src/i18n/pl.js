@@ -33,6 +33,7 @@ export default {
   c_shade: "Roleta",
   c_curtain: "Zasłona",
   c_awning: "Markiza",
+  c_window_awning: "Markiza okienna",
   c_garage: "Brama garażowa",
   c_gate: "Brama",
   c_swing: "Brama skrzydłowa",
