@@ -774,7 +774,7 @@ test("travel_time estimates the position of a moving cover from the time since i
   card.hass = makeHass({ [BAY]: { state: "open", current_position: 55 } });
   assert.match(html(card), /style="--p:55;/);
   assert.doesNotMatch(html(card), /timed/);
-  assert.equal(card._moves.size, 0);
+  assert.equal(card._moves.has(BAY), false);
 });
 
 test("travel_time works without any reported position, per cover, and is left out when unset", () => {
@@ -790,6 +790,23 @@ test("travel_time works without any reported position, per cover, and is left ou
   const toggles = cc.CoverCardEditor.toggles;
   assert.equal(cc.fromForm({ entities: [GATE], travel_time: 12 }, {}, toggles).travel_time, 12);
   assert.equal(cc.fromForm({ entities: [GATE], travel_time: "" }, {}, toggles).travel_time, undefined);
+});
+
+test("travel_time keeps the course when the card is drawn anew (popup opened again), dated by Home Assistant", () => {
+  // A shutter at 40 % opening for 4 s on a 10 s course: a card drawn now shows 80 %, not 40 % again.
+  const at = (ms) => new Date(Date.now() - ms).toISOString();
+  const hass = makeHass({ [BAY]: { state: "opening", current_position: 40 } });
+  hass.states[BAY] = { ...hass.states[BAY], last_changed: at(4000), last_updated: at(4000) };
+  cc.TRAVEL_MOVES.clear();
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, travel_time: 10 }, hass)), /style="--p:80;/);
+  // The popup closed, opened again a second later: a new card picks the same course up.
+  cc.TRAVEL_MOVES.get(BAY).t0 -= 1000;
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, travel_time: 10 }, hass)), /style="--p:90;/);
+  // The cover stopped and moved again with no card on the page: a new course, from where it now is.
+  const again = makeHass({ [BAY]: { state: "opening", current_position: 40 } });
+  again.states[BAY] = { ...again.states[BAY], last_changed: at(0), last_updated: at(0) };
+  assert.match(html(newCard(cc.CoverCard, { entity: BAY, travel_time: 10 }, again)), /style="--p:40;/);
+  cc.TRAVEL_MOVES.clear();
 });
 
 test("no_feedback can be set for the whole card and stays out of the YAML when off", () => {

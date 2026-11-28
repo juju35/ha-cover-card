@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------------------
 import { F, GUARDED, ICONS, SECURED } from "./core.js";
 import { clamp, esc, fmtPct, intlLocale, t } from "./helpers.js";
-import { SCHEDULE_KEYS, SCHEDULE_WORDS, TIME_RE, TRAVEL_TICK_MS, areaOf, classOf, dayDiff, estimate, favoritesOf, fmtTime, has, hasTilt, isMoving, isOffline, itemsOf, nameOf, numAttr, pedestrianOf, positionOf, scheduleOf, stateClass, svgIcon, tiltOf, travelTimeOf, whenOf } from "./automatic-schedule.js";
+import { SCHEDULE_KEYS, SCHEDULE_WORDS, TIME_RE, TRAVEL_MOVES, TRAVEL_TICK_MS, areaOf, classOf, dayDiff, estimate, favoritesOf, fmtTime, has, hasTilt, isMoving, isOffline, itemsOf, nameOf, numAttr, pedestrianOf, positionOf, scheduleOf, stateClass, svgIcon, tiltOf, travelTimeOf, whenOf } from "./automatic-schedule.js";
 import { AXES, SCENE_STYLE, axisOf, coverSvg } from "./pictures.js";
 import { BASE_STYLE, CONFIRM_GUARD_MS, DIALOG_STYLE, FOCUS_SELECTOR, FULL_STYLE, GROUP_ACTIONS, HOLD_MS, KEY_COMMIT_MS, MINI_STYLE, SERVICES, TARGET_MS, focusKey, isOutside, watchOutside } from "./styles.js";
 import { STRINGS } from "./i18n/strings.js";
@@ -365,8 +365,11 @@ export class CoverBase extends HTMLElement {
   // (the one it reports, else where an earlier estimate left it, else fully closed / open by the way it goes), a full
   // course in `travel` seconds. A new position reported on the way starts the estimate again from it. Still: the
   // real state, and the course forgotten.
+  // The courses are kept per entity for the whole page (TRAVEL_MOVES), not per card: a card drawn anew (a popup
+  // opened again, another view) picks the course up where it is instead of starting it over. A course this page has
+  // not seen start is dated from Home Assistant's own clock (last_changed / last_updated), not from the moment the
+  // card is drawn.
   _travelling(id, s, travel) {
-    this._moves ??= new Map();
     const rec = this._moves.get(id);
     if (!s || !isMoving(s)) {
       if (rec) this._moves.delete(id);
@@ -375,18 +378,27 @@ export class CoverBase extends HTMLElement {
     const reported = numAttr(s, "current_position");
     const now = Date.now();
     let move = rec;
-    if (!move || move.state !== s.state || (reported !== null && reported !== move.reported)) {
+    // A course begun again since it was kept (no card on the page saw it stop): a new state change, a new course.
+    const turned = !move || move.state !== s.state || (s.last_changed !== undefined && s.last_changed !== move.changed);
+    if (turned && move?.state === s.state) move = null;
+    if (turned || (reported !== null && reported !== move.reported)) {
       const from = reported ?? (move ? estimate(move, travel, now) : s.state === "opening" ? 0 : 100);
-      move = { state: s.state, t0: now, p0: from, reported };
+      // A course already under way when first seen: started when Home Assistant saw it change, never in the future.
+      const since = move ? NaN : Date.parse(turned && reported === null ? s.last_changed : s.last_updated);
+      move = { state: s.state, changed: s.last_changed, t0: Number.isFinite(since) ? Math.min(now, since) : now, p0: from, reported };
       this._moves.set(id, move);
     }
     return { ...s, attributes: { ...s.attributes, current_position: Math.round(estimate(move, travel, now)) } };
   }
 
+  get _moves() {
+    return TRAVEL_MOVES;
+  }
+
   // Whether a cover moving on its course time has not reached its end yet: the card is drawn again a few times a
   // second meanwhile.
   _travelPending() {
-    if (!this._moves?.size || !this._hass || !this._config) return false;
+    if (!this._moves.size || !this._hass || !this._config) return false;
     return this._items().some((i) => i.timed && (i.s.state === "opening" ? numAttr(i.s, "current_position") < 100 : numAttr(i.s, "current_position") > 0));
   }
 
