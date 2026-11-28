@@ -18,15 +18,40 @@ export const TILT_FEATURES = F.OPEN_TILT | F.CLOSE_TILT | F.STOP_TILT | F.SET_TI
 export const CLASSES = ["shutter", "blind", "shade", "curtain", "awning", "garage", "gate", "door", "window", "damper"];
 // Open is worth a warning for these (an open garage door, gate, door or window), not for a shutter or a blind.
 // The pictures the card draws: the device classes, and pictures found by the cover's name (or forced by
-// `device_class`): hinged shutters, whose two leaves fold out on their hinges where a roller shutter rolls up; a
-// window awning, whose arms swing out from beside the window where a terrace awning unrolls; a pergola, whose louvres
-// turn; a swing gate, whose two leaves open on their hinges where a sliding gate's leaf slides;
-// a barrier, whose arm lifts.
-export const PICTURES = ["shutter", "hinged", ...CLASSES.slice(1, 5), "window_awning", "pergola", ...CLASSES.slice(5, 7), "swing", "barrier", ...CLASSES.slice(7)];
-export const GUARDED = new Set(["garage", "gate", "swing", "barrier", "door", "window"]);
+// `device_class`): hinged shutters, whose two leaves fold out on their hinges where a roller shutter rolls up; a roof
+// window shutter, rolling down over a roof window in the tiles; an external venetian blind (BSO), whose wide lamellae
+// stack up outside the window; a window awning, whose arms swing out from beside the window where a terrace awning
+// unrolls; a pergola, whose louvres turn; an up-and-over garage door, whose single leaf swings up, and a roller garage
+// door, whose slats roll up where a sectional door slides up; a swing gate, whose two leaves open on their hinges where
+// a sliding gate's leaf slides; a barrier, whose arm lifts; a pool cover, whose slats roll back over the water (in
+// perspective, or seen from above with `pool_top`).
+export const PICTURES = [
+  "shutter",
+  "hinged",
+  "roof_shutter",
+  "blind",
+  "external_blind",
+  "shade",
+  "curtain",
+  "awning",
+  "window_awning",
+  "pergola",
+  "garage",
+  "garage_tilt",
+  "garage_roller",
+  "gate",
+  "swing",
+  "barrier",
+  "door",
+  "window",
+  "damper",
+  "pool",
+  "pool_top",
+];
+export const GUARDED = new Set(["garage", "garage_tilt", "garage_roller", "gate", "swing", "barrier", "door", "window", "pool", "pool_top"]);
 // Moving these lets someone in or closes on someone: unless `confirm` says otherwise, opening, closing or setting
 // their position asks first.
-export const SECURED = new Set(["garage", "gate", "swing", "barrier", "door"]);
+export const SECURED = new Set(["garage", "garage_tilt", "garage_roller", "gate", "swing", "barrier", "door"]);
 // Gates whose pedestrian opening the card looks for on their device.
 export const GATES = new Set(["gate", "swing"]);
 
@@ -90,10 +115,19 @@ export const ICONS = {
   collapse: "M19.5,3.09L15,7.59V4H13V11H20V9H16.41L20.91,4.5L19.5,3.09M4,13V15H7.59L3.09,19.5L4.5,20.91L9,16.41V20H11V13H4Z",
   alert: "M13 14H11V9H13M13 18H11V16H13M1 21H23L12 2L1 21Z",
 };
-// A swing gate shows the gate icons, a window awning the awning ones; mdi:boom-gate / boom-gate-up for a barrier, mdi:window-closed-variant /
+// A swing gate shows the gate icons, a window awning the awning ones (and the other variants those of their kind); mdi:boom-gate / boom-gate-up for a barrier, mdi:window-closed-variant /
 // window-open-variant for hinged shutters, and a pergola drawn the same way (roof closed / louvres open).
 ICONS.swing = ICONS.gate;
 ICONS.window_awning = ICONS.awning;
+ICONS.garage_tilt = ICONS.garage;
+ICONS.garage_roller = ICONS.garage;
+ICONS.roof_shutter = ICONS.shutter;
+ICONS.external_blind = ICONS.blind;
+// mdi:pool, for a pool cover closed or open.
+ICONS.pool = Array(2).fill(
+  "M2,15C3.67,14.25 5.33,13.5 7,13.17V5A3,3 0 0,1 10,2C11.31,2 12.42,2.83 12.83,4H10A1,1 0 0,0 9,5V6H14V5A3,3 0 0,1 17,2C18.31,2 19.42,2.83 19.83,4H17A1,1 0 0,0 16,5V14.94C18,14.62 20,13 22,13V15C19.78,15 17.56,17 15.33,17C13.11,17 10.89,15 8.67,15C6.44,15 4.22,16 2,17V15M14,8H9V10H14V8M14,12H9V13C10.67,13.16 12.33,14.31 14,14.79V12M2,19C4.22,18 6.44,17 8.67,17C10.89,17 13.11,19 15.33,19C17.56,19 19.78,17 22,17V19C19.78,19 17.56,21 15.33,21C13.11,21 10.89,19 8.67,19C6.44,19 4.22,20 2,21V19Z",
+);
+ICONS.pool_top = ICONS.pool;
 ICONS.barrier = [
   "M20,9H8.22C7.11,7.77 5.21,7.68 4,8.8C3.36,9.36 3,10.16 3,11V20A1,1 0 0,0 2,21V22H10V21A1,1 0 0,0 9,20V13H20A2,2 0 0,0 22,11A2,2 0 0,0 20,9M6,12.5A1.5,1.5 0 0,1 4.5,11A1.5,1.5 0 0,1 6,9.5A1.5,1.5 0 0,1 7.5,11A1.5,1.5 0 0,1 6,12.5M10.5,12L9,10H10.5L12,12H10.5M14.5,12L13,10H14.5L16,12H14.5M18.5,12L17,10H18.5L20,12H18.5Z",
   "M19.9 3C19.3 2 18.1 1.7 17.2 2.3L6.9 8.2C6.6 8.1 6.3 8 6 8C4.3 8 3 9.3 3 11V20C2.4 20 2 20.4 2 21V22H10V21C10 20.4 9.6 20 9 20V11.6L19.1 5.8C20.1 5.2 20.4 4 19.9 3M6 12.5C5.2 12.5 4.5 11.8 4.5 11S5.2 9.5 6 9.5 7.5 10.2 7.5 11 6.8 12.5 6 12.5M10.4 9.6L8.1 8.6L9.4 7.8L11.7 8.8L10.4 9.6M13.9 7.6L11.6 6.6L12.9 5.8L15.2 6.8L13.9 7.6M17.3 5.6L15 4.6L16.3 3.8L18.6 4.8L17.3 5.6",

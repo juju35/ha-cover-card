@@ -913,6 +913,35 @@ test("a window awning is found by its name, in any language, and drawn coming do
   assert.match(card, /--p:70/);
 });
 
+test("roof window shutters, external blinds, garage door kinds and pool covers are found by their name and drawn", () => {
+  const c = (dc, name) => ({ entity_id: "cover.x", attributes: { device_class: dc, friendly_name: name } });
+  const cases = [
+    ["garage_tilt", "garage", ["Up-and-over garage door", "Porte de garage basculante", "Schwingtor", "Kanteldeur", "Brama uchylna"]],
+    ["garage_roller", "garage", ["Workshop roller door", "Porte de garage enroulable", "Rolltor", "Brama roletowa"]],
+    ["roof_shutter", "shutter", ["Velux shutter", "Volet de fenêtre de toit", "Dakraamrolluik", "Roleta zewnętrzna okna dachowego", "Рольставня мансардного окна"]],
+    ["external_blind", "blind", ["BSO bureau", "Brise-soleil orientable", "Raffstore Süd", "Frangisole orientabile", "Фасадные жалюзи"]],
+    ["pool", undefined, ["Pool cover", "Volet de piscine", "Zwembadafdekking", "Pokrywa basen"]],
+  ];
+  for (const [pic, dc, names] of cases) for (const name of names) assert.equal(cc.classOf(c(dc, name)), pic, name);
+  // A sectional garage door stays one, a roof window itself stays a roof window, a blind named after a pool stays a pool.
+  assert.equal(cc.classOf(c("garage", "Garage door")), "garage");
+  assert.equal(cc.classOf(c("window", "Velux")), "window");
+  assert.equal(cc.classOf(c("garage", "Pool house garage")), "garage");
+  assert.equal(cc.classOf(c("blind", "Pérgola")), "pergola");
+  assert.equal(cc.classOf(c("shutter", "Obloane dormitor")), "hinged");
+  // The new garage doors ask before moving; an open garage door or pool cover is a warning.
+  for (const pic of ["garage_tilt", "garage_roller"]) assert.ok(cc.SECURED.has(pic), pic);
+  assert.equal(cc.stateClass({ state: "open" }, "pool"), "warn");
+  const drawn = (entity, extra = {}) => html(newCard(cc.CoverCard, { entity, ...extra }));
+  assert.match(drawn("cover.up_and_over_door"), /class="scene garage_tilt"/);
+  assert.match(drawn("cover.workshop_roller_door"), /class="scene garage_roller"[\s\S]*--p:60/);
+  assert.match(drawn("cover.attic_roof_shutter"), /class="scene roof_shutter"[\s\S]*data-axis="up"/);
+  assert.match(drawn("cover.office_external_blind"), /class="scene external_blind"[\s\S]*class="sun"/);
+  assert.match(drawn("cover.office_external_blind"), /--p:25;--t:60/);
+  assert.match(drawn("cover.pool_cover"), /class="scene pool"[\s\S]*clip-path="url\(#/);
+  assert.match(drawn("cover.pool_cover", { device_class: "pool_top" }), /class="scene pool_top"/);
+});
+
 test("a pergola without tilt turns its louvres with its position", () => {
   const hass = makeHass({ "cover.terrace_pergola": { current_position: 40, current_tilt_position: undefined, supported_features: 15 } });
   assert.match(html(newCard(cc.CoverCard, { entity: "cover.terrace_pergola" }, hass)), /--p:40;--t:40/);

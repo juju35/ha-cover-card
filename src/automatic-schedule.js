@@ -104,18 +104,31 @@ export const SWING_RE = /swing|battant|batant|fl[uü]gel|drehtor|batiente|batten
 // turning on a frame, whatever its device class but a door, gate or damper) and hinged shutters (a shutter, or a
 // cover without a device class, whose two leaves fold out), in any of the card's languages.
 export const BARRIER_RE = /barri[eè]r|barier|barrera|barjera|schranke|sbarra|slagboom|cancela|szlaban|z[aá]vor|zapornic|sorompó|shlagbaum|шлагбаум|бариер|рампа|\brampa\b|μπάρα|\bbom\b|boom gate/i;
-export const PERGOLA_RE = /pergol|πέργκολ|περγκολ|пергол|louvre|louver|bioclim|lamellendach/i;
+export const PERGOLA_RE = /p[eé]rgol|πέργκολ|περγκολ|пергол|louvre|louver|bioclim|lamellendach/i;
 // A window awning (an awning, or a cover without a device class, whose name says so: drop arms beside a window), in
 // any of the card's languages.
 export const WINDOW_AWNING_RE = /window awning|drop.?arm|marquisolette|markisolette|fallarm|store (de |à )?(fen[eê]tre|projection)|fenstermarkise|toldo (de )?(ventana|janela|punto recto)|tenda (da finestra|a caduta)|uitvalscherm|markiza okienn|prozorsk\S* tend|прозорск\S* тенд|copertin[aă] de fereastr|vinduesmarkis|fönstermarkis|прозоречн\S* тент|оконн\S* маркиз|віконн\S* маркіз|ablakmark[ií]z|okenn[aáií] mark|okensk\S* mark|loga mark|τέντα παραθ/i;
-export const HINGED_RE = /hinged|battant|klappl|fensterl[aä]d|contravent|postigo|battente|\bscur|luik|portada|okiennic|oblon|skodde|fönsterluck|kapci|капци|капаци|ставн|віконниц|zsalug|okenic|polkn|slēģ|παντζ/i;
+// An up-and-over or a roller garage door, a roof window shutter, an external venetian blind (BSO) and a pool cover,
+// found by their name in any of the card's languages.
+export const GARAGE_TILT_RE = /up.?and.?over|tilt|basculan|schwingtor|kantel|uchyln|kipn|v[ýy]klop|billen[őo]|подъ[её]мно-поворот|підйомно-поворот|повдигащо-въртящ|подизно-кипн|vippeport|vipport|dvižno-nagib|pagriežam|ανακλιν/i;
+export const GARAGE_ROLLER_RE = /roller|roll.?up|enroulable|rolltor|enrollable|de enrolar|avvolgibil|rolpoort|roldeur|roletow|roletn|ролетн|rulou|rulleport|rullport|рольворот|redőnykapu|rolovac|rolo garaž|rullo|ρολό/i;
+export const ROOF_RE = /roof|velux|skylight|toit|dachfenster|tejado|tetto|telhado|dakraam|dachow|krovn|кровн|mansard|мансард|takf[öo]nster|ovenlys|покривен|střešn|strešn|tetőablak|jumta|στέγ|lucernario|claraboya/i;
+export const EXTERNAL_BLIND_RE = /\bbso\b|brise.?soleil|external (venetian )?blind|exterior blind|outdoor blind|raffstor|au(ss|ß)enjalousie|celos[ií]a|estore exterior|frangisol|buitenjaloez|fasadow|zewn[eę]trzn|spoljn|спољн|jaluzele exterioare|udvendig persienne|utv[äa]ndig persienn|външни щори|фасадн|kültéri zsal|vonkajšie žal|venkovní žal|zunanje žal|ārējās žal|εξωτερικ\S* περσίδ/i;
+export const POOL_RE = /pool|piscin|zwembad|basen|baz[eé]n|бассейн|басейн|базен|medenc|baseina|πισίν/i;
+export const HINGED_RE = /hinged|battant|klappl|fensterl[aä]d|contravent|postigo|battente|\bscur|luik|portada|okiennic|obloa?n|skodde|fönsterluck|kapci|капци|капаци|ставн|віконниц|zsalug|okenic|polkn|slēģ|παντζ/i;
 export const classOf = (s, override) => {
   if (PICTURES.includes(override)) return override;
   const dc = s?.attributes?.device_class;
   const name = s?.attributes?.friendly_name || s?.entity_id || "";
   if ((dc === "gate" || !dc) && BARRIER_RE.test(name)) return "barrier";
   if (dc === "gate" && SWING_RE.test(name)) return "swing";
+  if (!["door", "gate", "garage", "damper", "window"].includes(dc) && POOL_RE.test(name)) return "pool";
   if (!["door", "gate", "garage", "damper"].includes(dc) && PERGOLA_RE.test(name)) return "pergola";
+  if (dc === "garage" && GARAGE_TILT_RE.test(name)) return "garage_tilt";
+  if (dc === "garage" && GARAGE_ROLLER_RE.test(name)) return "garage_roller";
+  // A roof window shutter first: its name may also say shutter (luik, skodde…) or outer (zewnętrzna).
+  if ((dc === "shutter" || !dc) && ROOF_RE.test(name)) return "roof_shutter";
+  if (["blind", "shutter", undefined].includes(dc) && EXTERNAL_BLIND_RE.test(name)) return "external_blind";
   if ((dc === "shutter" || !dc) && HINGED_RE.test(name)) return "hinged";
   if ((dc === "awning" || !dc) && WINDOW_AWNING_RE.test(name)) return "window_awning";
   // A blind whose slats do not tilt (a zip screen, a roller blind reported as `blind`) is drawn as a roller shade,
