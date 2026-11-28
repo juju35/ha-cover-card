@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.13.0 - 2026-11-28
+
+### Features
+- Window awning picture (`device_class: window_awning`, or an awning named *Window awning*, *Drop arm*, *Store de fenêtre*, *Fenstermarkise*, *Markisolette*… in any of the card's languages): a drop-arm awning over a window, its striped fabric unrolling from the cassette while its arms swing out, the front bar and scalloped valance coming down and forward as it opens; dragged down like an awning, animated while it moves, the window glowing warm at night in the header (#53).
+- Roof window shutter (`roof_shutter`), external venetian blind / BSO (`external_blind`, lamellae turned by the tilt, the sun passing between them), up-and-over and roller garage doors (`garage_tilt`, `garage_roller`) and pool cover pictures (`pool` in perspective, `pool_top` seen from above), each found by the cover's name in any of the card's languages or forced by `device_class`. The new garage doors ask before moving like the sectional one; an open pool cover is shown as a warning.
+
+### Fixes
+- A pergola named *Pérgola* (Spanish, Portuguese) and hinged shutters named *Obloane* (Romanian) are now found by their name, as the card's own labels say.
+
 ## 1.12.1 - 2026-11-28
 
 ### Fixes

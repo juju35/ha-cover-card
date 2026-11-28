@@ -27,6 +27,11 @@ export const glass = (inner) => `<svg x="14" y="18" width="72" height="88" viewB
 // Warning lamp of a motorized door or gate, which blinks while it moves.
 export const lamp = (x, y) => `<circle class="lamp" cx="${x}" cy="${y}" r="3.2"/><circle class="lamp-glow" cx="${x}" cy="${y}" r="7"/>`;
 
+// Rounds a coordinate of a scene to two decimals.
+const f2 = (n) => Number(n.toFixed(2));
+// Water of the pool covers.
+export const POOL_DEFS = (u) => `<defs><linearGradient id="${u}o" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#74c0fc"/><stop offset="1" stop-color="#1971c2"/></linearGradient></defs>`;
+
 export const SCENES = {
   // Roller shutter: aluminium slats rolling up into the box above the window.
   shutter: (u) => `${windowFrame(u)}${glass(`<g class="shift"><g class="roll">
@@ -59,6 +64,23 @@ export const SCENES = {
     <g class="fabric">${range(7, (i) => `<rect x="${8 + i * 12}" y="18" width="12" height="54" fill="${i % 2 ? "#f2efe6" : "#2e7d6b"}"/>`)}</g>
     <g class="valance"><g class="flutter"><path d="M8 18${range(7, () => `h2a4 4 0 0 0 8 0h2`)}V14H8Z" fill="#2e7d6b"/></g></g>
     <rect x="5" y="10" width="90" height="9" rx="3" fill="url(#${u}m)"/>`,
+  // Window awning (drop arm): its striped fabric unrolls from the cassette above the window while its arms swing out
+  // from their pivots beside the frame, so the front bar comes down and forward (wider) as it opens; the scalloped
+  // valance flutters while it moves, and the window glows warm at night in the banner.
+  window_awning: (u) => `<defs><linearGradient id="${u}a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient></defs>
+    <rect x="18" y="30" width="64" height="76" rx="2" fill="url(#${u}f)" stroke="#c4c5c2"/>
+    <rect x="22" y="34" width="56" height="68" fill="url(#${u}g)"/><rect class="warm" x="22" y="34" width="56" height="68"/>
+    <path d="M50 34V102M22 68H78" stroke="#d9dad7" stroke-width="2.5"/>
+    <path d="M27 78l12-9M27 92l22-17" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+    <rect x="14" y="105" width="72" height="5" rx="1.5" fill="url(#${u}f)" stroke="#c4c5c2"/>
+    <g class="wa-fabric">${range(6, (i) => `<path d="M${14 + i * 12} 18H${26 + i * 12}L${22 + i * 14} 66H${8 + i * 14}Z" fill="${i % 2 ? "#f6efe3" : "#e8773a"}"/>`)}
+      <path d="M14 18H86L92 66H8Z" fill="url(#${u}a)"/></g>
+    <g class="wa-arm l"><rect x="11.5" y="24" width="3" height="56" rx="1.5" fill="#868e96"/></g>
+    <g class="wa-arm r"><rect x="85.5" y="24" width="3" height="56" rx="1.5" fill="#868e96"/></g>
+    <circle cx="13" cy="80" r="2.6" fill="#6f747a"/><circle cx="87" cy="80" r="2.6" fill="#6f747a"/>
+    <g class="wa-bar"><g class="flutter"><path d="M8 24${range(6, () => `h2a5 5 0 0 0 10 0h2`)}V22H8Z" fill="#d0602a"/></g>
+      <rect x="7" y="21" width="86" height="3.5" rx="1.5" fill="url(#${u}m)"/></g>
+    <rect x="10" y="12" width="80" height="11" rx="3" fill="url(#${u}m)"/>`,
   // Garage: sectional door rising under the roof, warning lamp blinking while it moves.
   garage: (u) => `<path d="M3 36L50 9L97 36Z" fill="#8a5a44"/><rect x="8" y="34" width="84" height="78" fill="#ece5d8" stroke="#d6cdbd"/>
     <rect x="16" y="46" width="68" height="66" fill="#2b2f36"/><path d="M28 112l6-14h32l6 14" fill="#3b4048"/>
@@ -68,6 +90,67 @@ export const SCENES = {
       <rect x="44" y="104" width="12" height="3" rx="1.5" fill="#9aa0a6"/></g></g></svg>
     <rect x="13" y="42" width="74" height="4" fill="#d6cdbd"/>${lamp(50, 38)}
     <path d="M2 112H98" stroke="#b9bfc6" stroke-width="2"/>`,
+  // Up-and-over garage door: one ribbed leaf swinging up into the garage, its lower edge rising and showing its
+  // thickness as it tilts out; warning lamp blinking while it moves.
+  garage_tilt: (u) => `<path d="M3 36L50 9L97 36Z" fill="#8a5a44"/><rect x="8" y="34" width="84" height="78" fill="#ece5d8" stroke="#d6cdbd"/>
+    <rect x="16" y="46" width="68" height="66" fill="#2b2f36"/><path d="M28 112l6-14h32l6 14" fill="#3b4048"/>
+    <svg x="16" y="46" width="68" height="66" viewBox="16 46 68 66"><g class="bob"><g class="gt-leaf">
+      <rect x="16" y="46" width="68" height="66" fill="url(#${u}f)" stroke="#c4c5c2" stroke-width=".8"/>
+      <path d="${range(10, (i) => `M${22.2 + i * 6.2} 47V111`)}" stroke="#d6d7d4" stroke-width="1.6"/>
+      <rect x="44" y="104" width="12" height="3" rx="1.5" fill="#9aa0a6"/></g>
+      <g class="gt-edge"><rect x="16" y="108" width="68" height="4" fill="#9aa0a6"/></g></g></svg>
+    <rect x="13" y="42" width="74" height="4" fill="#d6cdbd"/>${lamp(50, 38)}
+    <path d="M2 112H98" stroke="#b9bfc6" stroke-width="2"/>`,
+  // Roller garage door: narrow aluminium slats rolling into the box above the opening, warning lamp blinking while it
+  // moves.
+  garage_roller: (u) => `<path d="M3 36L50 9L97 36Z" fill="#8a5a44"/><rect x="8" y="34" width="84" height="78" fill="#ece5d8" stroke="#d6cdbd"/>
+    <rect x="16" y="46" width="68" height="66" fill="#2b2f36"/><path d="M28 112l6-14h32l6 14" fill="#3b4048"/>
+    <svg x="16" y="46" width="68" height="66" viewBox="16 46 68 66"><g class="shift"><g class="roll">
+      <rect x="16" y="40" width="68" height="74" fill="url(#${u}s)"/>
+      <path d="${range(15, (i) => `M16 ${40 + i * 5}H84`)}" stroke="#9aa0a6" stroke-width=".8"/></g>
+      <rect x="16" y="109" width="68" height="3" fill="#7d838a"/></g></svg>
+    <rect x="13" y="41" width="74" height="7" rx="2" fill="url(#${u}m)"/>${lamp(50, 36)}
+    <path d="M2 112H98" stroke="#b9bfc6" stroke-width="2"/>`,
+  // Roof window with an outer roller shutter: dark slats rolling into the box above the frame, along its side rails.
+  roof_shutter: (u) => `<rect x="0" y="4" width="100" height="112" rx="4" fill="#b5654a"/>
+    <path d="${range(7, (i) => `M0 ${18 + i * 15}H100`)}" stroke="#94503a" stroke-width="2"/>
+    <rect x="16" y="16" width="68" height="90" rx="3" fill="#5f6368"/><rect x="21" y="21" width="58" height="80" fill="url(#${u}g)"/>
+    <path d="M27 34l16-10M27 50l30-22" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+    <svg x="21" y="21" width="58" height="80" viewBox="21 21 58 80"><g class="shift"><g class="roll">
+      <rect x="21" y="14" width="58" height="90" fill="#5c636a"/>
+      <path d="${range(18, (i) => `M21 ${14 + i * 5}H79`)}" stroke="#40464c" stroke-width=".9"/></g>
+      <rect x="21" y="98" width="58" height="3" fill="#343a40"/></g></svg>
+    <rect x="13" y="9" width="74" height="10" rx="2.5" fill="#495057"/><path d="M18 19V104M82 19V104" stroke="#495057" stroke-width="3"/>`,
+  // External venetian blind (BSO): wide anthracite lamellae in their side guides, stacked up into the box as it opens
+  // and turned by the tilt; the sun passes between them onto the window by day.
+  external_blind: (u) => `<rect x="18" y="20" width="64" height="88" rx="2" fill="url(#${u}f)" stroke="#c4c5c2"/>
+    <rect x="22" y="24" width="56" height="80" fill="url(#${u}g)"/><path d="M50 24V104M22 64H78" stroke="#d9dad7" stroke-width="2.5"/>
+    <path d="M27 36l12-9M27 50l22-17" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+    <rect x="14" y="107" width="72" height="5" rx="1.5" fill="url(#${u}f)" stroke="#c4c5c2"/>
+    <svg x="10" y="18" width="80" height="94" viewBox="10 18 80 94"><g class="shift">
+      <g class="sun">${range(12, (i) => `<rect x="22" y="${f2(23.9 + i * 7.6)}" width="56" height="3" fill="#ffd43b" opacity=".9"/>`)}</g>
+      ${range(12, (i) => `<rect class="slat" x="12" y="${f2(18.2 + i * 7.6)}" width="76" height="7.2" rx="1.2" fill="#495057" stroke="#343a40" stroke-width=".5"/>`)}
+      <rect x="11" y="109" width="78" height="3" rx="1" fill="#343a40"/></g></svg>
+    <path d="M10 16V110M90 16V110" stroke="#6c757d" stroke-width="3"/><rect x="6" y="8" width="88" height="10" rx="2" fill="#495057"/>`,
+  // Pool cover in perspective: its slats slide over the water from the roller bench at the far end toward the near
+  // end, the front edge narrower as it goes back (clipped to the water).
+  pool: (u) => `${POOL_DEFS(u)}<path d="M14 30H86L99 114H1Z" fill="#e9dcc6"/><path d="M22 40H78L94 106H6Z" fill="url(#${u}o)"/>
+    <path d="M30 60q5-2 10 0t10 0M52 84q6-2 12 0t12 0M20 96q6-2 12 0t12 0" stroke="#d0ebff" stroke-width="1.4" fill="none"/>
+    <clipPath id="${u}k"><path d="M22 40H78L94 106H6Z"/></clipPath>
+    <g clip-path="url(#${u}k)"><g class="pc-cover"><rect x="0" y="40" width="100" height="66" fill="#e7f5ff"/>
+      <path d="${range(21, (i) => `M0 ${43 + i * 3}H100`)}" stroke="#a5d8ff" stroke-width=".8"/></g>
+      <g class="pc-edge"><g class="bob"><rect x="0" y="104" width="100" height="2.4" fill="#74c0fc"/></g></g></g>
+    <path d="M86 92v14M92 92v14" stroke="#ced4da" stroke-width="1.6"/><path d="M86 96h6M86 101h6" stroke="#ced4da" stroke-width="1.3"/>
+    <rect x="18" y="31" width="64" height="9" rx="2.5" fill="url(#${u}m)"/><path d="M2 114H98" stroke="#b9bfc6" stroke-width="2"/>`,
+  // Pool cover seen from above: stone deck, water, the slats rolling back to the roller bench.
+  pool_top: (u) => `${POOL_DEFS(u)}<rect x="4" y="8" width="92" height="108" rx="4" fill="#e9dcc6" stroke="#d6c7ad"/>
+    <rect x="12" y="24" width="76" height="84" rx="2" fill="url(#${u}o)"/>
+    <path d="M20 50q6-3 12 0t12 0M50 80q6-3 12 0t12 0M24 96q6-3 12 0t12 0" stroke="#d0ebff" stroke-width="1.6" fill="none"/>
+    <path d="M78 96v10M84 96v10M78 99h6M78 103h6" stroke="#ced4da" stroke-width="1.3"/>
+    <g class="pt-cover"><rect x="12" y="22" width="76" height="86" fill="#e7f5ff"/>
+      <path d="${range(28, (i) => `M12 ${25 + i * 3}H88`)}" stroke="#a5d8ff" stroke-width=".8"/></g>
+    <g class="pt-edge"><g class="bob"><rect x="12" y="106" width="76" height="2.4" fill="#74c0fc"/></g></g>
+    <rect x="8" y="12" width="84" height="11" rx="2.5" fill="url(#${u}m)"/>`,
   // Sliding gate between two pillars; the leaf slides behind the right one, lamp on the left one.
   gate: () => `<path d="M2 112H98" stroke="#b9bfc6" stroke-width="2"/>
     <svg x="14" y="40" width="72" height="72" viewBox="14 40 72 72"><g class="shift"><g class="bob">
@@ -150,7 +233,7 @@ export const SCENES = {
 
 // The position slider runs the way the moving edge of the scene runs, so that dragging the picture drags that
 // edge: up for what rises (shutter, blind, shade, garage door; door, roof window and damper by convention), down
-// for the awning, whose valance goes down as it unrolls, and across for curtains and a sliding gate, which open
+// for the awnings, whose valance goes down as they unroll, and across for curtains and a sliding gate, which open
 // sideways. `from` and `len` are the run of the rail in the viewBox (100 × 120); a horizontal rail lies under the
 // picture, a vertical one on its right.
 export const AXES = {
@@ -159,7 +242,8 @@ export const AXES = {
   across: { from: 14, len: 72, open: 1 },
 };
 export const ACROSS = new Set(["curtain", "gate", "swing", "hinged", "pergola"]);
-export const axisOf = (cls) => (ACROSS.has(cls) ? "across" : cls === "awning" ? "down" : "up");
+export const DOWN = new Set(["awning", "window_awning"]);
+export const axisOf = (cls) => (ACROSS.has(cls) ? "across" : DOWN.has(cls) ? "down" : "up");
 // Where position `p` lies along the rail of `axis`, in viewBox units.
 export const railAt = (axis, p) => {
   const a = AXES[axis];
@@ -199,6 +283,11 @@ export const SCENE_STYLE = `
   .fabric { transform-origin: top center; transform: scaleY(calc(var(--p) / 100)); }
   .valance { transform-box: view-box; transform: translateY(calc(var(--p) * 0.54px)); }
   .flutter { transform-origin: top center; }
+  /* A window awning: the fabric unrolls and widens as its arms swing out, the front bar comes down and forward. */
+  .wa-fabric { transform-box: view-box; transform-origin: 50px 18px; transform: scale(calc(0.857 + var(--p) * 0.00143), calc(0.104 + var(--p) * 0.00896)); }
+  .wa-bar { transform-box: view-box; transform-origin: 50px 23px; transform: translateY(calc(var(--p) * 0.43px)) scaleX(calc(0.857 + var(--p) * 0.00143)); }
+  .wa-arm { transform-box: view-box; transform: scaleY(calc(1 - var(--p) * 0.00768)); }
+  .wa-arm.l { transform-origin: 13px 80px; } .wa-arm.r { transform-origin: 87px 80px; }
   .leaf { transform-origin: left center; transform: scaleX(calc(1 - var(--p) * 0.0072)); }
   .leaf-l { transform-origin: left center; transform: scaleX(calc(1 - var(--p) * 0.0076)); }
   .leaf-r { transform-origin: right center; transform: scaleX(calc(1 - var(--p) * 0.0076)); }
@@ -206,6 +295,17 @@ export const SCENE_STYLE = `
   .hl { transform-origin: left center; transform: scaleX(calc(1 - var(--p) * 0.0194)); }
   .hr { transform-origin: right center; transform: scaleX(calc(1 - var(--p) * 0.0194)); }
   .warm { fill: #ffc65c; opacity: 0; }
+  /* Up-and-over garage door: the leaf shortens as it swings up, its lower edge rising; roller garage door and roof
+     window shutter: the curtain rolls up like a shutter's. */
+  .scene.garage_roller { --k: -0.66; } .scene.roof_shutter { --k: -0.8; } .scene.external_blind { --k: -0.92; }
+  .gt-leaf { transform-box: view-box; transform-origin: 50px 46px; transform: scaleY(calc(1 - var(--p) * 0.01)); }
+  .gt-edge { transform-box: view-box; transform: translateY(calc(var(--p) * -0.64px)); opacity: calc(var(--p) / 10); }
+  .external_blind .sun { opacity: calc(var(--t) * .009); }
+  /* Pool covers: the slats roll back to the bench, the front edge with them. */
+  .pc-cover { transform-box: view-box; transform-origin: 50px 40px; transform: scaleY(calc(1 - var(--p) / 100)); }
+  .pc-edge { transform-box: view-box; transform: translateY(calc(var(--p) * -0.65px)); }
+  .pt-cover { transform-box: view-box; transform-origin: 50px 22px; transform: scaleY(calc(1 - var(--p) / 100)); }
+  .pt-edge { transform-box: view-box; transform: translateY(calc(var(--p) * -0.84px)); }
   .barrier .arm { transform-box: view-box; transform-origin: 20px 80px; transform: rotate(calc(var(--p) * -0.84deg)); }
   .barrier .lamp-glow { fill: #ff4d4d; }
   .louvre { transform-origin: center; transform: rotate(calc(var(--t) * 0.8deg)); }
@@ -219,7 +319,7 @@ export const SCENE_STYLE = `
   .rail { fill: color-mix(in srgb, var(--primary-text-color, #212121) 18%, transparent); }
   .target { fill: var(--cc-accent); }
   .knob { transform-box: view-box; transform: translateY(calc((100 - var(--p)) * 0.88px)); }
-  .awning .knob { transform: translateY(calc(var(--p) * 0.54px)); }
+  .awning .knob, .window_awning .knob { transform: translateY(calc(var(--p) * 0.54px)); }
   .curtain .knob, .gate .knob, .swing .knob, .hinged .knob, .pergola .knob { transform: translateX(calc(var(--p) * 0.72px)); }
   .handle { fill: var(--card-background-color, #fff); stroke: var(--c, var(--cc-accent)); stroke-width: 2.4; }
   /* Moving: the slats roll and the edge steps toward where the cover goes, the bottom bar, folds and valance sway,
@@ -242,7 +342,8 @@ export const SCENE_STYLE = `
   /* Moving on its course time (travel_time): the picture follows the estimated position, smoothly, instead of the
      step toward where the cover goes. */
   .timed .shift, .timed .swing .leaf-l, .timed .swing .leaf-r, .timed .hinged .hl, .timed .hinged .hr, .timed .barrier .arm,
-  .timed .pergola .louvre, .timed .leaf, .timed .valance, .timed .sash, .timed .blade, .timed .knob { animation: none; transition: transform .3s linear; }
+  .timed .pergola .louvre, .timed .leaf, .timed .valance, .timed .wa-fabric, .timed .wa-bar, .timed .wa-arm, .timed .gt-leaf, .timed .gt-edge, .timed .pc-cover, .timed .pc-edge,
+  .timed .pt-cover, .timed .pt-edge, .timed .sash, .timed .blade, .timed .knob { animation: none; transition: transform .3s linear; }
   .moving .barrier .lamp { fill: #ff3b30; }
   .moving .bob { animation: cc-bob .5s ease-in-out infinite alternate; }
   .moving .sway { animation: cc-sway .8s ease-in-out infinite alternate; }

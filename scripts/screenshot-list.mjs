@@ -9,6 +9,7 @@ const ALL = [
   "cover.kitchen_shade",
   "cover.bedroom_curtains",
   "cover.terrace_awning",
+  "cover.kitchen_window_awning",
   "cover.garage_door",
   "cover.driveway_gate",
   "cover.swing_gate",
@@ -18,6 +19,11 @@ const ALL = [
   "cover.front_door",
   "cover.attic_window",
   "cover.utility_damper",
+  "cover.up_and_over_door",
+  "cover.workshop_roller_door",
+  "cover.attic_roof_shutter",
+  "cover.office_external_blind",
+  "cover.pool_cover",
 ];
 
 const twins = (list) => list.flatMap(({ file, theme = "light", ...s }) => [
@@ -34,6 +40,9 @@ export const shots = twins([
   { file: "card-swing", type: "cover-card", width: 420, config: { entity: "cover.swing_gate", favorites: [100] } },
   { file: "card-barrier", type: "cover-card", width: 420, config: { entity: "cover.car_park_barrier" } },
   { file: "card-hinged", type: "cover-card", width: 420, config: { entity: "cover.hinged_shutters", favorites: [0, 50, 100] } },
+  { file: "card-window-awning", type: "cover-card", width: 420, config: { entity: "cover.kitchen_window_awning", favorites: [0, 50, 100] } },
+  { file: "card-external-blind", type: "cover-card", width: 420, config: { entity: "cover.office_external_blind", favorites: [{ name: "Shade", position: 0, tilt: 60 }, { name: "Up", position: 100 }] } },
+  { file: "card-pool", type: "cover-card", width: 420, config: { entity: "cover.pool_cover", favorites: [0, 100] } },
   { file: "card-pergola", type: "cover-card", width: 420, config: { entity: "cover.terrace_pergola", light: "light.terrace_pergola_led", favorites: [{ name: "Shade", tilt: 20 }, { name: "Breeze", tilt: 90 }] } },
   // The automatic schedule, at a fixed time of day (`clock`, UTC): the opening done, the closing to come.
   {
@@ -81,11 +90,18 @@ export const gifs = twins([
   moving("shade-closing", "cover.kitchen_shade", "closing"),
   moving("curtain-opening", "cover.bedroom_curtains", "opening"),
   moving("awning-opening", "cover.terrace_awning", "opening", { current_position: 50 }),
+  moving("window-awning-opening", "cover.kitchen_window_awning", "opening", { current_position: 40 }),
   moving("garage-opening", "cover.garage_door", "opening"),
   moving("gate-closing", "cover.driveway_gate", "closing"),
   moving("swing-opening", "cover.swing_gate", "opening", { current_position: 30 }),
   moving("barrier-opening", "cover.car_park_barrier", "opening"),
   moving("hinged-opening", "cover.hinged_shutters", "opening", { current_position: 30 }),
+  moving("roof-shutter-closing", "cover.attic_roof_shutter", "closing"),
+  moving("external-blind-opening", "cover.office_external_blind", "opening", { current_position: 30 }),
+  moving("garage-tilt-opening", "cover.up_and_over_door", "opening"),
+  moving("garage-roller-opening", "cover.workshop_roller_door", "opening", { current_position: 30 }),
+  moving("pool-opening", "cover.pool_cover", "opening", { current_position: 40 }),
+  { ...moving("pool-top-opening", "cover.pool_cover", "opening", { current_position: 40 }), config: { entity: "cover.pool_cover", device_class: "pool_top", show_favorites: false } },
   moving("pergola-opening", "cover.terrace_pergola", "opening", { current_tilt_position: 30 }),
   moving("door-opening", "cover.front_door", "opening"),
   moving("window-opening", "cover.attic_window", "opening"),

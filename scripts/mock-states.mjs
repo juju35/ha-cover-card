@@ -16,6 +16,8 @@ for (const [area_id, name] of [
   ["attic", "Attic"],
   ["hall", "Hall"],
   ["utility", "Utility room"],
+  ["workshop", "Workshop"],
+  ["pool", "Pool"],
 ])
   areas[area_id] = { area_id, name };
 
@@ -37,6 +39,15 @@ cover("cover.office_blind", "office", "Office blind", "blind", "open", { current
 cover("cover.bedroom_curtains", "bedroom", "Bedroom curtains", "curtain", "open", { current_position: 35 });
 cover("cover.kitchen_shade", "kitchen", "Kitchen shade", "shade", "open", { current_position: 50 });
 cover("cover.terrace_awning", "terrace", "Terrace awning", "awning", "open", { current_position: 80 });
+// An up-and-over and a roller garage door, a roof window shutter, an external venetian blind and a pool cover (all found
+// by their name).
+cover("cover.up_and_over_door", "garage", "Up-and-over garage door", "garage", "closed", { supported_features: 1 | 2 | 8 });
+cover("cover.workshop_roller_door", "workshop", "Workshop roller door", "garage", "open", { current_position: 60 });
+cover("cover.attic_roof_shutter", "attic", "Roof window shutter", "shutter", "open", { current_position: 40 });
+cover("cover.office_external_blind", "office", "Office external blind", "blind", "open", { current_position: 25, current_tilt_position: 60, supported_features: POSITION | TILT });
+cover("cover.pool_cover", "pool", "Pool cover", undefined, "open", { current_position: 45 });
+// A window awning (found by its name): drop arms beside the kitchen window.
+cover("cover.kitchen_window_awning", "kitchen", "Kitchen window awning", "awning", "open", { current_position: 70 });
 cover("cover.garage_door", "garage", "Garage door", "garage", "closed", { supported_features: 1 | 2 | 8 });
 cover("cover.driveway_gate", "garden", "Driveway gate", "gate", "open", { supported_features: 1 | 2 | 8 });
 cover("cover.swing_gate", "garden", "Swing gate", "gate", "open", { current_position: 55 });
